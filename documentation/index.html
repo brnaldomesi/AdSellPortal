@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    
+    <title>LaraClassified - Documentation</title>
+    
+    <!-- Styles -->
+    <link href="assets/css/theDocs.all.min.css" rel="stylesheet">
+    <link href="assets/css/custom.css" rel="stylesheet">
+    <link href="assets/css/skin-blue.css" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Raleway:100,300,400,500%7CLato:300,400' rel='stylesheet' type='text/css'>
+    
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="assets/img/favicon.png">
+</head>
+
+<body data-spy="scroll" data-target=".sidebar" data-offset="200">
+
+
+<!-- Sidebar -->
+<aside class="sidebar sidebar-boxed sidebar-dark">
+    
+    <a class="sidebar-brand" href="index.html"><img src="assets/img/logo-sidebar.png" alt="logo" style="width: 150px;"></a>
+    
+    <ul class="nav sidenav dropable">
+        <li>
+            <a href="#installation">Installation</a>
+            <ul>
+                <li><a href="#installation-apache">Apache</a></li>
+                <li><a href="#installation-nginx">Nginx</a></li>
+				<li><a href="#installation-localhost">Localhost</a></li>
+            </ul>
+        </li>
+		<li><a href="#upgrade">Upgrade</a></li>
+        <li>
+            <a href="#smtp">SMTP</a>
+            <ul>
+                <li><a href="#own-smtp-server">Own SMTP Server</a></li>
+                <li><a href="#mandrill">Mandrill</a></li>
+                <li><a href="#amazon-ses">Amazon SES</a></li>
+                <li><a href="#mailgun">Mailgun</a></li>
+                <li><a href="#sparkpost">Sparkpost</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#payment-providers">Payment Providers</a>
+            <ul>
+                <li>
+                    <a href="#paypal">PayPal</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#sms-apis">SMS APIs</a>
+        </li>
+        <li>
+            <a href="#social-login">Social Login</a>
+            <ul>
+                <li><a href="#facebook">Facebook</a></li>
+                <li><a href="#google">Google</a></li>
+            </ul>
+        </li>
+        <li><a href="#google-maps">Google Maps</a></li>
+		<li><a href="#captcha">Captcha</a></li>
+        <li>
+            <a href="#image-processing">Image Processing</a>
+            <ul>
+                <li><a href="#imagick">Imagick</a></li>
+                <li><a href="#clear-cache">Clear Cache</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#geo-location">Geo Location</a>
+        </li>
+        <li>
+            <a href="#svg-maps">SVG Maps</a>
+        </li>
+        <li>
+            <a href="#countries-data">Countries Data</a>
+        </li>
+        <li>
+            <a href="#languages">Languages</a>
+        </li>
+        <li>
+            <a href="#how-to">How To</a>
+        </li>
+        <li>
+            <a href="#cron-job">Cron Job</a>
+        </li>
+    </ul>
+
+</aside>
+<!-- END Sidebar -->
+
+
+<header class="site-header navbar-transparent">
+    
+    <!-- Top navbar & branding -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            
+            <!-- Toggle buttons and brand -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+                    <span class="glyphicon glyphicon-option-vertical"></span>
+                </button>
+                
+                <button type="button" class="navbar-toggle for-sidebar" data-toggle="offcanvas">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            
+            </div>
+            <!-- END Toggle buttons and brand -->
+            
+            <!-- Top navbar -->
+            <div id="navbar" class="navbar-collapse collapse" aria-expanded="true" role="banner">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="changelog.html">Changelog</a></li>
+					<li><a href="http://support.bedigit.com/help-center">Help Center</a></li>
+                    <li class="hero"><a href="https://codecanyon.net/item/laraclassified-geo-classified-ads-cms/16458425?ref=BedigitCom">Purchase</a></li>
+                </ul>
+            </div>
+            <!-- END Top navbar -->
+        
+        </div>
+    </nav>
+    <!-- END Top navbar & branding -->
+    
+    <!-- Banner -->
+    <div class="banner auto-size" style="background-color: #58a3d3">
+        <div class="container-fluid text-white">
+            <h1><strong>LaraClassified</strong> documentation</h1>
+            <h5>For a quick and easy installation we created for you this technical support.</h5>
+        </div>
+    </div>
+    <!-- END Banner -->
+
+</header>
+
+<main class="container-fluid">
+    
+    <!-- Main content -->
+    <article class="main-content" role="main">
+        
+        <p class="lead">Please use the left navigation bar to browse through this support. Let’s go !</p>
+        
+        <section>
+            <h2 id="installation">Installation</h2>
+            
+            <strong>Before install, please make sure you have the components bellow enable on your server</strong>
+            <pre><code>PHP 7.1.3 or greater
+OpenSSL PHP Extension
+PDO PHP Extension
+Mbstring PHP Extension
+Tokenizer PHP Extension
+XML PHP Extension
+Ctype PHP Extension
+JSON PHP Extension
+GD PHP Extension (or Imagick PHP Extension)
+PHP Fileinfo extension
+PHP Zip Archive
+Rewrite Module (Apache or Nginx)
+</code></pre>
+			<strong>PHP.INI Requirements</strong>
+			<pre><code>open_basedir must be disabled</code></pre>
+            <strong>File and folder permissions</strong>
+            <pre><code>/bootstrap        775
+/storage          775 (recursively)
+</code></pre>
+	
+			<br>
+			<div class="alert alert-info" role="alert">
+				<strong>Note:</strong>
+				The script doesn't have an "install" folder. The installation is handled by a Controller.
+			</div>
+            
+            <h3 id="installation-apache"><strong>Installation with Apache</strong></h3>
+            <h4><strong>Creating a new Database</strong></h4>
+
+            <p>First thing you want to do before installing <strong>LaraClassified</strong> is to create a new database on your mysql server. If you already know how to do this/or have already created one just skip to the next step.</p>
+            <p>Your hosting provider will most likely have <strong>phpMyAdmin</strong> as mysql manager. If that is the case here is a step by step guide (if not the process will be very similar on other managers).</p>
+            <p>Login to your control panel, find and click phpMyAdmin link.</p>
+            <p>Click on the database tab in the top menu, enter any name for your database and click create.</p>
+
+            <h4><strong>Uploading Files</strong></h4>
+
+            <p>After creating a database, unzpip the file you donwloaded from CodeCanyon and upload the <strong>contents</strong> of <strong>LaraClassified</strong> folder to your server root, usually <code>/path/to/www/</code> or <code>/path/to/html/</code> or <code>/path/to/public_html/</code>.</p>
+
+            <div class="alert alert-warning" role="alert">
+                <strong>Important:</strong>
+                Always use a desktop application like <a href="https://filezilla-project.org/" target="_blank" rel="noopener noreferrer">FileZilla</a> to upload files to FTP as opposed to web based file managers to avoid issues with corrupted or not properly uploaded files.
+            </div>
+
+            <div class="alert alert-warning" role="alert">
+                <strong>Important:</strong>
+                Make sure that <strong>.htaccess</strong> file got copied properly from the download to main LaraClassified folder on your server.
+            </div>
+
+            <h4><strong>Launch the Installer</strong></h4>
+
+            <p>After you created a database and uploaded the files, simply open up your site in the browser (like <strong>http://mysite.com</strong>, you will redirect to <strong>http://mysite.com/install</strong>) and follow on-screen instructions to complete the installation.</p>
+            
+            <h3 id="installation-nginx"><strong>Installation with Nginx</strong></h3>
+            <ul>
+				<li>Put all the LaraClassified package files to your server root, usually <code>/path/to/www/</code> or <code>/path/to/html/</code> or <code>/path/to/public_html/</code> and set your server configuration like this:</li>
+            </ul>
+            <pre><code>root "/var/www/public";
+location / {
+   try_files $uri $uri/ /index.php?$query_string;
+}
+</code></pre>
+            <ul>
+                <li>Then restart Nginx.</li>
+                <li>Create a MySQL database, add user to it with full permissions.</li>
+                <li>Go to the script's installation URL. For example <code>http://mysite.com/install</code></li>
+                <li>And follow the web installation wizard.</li>
+            </ul>
+	
+			<h3 id="installation-localhost"><strong>Installation on localhost</strong></h3>
+			<ul>
+				<li>You have to create a local virtual host by using a domain name (eg. <code>http://mysite.localhost</code>) instead of localhost (<code>http://localhost/mysite</code>).<br>
+					For more information, please see this article: <a href="http://larapen.com/using-a-domain-name-instead-of-localhost-with-xampp-wamp-or-mamp/" target="_blank">Using a domain name instead of localhost with XAMPP, WAMP or MAMP</a>.</li>
+				<li>Restart your server.</li>
+				<li>Create a MySQL database, add user to it with full permissions.</li>
+				<li>Go to the script's installation URL. For example <code>http://mysite.localhost/install</code></li>
+				<li>And follow the web installation wizard.</li>
+			</ul>
+        
+        </section>
+
+		<section>
+			<h2 id="upgrade">Upgrade to new versions</h2>
+			<h3>Upgrade Notes</h3>
+			<div class="callout callout-danger" role="alert">
+				<p>- <span style="color: red;">In the v5.1+ you have to activate all the purchased plugins (add-ons) using their purchase code from the Admin panel -> Plugins.</span></p>
+				
+				<p>- <span style="color: red;">(Only) If your website is running on the v4.8 or lower, it's important to know that:</span></p>
+				<ul>
+					<li>Before starting the upgrade, you have to move all the contents of the <code>/public/uploads/</code> directory to the <code>/storage/app/public/</code> directory.</li>
+					<li>From the v4.9 the script requires PHP 7.1.3 or higher.</li>
+				</ul>
+				<p>- <span style="color: red;">(Only) If your website is running on the v4.3 or lower: By upgrading your website to the v4.4 it's important to know that:</span></p>
+				<ul>
+					<li>You will lose all your <code>Admin panel -> Settings</code> entries, and you will need to setup your website again.</li>
+					<li>You will lose all the current internal messages (that were also sent by email address to their receivers)</li>
+					<li>If you want to re-activate the ads review (ads approbation) option, all the existing ads will be approved automatically.</li>
+					<li>You will need to (uninstall and) re-install all the script's plugins after the upgrade.</li>
+					<li>You will lose all the plugins data and settings (except the payment plugins transactions entries).</li>
+				</ul>
+				
+				<p>- <span style="color: red;">(Only) If your website is running on the v3.4 or lower, before starting the upgrade you have to:</span></p>
+				<ul>
+					<li>add this entry: <code>APP_VERSION=X.X</code> in the <code>/.env</code> file (eg: <code>APP_VERSION=3.4</code> if your current version is 3.4 or <code>APP_VERSION=1.4</code> for 1.4).</li>
+					<li>add a new entry for your purchase code in the <code>/.env</code> file, like this: <code>PURCHASE_CODE=yourpurchasecode</code>.</li>
+					<li>(if exists) change <code>DB_PREFIX=</code> to <code>DB_TABLES_PREFIX=</code> in the <code>/.env</code> file.</li>
+					<li>(if exist) remove the <code>SESSION_DRIVER=file</code> and <code>SESSION_DOMAIN=.mysite.com</code> entries from the <code>/.env</code> file.</li>
+				</ul>
+			</div>
+
+			<h3>Upgrade</h3>
+			<div class="alert alert-warning" role="alert">
+				<strong>Caution:</strong><br>
+				<ul>
+					<li>Make sure you have backup your website (files and database, including your language files) before making an upgrade.</li>
+					<li>You cannot upgrade your website if you have changed anything in the code (except: <code>/public/css/custom.css</code> and language files). Your changes may cause the upgrade to fail.</li>
+					<li>Always use a desktop application like <a href="https://filezilla-project.org/" target="_blank" rel="noopener noreferrer">FileZilla</a> to upload files to FTP as opposed to web based file managers to avoid issues with corrupted or not properly uploaded files or make wrong file permissions setting.</li>
+				</ul>
+			</div>
+			<ol>
+				<li>Extract the .zip file you downloaded from CodeCanyon.</li>
+				<li>
+					If you have made any CSS customization, backup your <code>/public/css/custom.css</code> file and overwrite its latest version after update.<br>
+					(If you didn't make any CSS customization you can skip this step).
+				</li>
+				<li>
+					If you have made any translations, backup your language files in the <code>/resources/lang/</code> folder, and merge their content after update.<br>
+					(If you didn't make any translations you can skip this step).
+				</li>
+				<li>First, you have to upload (and overwrite) the <code>/database/</code> folder to prevent SQL errors after the upgrade.</li>
+				<li>
+					Upload and overwrite the rest of the files same way you did when you installed the script
+					<strong>except</strong> the <code>/.env</code> file and the <code>/storage/</code> directories.
+				</li>
+				<li>Visit your website homepage or <code>http://mysite.com/upgrade</code> to finish upgrading.</li>
+			</ol>
+			<div class="alert alert-info" role="alert">
+				<strong>Info:</strong><br>
+				<ul>
+					<li>When you receive a 401 error during upgrading, this is mean that the upgrade has already done. And you can check it from your Admin panel.</li>
+					<li>To keep your website accessibility, in the version n+1, after you updated files, the upgrade can be done by visiting any URL of your website. So, if your website is already in live (production), it’s possible that you have never need to run mysite.com/upgrade.</li>
+				</ul>
+			</div>
+			<div class="alert alert-success" role="alert">
+				<strong>If you receive an error related to the Purchase Code, you have to:</strong>
+				<ul>
+					<li><a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-" target="_blank">Find Your Purchase Code</a></li>
+					<li>Add a new entry for your purchase code in the <code>/.env</code> file, like this: <code>PURCHASE_CODE=yourpurchasecode</code> or Log in to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Application</strong> -&gt; <strong>Purchase Code</strong> and Edit the line to add your Purchase Code</li>
+				</ul>
+			</div>
+		</section>
+        
+        <section>
+            <h2 id="smtp">SMTP</h2>
+    
+            <strong>What is SMTP ?</strong><br>
+            <p>Short for Simple Mail Transfer Protocol, a protocol for sending e-mail messages between servers. Most e-mail systems that send mail over the Internet use SMTP to send messages from one server to another; the messages can then be retrieved with an e-mail client using either POP or IMAP. In addition, SMTP is generally used to send messages from a mail client to a mail server. This is why you need to specify both the POP or IMAP server and the SMTP server when you configure your e-mail application.</p>
+            <strong>In short it used to send emails to your site users..!!</strong>
+            You can use any SMTP service provider.
+            <ul>
+                <li>Your own hosting SMTP server</li>
+                <li>Mandrill</li>
+                <li>Amazon SES</li>
+                <li>Mailgun</li>
+                <li>Sparkpost</li>
+                <li>Gmail, Yahoo or some other email provider</li>
+            </ul>
+            <strong>Please note that some hosting providers blocks port 25 or 465 in that case you have change your SMTP email server or contact your hosting provider</strong>
+    
+            
+            <h3 id="own-smtp-server">Own SMTP Server</h3>
+            <strong>Using your own or some SMTP server</strong>
+            <strong>Admin panel setup</strong>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong></li>
+                <li>Set '<strong>Mail driver</strong>', '<strong>Mail host</strong>', '<strong>Mail port</strong>', '<strong>Mail encryption</strong>', '<strong>Mail username</strong>' and '<strong>Mail password</strong>'</li>
+                <li>And save your changes.</li>
+            </ul>
+            <strong>Or use <code>/.env</code> file setup</strong>
+            <ul>
+                <li>Login to your FTP account.</li>
+                <li>Open and Edit <code>/.env</code> file.</li>
+                <li>Copy and paste your server smtp details in the file.</li>
+            </ul>
+            It will look something like this.
+            <pre><code>MAIL_DRIVER=smtp
+MAIL_HOST=your-mail-host
+MAIL_PORT=your-mail-port
+MAIL_USERNAME=your-mail-username
+MAIL_PASSWORD=your-mail-password
+MAIL_ENCRYPTION=your-mail-encryption
+</code></pre>
+            <ul>
+                <li>Replace <code>your-mail-host</code>, <code>your-mail-port</code>, <code>your-mail-username</code>, <code>your-mail-password</code> and <code>your-mail-encryption</code>.</li>
+                <li>Save and Upload the file</li>
+                <li>You are done.</li>
+            </ul>
+            NOTE: The <code>/.env</code> file settings override those of the admin panel.
+    		
+			<br><br>
+            <div class="alert alert-info" role="alert">
+                <strong>Note:</strong>
+				Don't forget to change your sender email address in your <strong>Admin panel</strong> -> <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong> -> <strong>Transactional Email Sender</strong> to match it with an allowed email address of your SMTP server.
+            </div>
+            
+            <h3 id="mandrill">Mandrill</h3>
+            <strong>Personally we use mandrill and yes it's free</strong>
+            <ul>
+                <li>Visit mandrill dashboard.</li>
+                <li>Generate a API key, via this page <a href="https://mandrillapp.com/settings/" target="_blank">https://mandrillapp.com/settings/</a></li>
+                <li>Copy the <strong>key</strong>.</li>
+            </ul>
+            <strong>Admin panel setup</strong>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong></li>
+                <li>Set '<strong>Mail driver</strong>', '<strong>Mandrill secret</strong>', '<strong>Mail host</strong>', '<strong>Mail port</strong>', '<strong>Mail encryption</strong>', '<strong>Mail username</strong>' and '<strong>Mail password</strong>'</li>
+                <li>And save your changes.</li>
+            </ul>
+            <strong>Or use <code>/.env</code> file setup</strong>
+            <ul>
+                <li>Login to your FTP account.</li>
+                <li>Open and edit <code>/.env</code> file.</li>
+                <li>Remove all your current Mail configuration variables.</li>
+                <li>Add the lines below:</li>
+            </ul>
+            <pre><code>MAIL_DRIVER=mandrill
+MANDRILL_SECRET=your-mandrill-secret
+MAIL_HOST=your-mandrill-smtp-host
+MAIL_PORT=your-mandrill-smtp-port
+MAIL_USERNAME=your-mandrill-smtp-username
+MAIL_PASSWORD=your-mandrill-smtp-password
+MAIL_ENCRYPTION=your-mandrill-smtp-encryption
+</code></pre>
+            <ul>
+                <li>Replace <code>your-mandrill-secret</code>, <code>your-mandrill-smtp-host</code>, <code>your-mandrill-smtp-port</code>, <code>your-mandrill-smtp-username</code>, <code>your-mandrill-smtp-password</code> and <code>your-mandrill-smtp-encryption</code>.</li>
+                <li>Save and upload the file.</li>
+                <li>You are done.</li>
+            </ul>
+            NOTE: The <code>/.env</code> file settings override those of the admin panel.
+	
+			<br><br>
+			<div class="alert alert-info" role="alert">
+				<strong>Note:</strong>
+				Don't forget to change your sender email address in your <strong>Admin panel</strong> -> <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong> -> <strong>Transactional Email Sender</strong> to match it with an allowed email address of your SMTP server.
+			</div>
+            
+            
+            <h3 id="amazon-ses">Amazon SES</h3>
+            <strong>Admin panel setup</strong>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong></li>
+                <li>Set '<strong>Mail driver</strong>', '<strong>SES Key</strong>', '<strong>SES secret</strong>' and '<strong>SES region</strong>'</li>
+                <li>And save your changes.</li>
+            </ul>
+            <strong>Or use <code>/.env</code> file setup</strong>
+            <ul>
+                <li>Login to your FTP account.</li>
+                <li>Open and edit <code>/.env</code> file.</li>
+                <li>Remove all your current Mail configuration variables.</li>
+                <li>Add the lines below:</li>
+            </ul>
+            <pre><code>MAIL_DRIVER=ses
+SES_KEY=your-ses-key
+SES_SECRET=your-ses-secret
+SES_REGION=your-ses-region
+</code></pre>
+            <ul>
+                <li>Replace <code>your-ses-key</code>, <code>your-ses-secret</code> and <code>your-ses-region</code>.</li>
+                <li>Save and upload the file.</li>
+                <li>You are done.</li>
+            </ul>
+            NOTE: The <code>/.env</code> file settings override those of the admin panel.
+            
+            
+            <h3 id="mailgun">Mailgun</h3>
+            <strong>Admin panel setup</strong>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong></li>
+                <li>Set '<strong>Mail driver</strong>', '<strong>Mailgun domain</strong>', '<strong>Mailgun secret</strong>', '<strong>Mail host</strong>', '<strong>Mail port</strong>', '<strong>Mail encryption</strong>', '<strong>Mail username</strong>' and '<strong>Mail password</strong>'</li>
+                <li>And save your changes.</li>
+            </ul>
+            <strong>Or use <code>/.env</code> file setup</strong>
+            <ul>
+                <li>Login to your FTP account.</li>
+                <li>Open and edit <code>/.env</code> file.</li>
+                <li>Remove all your current Mail configuration variables.</li>
+                <li>Add the lines below:</li>
+            </ul>
+            <pre><code>MAIL_DRIVER=mailgun
+MAILGUN_DOMAIN=your-mailgun-domain
+MAILGUN_SECRET=your-mailgun-secret
+MAIL_HOST=your-mailgun-smtp-host
+MAIL_PORT=your-mailgun-smtp-port
+MAIL_USERNAME=your-mailgun-smtp-username
+MAIL_PASSWORD=your-mailgun-smtp-password
+MAIL_ENCRYPTION=your-mailgun-smtp-encryption
+</code></pre>
+            <ul>
+                <li>Replace <code>your-mailgun-domain</code>, <code>your-mailgun-secret</code>, <code>your-mailgun-smtp-host</code>, <code>your-mailgun-smtp-port</code>, <code>your-mailgun-smtp-username</code>, <code>your-mailgun-smtp-password</code> and <code>your-mailgun-smtp-encryption</code>.</li>
+                <li>Save and upload the file.</li>
+                <li>You are done.</li>
+            </ul>
+            NOTE: The <code>/.env</code> file settings override those of the admin panel.
+	
+			<br><br>
+			<div class="alert alert-info" role="alert">
+				<strong>Note:</strong>
+				Don't forget to change your sender email address in your <strong>Admin panel</strong> -> <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong> -> <strong>Transactional Email Sender</strong> to match it with an allowed email address of your SMTP server.
+			</div>
+    
+    
+            <h3 id="sparkpost">Sparkpost</h3>
+            <strong>Admin panel setup</strong>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong></li>
+                <li>Set '<strong>Mail driver</strong>', '<strong>Sparkpost secret</strong>', '<strong>Mail host</strong>', '<strong>Mail port</strong>', '<strong>Mail encryption</strong>', '<strong>Mail username</strong>' and '<strong>Mail password</strong>'</li>
+                <li>And save your changes.</li>
+            </ul>
+            <strong>Or use <code>/.env</code> file setup</strong>
+            <ul>
+                <li>Login to your FTP account.</li>
+                <li>Open and edit <code>/.env</code> file.</li>
+                <li>Remove all your current Mail configuration variables.</li>
+                <li>Add the lines below:</li>
+            </ul>
+            <pre><code>MAIL_DRIVER=sparkpost
+SPARKPOST_SECRET=your-sparkpost-secret
+MAIL_HOST=your-sparkpost-smtp-host
+MAIL_PORT=your-sparkpost-smtp-port
+MAIL_USERNAME=your-sparkpost-smtp-username
+MAIL_PASSWORD=your-sparkpost-smtp-password
+MAIL_ENCRYPTION=your-sparkpost-smtp-encryption
+</code></pre>
+            <ul>
+                <li>Replace <code>your-sparkpost-secret</code>, <code>your-sparkpost-smtp-host</code>, <code>your-sparkpost-smtp-port</code>, <code>your-sparkpost-smtp-username</code>, <code>your-sparkpost-smtp-password</code> and <code>your-sparkpost-smtp-encryption</code>.</li>
+                <li>Save and upload the file.</li>
+                <li>You are done.</li>
+            </ul>
+            NOTE: The <code>/.env</code> file settings override those of the admin panel.
+	
+			<br><br>
+			<div class="alert alert-info" role="alert">
+				<strong>Note:</strong>
+				Don't forget to change your sender email address in your <strong>Admin panel</strong> -> <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Mail</strong> -> <strong>Transactional Email Sender</strong> to match it with an allowed email address of your SMTP server.
+			</div>
+        
+        </section>
+        
+        
+        <section>
+            
+            <h2 id="payment-providers">Payment Providers</h2>
+            <p>The script support these payment providers:</p>
+            <ul>
+                <li>Paypal</li>
+            </ul>
+            <p>Paypal is one of the best payment gateway in the world, it support all credit cards and accepted in many countries.</p>
+    
+    
+            <h3 id="paypal">Paypal</h3>
+			<p>Visit the official documentation: <a href="https://developer.paypal.com/developer/applications/create" target="_blank" rel="noopener noreferrer">https://developer.paypal.com/developer/applications/create</a></p>
+			<p><strong>Setup</strong></p>
+			<ul>
+				<li>Copy and paste the API username, password, and signature into the /.env file.</li>
+				<li>Open and edit the <code>/.env</code> file by providing your keys like this:</li>
+			</ul>
+			<pre>PAYPAL_MODE=sandbox
+PAYPAL_USERNAME=yourPayPalBusinessEamil@something.com
+PAYPAL_PASSWORD=YourPassword
+PAYPAL_SIGNATURE=YourSignatrue
+</pre>
+			<ul>
+				<li>You have to use <code>PAYPAL_MODE=live</code> in your live server.</li>
+				<li>You are done.</li>
+			</ul>
+			<p>Now visit <strong>Admin Panel</strong> -&gt; <strong>Payment</strong> -&gt; <strong>Packages</strong> to set the packages and currencies.</p>
+            
+        </section>
+    
+        <section>
+            <h2 id="sms-apis">SMS APIs</h2>
+            <p>This functionality is only available in the version v3.1+ allowing to verify the mobile number of the users and offering the possibility to the sellers to be contacted by SMS.</p>
+            <h3>How to set up?</h3>
+            <ul>
+				<li>Admin panel -&gt; Setup -&gt; General Settings -&gt; Mail -&gt; 'SMS Driver' to set the default SMS API.</li>
+				<li>You can use both NEXMO or TWILIO as your SMS provider API:</li>
+            </ul>
+			
+			<h3 id="nexmo">NEXMO</h3>
+			<p><strong>NEXMO</strong> - <a href="https://www.nexmo.com" target="_blank" rel="noopener">https://www.nexmo.com</a></p>
+			<strong>Admin panel setup</strong>
+			<ul>
+				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>SMS</strong></li>
+				<li>Set '<strong>Nexmo Key</strong>', '<strong>Nexmo Secret</strong>' and '<strong>Nexmo From</strong>'</li>
+				<li>And save your changes.</li>
+			</ul>
+			<strong>Or use <code>/.env</code> file setup</strong>
+			<ul>
+				<li>Login to your FTP account.</li>
+				<li>Open and edit <code>/.env</code> file.</li>
+				<li>Remove all your current Mail configuration variables.</li>
+				<li>Add the lines below:</li>
+			</ul>
+            <pre>NEXMO_KEY=your-nexmo-key
+NEXMO_SECRET=your-nexmo-secret
+NEXMO_FROM=your-sender-number
+</pre>
+	
+			<h3 id="twilio">TWILIO</h3>
+			<p><strong>TWILIO</strong> - <a href="https://www.twilio.com" target="_blank" rel="noopener">https://www.twilio.com</a></p>
+			<strong>Admin panel setup</strong>
+			<ul>
+				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>SMS</strong></li>
+				<li>Set '<strong>Twilio Account SID</strong>', '<strong>Twilio Auth Token</strong>' and '<strong>Twilio From</strong>'</li>
+				<li>And save your changes.</li>
+			</ul>
+			<strong>Or use <code>/.env</code> file setup</strong>
+			<ul>
+				<li>Login to your FTP account.</li>
+				<li>Open and edit <code>/.env</code> file.</li>
+				<li>Remove all your current Mail configuration variables.</li>
+				<li>Add the lines below:</li>
+			</ul>
+            <pre>TWILIO_ACCOUNT_SID=your-twilio-account-sid
+TWILIO_AUTH_TOKEN=your-auth-token
+TWILIO_FROM=your-sender-number
+</pre>
+	
+			<h3 id="others-sms-configurations">Others SMS Configurations</h3>
+            <p>Now, go to your Admin panel :</p>
+            <ul>
+                <li>Admin panel -&gt; Setup -&gt; General Settings -&gt; SMS -&gt; 'Enable Phone Verification' to enabling/disabling the mobile Phone number verification.</li>
+                <li>Admin panel -&gt; Setup -&gt; General Settings -&gt; SMS -&gt; 'Enable SMS Message' to enabling/disabling the SMS sending between users.</li>
+            </ul>
+            <p>You are done.</p>
+        </section>
+        
+        <section>
+            <h2 id="social-login">Social Login</h2>
+            <div class="alert alert-warning" role="alert">
+				<strong>Important:</strong>
+                Make sure BASE_URL in .env file matches your site url. It should be set automatically, but you might need to do it manually in some rare cases.
+			</div>
+    
+            <h3 id="facebook">Facebook</h3>
+			<ol>
+				<li>Register for regular facebook account, if you don't already have one.</li>
+				<li>Open <a href="https://developers.facebook.com/" target="_blank" rel="noopener noreferrer">this url</a>, <strong>click 'my apps'</strong> in the top navigation bar, then <strong>Add a New App.</strong></li>
+				<li>Enter any display name, your email adress and click&nbsp;<strong>Create App ID</strong></li>
+				<li>Click <strong>Add Product</strong> in the left sidebar, then <strong>Facebook Login</strong>, select <strong>Web</strong>, enter your site url. You can ignore the rest of the panels in quickstart wizard.</li>
+				<li>Click <strong>Facebook Login -&gt; Settings </strong>and enter <strong>http://mysite.com/auth/facebook/callback</strong> into <strong>Valid OAuth redirect URIs</strong> field.</li>
+				<li>Click <strong>Dashboard</strong> in left sidebar and copy/paste <strong>APP ID</strong> and <strong>APP</strong> <strong>SECRET</strong> into .env file.</li>
+			</ol>
+			<p style="text-align: center;"><img src="https://www.bedigit.com/uploads/2017/02/facebook-app-test.png"></p>
+			<p>&nbsp;</p>
+			<p>Now, you have to setup your admin panel:</p>
+			<ul>
+				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Social Login</strong></li>
+				<li>For Facebook: set '<strong>Facebook Client ID</strong>' and '<strong>Facebook Client Secret</strong>'</li>
+				<li>And save your changes.</li>
+			</ul>
+			<p>Or place all the config values and api keys in the <code>.env</code> file.</p>
+			<p><strong>Facebook Example in .env file</strong></p>
+			<pre>FACEBOOK_CLIENT_ID=your-facebook-client_id
+FACEBOOK_CLIENT_SECRET=your-facebook-client_secret
+</pre>
+			<p>NOTE: The /.env file settings override those of the admin panel.</p>
+    
+    
+            <h3 id="google">Google</h3>
+			<ol>
+				<li>Register for regular google account, if you don't already have one.</li>
+				<li>Open <a href="https://console.developers.google.com/" target="_blank" rel="noopener noreferrer">this url</a>, create a new project, click <strong>Credentials</strong> in left sidebar, select <strong>Oauth Client ID</strong> -&gt; <strong>Web Application.</strong></li>
+				<li>Enter <strong>http://mysite.com/auth/google/callback</strong> into <strong>Authorized Redirect URIs</strong> field and click <strong>Create.</strong></li>
+				<li>Copy/paste <strong>Client ID</strong> and <strong>Client Secret</strong> into .env file.</li>
+			</ol>
+			<p style="text-align: center;"><img src="https://www.bedigit.com/uploads/2017/02/facebook-oauth-client.png"></p>
+			<p>&nbsp;</p>
+			<p>Now, you have to setup your admin panel:</p>
+			<ul>
+				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Social Login</strong></li>
+				<li>For Google: set '<strong>Google Client ID</strong>' and '<strong>Google Client Secret</strong>'</li>
+				<li>And save your changes.</li>
+			</ul>
+			<p>Or place all the config values and api keys in the <code>.env</code> file.</p>
+			<p><strong>Google Example in .env file</strong></p>
+			<pre>GOOGLE_CLIENT_ID=your-google-client_id
+GOOGLE_CLIENT_SECRET=your-google-client_secret
+</pre>
+			<p>NOTE: The /.env file settings override those of the admin panel.</p>
+            
+        </section>
+
+		<section>
+			<h2 id="google-maps">Google Maps</h2>
+			<p>You have to activate <a href="https://developers.google.com/maps/documentation/embed/guide" target="_blank" rel="noopener noreferrer">Google Maps Embed API</a> and <a href="https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key" target="_blank" rel="noopener noreferrer">Google Maps JavaScript API</a> in your Google Console.</p>
+			<p><strong>Admin panel setup</strong></p>
+			<ul>
+				<li>Go to your&nbsp;<strong>Admin panel</strong>&nbsp;-&gt;&nbsp;<strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Others</strong></li>
+				<li>Set&nbsp;‘<strong>Google Maps key</strong>‘</li>
+				<li>And save your changes.</li>
+			</ul>
+			<p><strong>Or use /.env file setup</strong></p>
+			<ul>
+				<li>Login to your FTP account.</li>
+				<li>Open and edit&nbsp;<code>.env</code>&nbsp;file.</li>
+				<li>Add this code:</li>
+			</ul>
+			<pre>GOOGLE_MAPS_API_KEY=your-googlemaps-key
+</pre>
+			<ul>
+				<li>Replace&nbsp;<code>your-googlemaps-key</code>.</li>
+				<li>Save and upload the file.</li>
+				<li>You are done.</li>
+			</ul>
+		</section>
+    
+        <section>
+            <h2 id="captcha">Captcha</h2>
+            <h4 id="recaptcha-key">Recaptcha Key</h4>
+            <h5 id="what-is-recaptcha">What is recaptcha</h5>
+            <p>reCAPTCHA is a free CAPTCHA service that helps protect your site against spam, malicious registrations and other forms of attacks where computers try to disguise themselves as a human. reCAPTCHA comes in the form of a widget that you can easily add to your blog, forum, registration.</p>
+            <strong>How to setup.</strong>
+            <ul>
+                <li>Visit <a href="https://www.google.com/recaptcha/admin" target="_blank">https://www.google.com/recaptcha/admin</a></li>
+                <li>Follow as given in below image</li>
+            </ul>
+            <p>
+                <img class="aligncenter size-full wp-image-149" src="https://www.bedigit.com/uploads/2016/05/okHSW2N.png" alt="okHSW2N" width="690" height="392" />
+            </p>
+            <ul>
+                <li>Click <strong>Register</strong></li>
+                <li>You will now get your <strong>site key</strong> and <strong>secret key</strong></li>
+            </ul>
+            <p>
+                <img class="aligncenter size-large wp-image-150" src="https://www.bedigit.com/uploads/2016/05/RLjgRLB-1024x233.png" alt="RLjgRLB" width="700" height="159" />
+            </p>
+            <p><strong>Admin panel setup</strong></p>
+            <ul>
+                <li>Go to your LaraClassified <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Security</strong></li>
+                <li>Turn ON or OFF '<strong>Enable reCAPTCHA</strong>'</li>
+                <li>Set '<strong>reCAPTCHA public key</strong>' and '<strong>reCAPTCHA private key</strong>'</li>
+                <li>And save your changes.</li>
+            </ul>
+            <p><strong>Or use <code>/.env</code> file setup</strong></p>
+            <ul>
+                <li>Login to your FTP account</li>
+                <li>Open <code>/.env</code> file.</li>
+                <li>Provide the keys there.</li>
+            </ul>
+            <pre><code>RECAPTCHA_PUBLIC_KEY=your-recaptcha-public_key
+RECAPTCHA_PRIVATE_KEY=your-recaptcha-private_key
+</code></pre>
+            <ul>
+                <li>Replace <code>your-recaptcha-public_key</code> and <code>your-recaptcha-private_key</code>.</li>
+                <li>Save the file.</li>
+                <li>You are done.</li>
+            </ul>
+            <p>NOTE: The <code>/.env</code> file settings override those of the admin panel.</p>
+            
+        </section>
+    
+        <section>
+            <h2 id="image-processing">Image Processing</h2>
+            <h4 id="image-setting">Image Setting</h4>
+            <p>The script support for two image processor.</p>
+            <ul>
+                <li>GD</li>
+                <li>Imagick</li>
+            </ul>
+            <p>GD is very basic image resizing driver for PHP and only to used on basic website. It has memory issues and doesn't perform well at all conditions.<br>
+    
+            If you want your site for pro-photography or better quality images we prefer you to use <strong>imagick</strong> instead for better quality results.<br>
+    
+                Please make sure that your server has <strong>imagick</strong> installed.</p>
+            
+            <h3 id="imagick">Imagick</h3>
+            <p><strong>First make sure that you have imagick installed on your server, if not then contact your hosting provider.</strong></p>
+            <ul>
+                <li>Login to your FTP account.</li>
+                <li>Open and edit <code>/.env</code> file.</li>
+            </ul>
+            <strong>Search</strong>
+            <pre><code>IMAGE_DRIVER=gd
+</code></pre>
+            <strong>Change it to</strong>
+            <pre><code>IMAGE_DRIVER=imagick
+</code></pre>
+            <ul>
+                <li>You are done.</li>
+                <li><a href="#clear-cache">Clear Cache (Optional)</a></li>
+            </ul>
+            
+            
+            <h3 id="clear-cache">Clear Cache</h3>
+            <h5>Clear All Image Cache</h5>
+            <p> </p><strong>Caution..!! Your site might face down time until all images are re-cached</strong>
+            <h5>For those who are not using cloud CDN</h5>
+            <ul>
+                <li>Login to your FTP.</li>
+                <li>Visit <code>storage/framework/cache</code></li>
+                <li>Delete all file from it.</li>
+                <li>Visit your site in browser and refresh it.</li>
+            </ul>
+            <h5>For those who using cloud CDN (Coming soon)</h5>
+            <ul>
+                <li>Login to cloud server</li>
+                <li>Visit <code>cache</code> folder</li>
+                <li>Delete all file from it.</li>
+                <li>Now login to your website FTP account</li>
+                <li>Visit <code>storage/framework/cache</code></li>
+                <li>Delete all file from it.</li>
+                <li>Visit your site in browser and refresh it for 10-15 times.</li>
+            </ul>
+            
+        </section>
+    
+        <section>
+            <h2 id="geo-location">Geo location</h2>
+            <h5>How can I enable Geo location?</h5>
+            <ul>
+                <li>Visit the <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Geo Location</strong> and turn '<strong>Enable Geolocation</strong>' to ON by checking the checkbox.</li>
+                <li>If you want to redirect users to their country's website based on their IP address, you should leave blank the parameter "<strong>Default Country</strong>" in your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Geo Location</strong>.
+                    ATTENTION: When you reset this option by setting a default country, you need erase all your browser's data (like: historic, hosted app's data and cache, etc.) to see the effect of the change.</li>
+                <li>(Optional) Go to: <a href="https://dev.maxmind.com/geoip/geoip2/geolite2/" target="_blank" rel="noopener noreferrer">https://dev.maxmind.com/geoip/geoip2/geolite2/</a></li>
+                <li>(Optional) Download the latest binary version of the 'GeoLite2 City' database (or use <a href="http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz" target="_blank" rel="noopener noreferrer">this link</a>)</li>
+                <li>(Optional) Extract it in the Maxmind database folder at <code>/storage/database/maxmind/</code> like this <code>/storage/database/maxmind/GeoLite2-City.mmdb</code>
+                    <br>You can replace the current file (if exists) to update the Maxmind database.</li>
+                <li>You are done.</li>
+            </ul>
+        </section>
+    
+        <section>
+            <h2 id="svg-maps">SVG Maps</h2>
+            <p>The script uses Simplemaps SVG maps (<a href="http://simplemaps.com/resources/svg-maps" target="_blank" rel="noopener">http://simplemaps.com/resources/svg-maps</a>). And the map of some countries (Kosovo, some islands, etc.) are not available.</p>
+			
+			<p>For some countries you need to edit the SVG files to change some states or provinces name etc. You can find all the SVG maps files in the <code>/public/images/maps/</code> directory.</p>
+    
+            <p>There are a free (commercial use) license and a paid license. So you can buy a license for some missing SVG maps and hire a local developer to add them for your website (based on current code). You can also disable the SVG maps from your Admin panel.</p>
+        </section>
+    
+        <section>
+            <h2 id="countries-data">Countries Data</h2>
+            <h5><strong>Geonames Database</strong></h5>
+            <p>It is important to know that the script uses Geonames database (<a href="http://www.geonames.org" target="_blank" rel="noopener">http://www.geonames.org</a>) (their most structured database) for data on cities and administrative divisions.</p>
+            <p>But, sadly, this database is not complete for any country. And you need to update this database (from your Admin panel -&gt; Setup -&gt; General Settings -&gt; International -&gt; Countries -&gt; "Admin. Division x" or "Cities") by adding new data (respecting the Geonames data format) or by modifying existing data or by deleting them.</p>
+            <p>From v3.1+ you have to update the countries locations database from your Admin panel -&gt; Setup -&gt; General Settings -&gt; International -&gt; Countries (see the screenshot below)</p>
+            <p><a href="https://www.bedigit.com/uploads/2017/02/country-locations-database.png"><img class="text-center center-block" src="https://www.bedigit.com/uploads/2017/02/country-locations-database-1024x304.png" alt="" width="700" height="208" /></a></p>
+            <p>The script does not support certain countries (Kosovo, some islands, etc.) automatically because the data in these countries are not reliable. And you will need to add the missing (or incorrect) data manually from your admin panel.</p>
+            
+            <h5><strong>Your own Database</strong></h5>
+            <p>You can also delete all data from Geoname and add your own data.</p>
+            <p>To do this, you need to:</p>
+            <ul>
+                <li>Clear the "subadmin1", "subadmin2" and "cities" tables in your database (using phpMyAdmin)</li>
+                <li>Add new data from your Admin panel for your country (or for active countries)</li>
+            </ul>
+        </section>
+    
+        <section>
+            <h2 id="languages">Languages</h2>
+            <h5><strong>How can I add new languages?</strong></h5>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>Languages</strong></li>
+                <li>Click '<strong>Add language</strong>'</li>
+                <li>Go to the translation folder at <code>/resources/lang</code></li>
+                <li>The script has been duplicated the folder <code>/resources/lang/en/</code> to <code>/resources/lang/&lt;abbr&gt;/</code></li>
+                <li>NOTE: Don't forget to translate the database translatable entries from the Admin panel (Users -&gt; Titles, Ads -&gt; Ad Types, Ads -&gt; Categories, Setup -&gt; Packages, Setup -&gt; Report Type, etc.).</li>
+            </ul>
+			
+            <h5><strong>How can I change the default language?</strong></h5>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>Languages</strong></li>
+                <li>Create a new language entry and check the "Default" field. Or click on Edit to edit an existing language and check "Default".</li>
+                <li>Save all of changes</li>
+                <li>You are done.</li>
+                <li>To prevent the missing translations in the new default language, please open the file <code>/config/app.php</code> and change the <code>fallback_locale</code> value with your default language <code>&lt;abbr&gt;</code> value (e.g. <code>de</code>). Save your files on your server.</li>
+            </ul>
+			
+            <h5><strong>How can I edit translations?</strong></h5>
+            <ul>
+                <li>Go to the translation folder at <code>/resources/lang/</code>(each language has his language code as folder name).</li>
+                <li>Go to the folder of the language you wish to translate and their files (e.g. <code>global.php</code> contains 90% of the site’s texts, mail.php for emails contents, etc.).</li>
+                <li>To translate a file, you must change the values and not the keys of PHP array.</li>
+                <li>Save your files on your server.</li>
+                <li>Your are done.</li>
+                <li>NOTE: It's important to know the script does not support the RTL direction.</li>
+            </ul>
+			
+            <h5><strong>How can I disable languages?</strong></h5>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>Languages</strong></li>
+                <li>Select a language and edit it.</li>
+                <li>Uncheck ‘Active’ checkbox and save.</li>
+            </ul>
+			
+            <h5><strong>How can I delete languages?</strong></h5>
+            <ul>
+                <li>Go to your LaraClassified <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>Languages</strong></li>
+                <li>Select a language and delete it.</li>
+                <li>IMPORTANT: By deleting the language, the language files folder <code>/resources/lang/&lt;abbr&gt;</code> will be also removed.</li>
+            </ul>
+        </section>
+    
+        <section>
+            <h2 id="how-to">How To</h2>
+            <h5><strong>How can I set the Default country?</strong></h5>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Geo Location</strong> and set '<strong>Default Country</strong>' with your country code (only ISO alpha-2 codes are accepted). From v2.x or above the script set the default country during installation.</li>
+                <li>Your are done.</li>
+            </ul>
+            
+            <h5><strong>How can I set the Default currency?</strong></h5>
+            <ul>
+                <li>The default currency will be that of the current country, except the Packages's currency that you can set from <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>Packages</strong>.</li>
+            </ul>
+            
+            <h5><strong>How can I setup the packages/Plans?</strong></h5>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>Packages</strong></li>
+                <li>Select a package and edit it</li>
+                <li>NOTE: You can add new packages or delete current packages in the actual version.</li>
+            </ul>
+            
+            <h5><strong>How can I setup the advertising code (e.g. Adsense)?</strong></h5>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>Advertisings</strong></li>
+                <li>Edit '<strong>top</strong>' and '<strong>bottom</strong>' code.</li>
+                <li>The code will be displayed on the search results pages and the ads page.</li>
+                <li>Your are done.</li>
+            </ul>
+            
+            <h5><strong>How can I setup Recaptcha?</strong></h5>
+            <ul>
+                <li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Security</strong></li>
+                <li>Turn ON or OFF '<strong>Enable reCAPTCHA</strong>'</li>
+                <li>Set '<strong>reCAPTCHA public key</strong>' and '<strong>reCAPTCHA private key</strong>'</li>
+                <li>And save your changes.</li>
+            </ul>
+            Please see more features by visiting your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong>...
+        </section>
+    
+        <section>
+            <h2 id="cron-job">Cron Job</h2>
+            <h4><strong>How can I set the Cron Job?</strong></h4>
+            <p>To set the Ads Cleaner command you need to add the code below in the Cron Job tool of your server:</p>
+            <pre>{PHP_BIN_PATH} -q /path/to/YourWebsite/artisan ads:clean</pre>
+            <p style="text-decoration: underline;">NOTE</p>
+            <ul>
+				<li><code>{PHP_BIN_PATH}</code> => Ex: <code>/usr/bin/php7.1.3</code>, <code>/usr/bin/php</code>, <code>/usr/lib/php</code></li>
+				<li><code>/path/to/YourWebsite/</code> => You have to replace this path by your real path.</li>
+				<li>You can set the Cron Job to run every hour or day. You can also run it on a specific hour every day.</li>
+				<li>Don't hesitate to ask more information about it from your hosting provider.</li>
+            </ul>
+			
+			<hr>
+            
+            <h4><strong>More information about Cron Job:</strong></h4>
+            <ul>
+				<li><a href="https://crontab.guru/every-1-hour" target="_blank" rel="noopener">https://crontab.guru/every-1-hour</a></li>
+                <li><a href="https://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-8800" target="_blank" rel="noopener">https://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-8800</a></li>
+                <li><a href="http://askubuntu.com/questions/2368/how-do-i-set-up-a-cron-job" target="_blank" rel="noopener">http://askubuntu.com/questions/2368/how-do-i-set-up-a-cron-job</a></li>
+            </ul>
+			
+			<hr>
+			
+			<h4><strong>How does the Cron Job command work?</strong></h4>
+			<p>After setting it up to run every hour (for example), you can consider 2 cases:</p>
+			<p>&nbsp;</p>
+			<h5><strong>1. Regular Ads</strong></h5>
+			<p>You have to set up the options below from the <strong>Admin panel -&gt; Setup -&gt; General Settings -&gt; Cron</strong>:</p>
+			<ul>
+				<li><strong>Unactivated Ads Expiration:</strong> After this time (in days) the unactivated ads will be deleted</li>
+				<li><strong>Activated Ads Expiration:</strong> After this time (in days) the activated ads will be archived</li>
+				<li><strong>Archived Ads Expiration:</strong> After this time (in days) the archived ads will be removed</li>
+			</ul>
+			<p>&nbsp;</p>
+			<h5><strong>2. Premium/Sponsored/Paid Ads</strong></h5>
+			<ul>
+				<li>After the Packages duration time (in days) that you have set up from the <strong>Admin panel -&gt; Setup -&gt; Packages -&gt; [EDIT] -&gt; Duration</strong>, the Premium Ads become Regular Ads.</li>
+				<li>And then, the Regular Ads rules (seen in #1) are applied to clear the website database.</li>
+			</ul>
+        </section>
+    
+    </article>
+    <!-- END Main content -->
+</main>
+
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container-fluid">
+        <a id="scroll-up" href="#"><i class="fa fa-angle-up"></i></a>
+        
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script>. All right reserved</p>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <ul class="footer-menu">
+                    <li><a href="changelog.html">Changelog</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- END Footer -->
+
+<!-- Scripts -->
+<script src="assets/js/theDocs.all.min.js"></script>
+
+</body>
+</html>
