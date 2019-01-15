@@ -1,0 +1,40 @@
+{
+    "name": "bedigit/recaptcha",
+    "description": "reCAPTCHA Validator for Laravel 5",
+	"keywords": ["recaptcha", "captcha", "laravel", "laravel5", "larapen"],
+	"homepage": "http://github.com/greggilbert/recaptcha",
+	"license": "MIT",
+    "authors": [
+        {
+            "name": "Greg Gilbert",
+            "email": "greg@greg-gilbert.com"
+        },
+        {
+            "name": "Sina Miandashti",
+            "email": "miandashti@gmail.com"
+        } 
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "~5.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-4": {
+            "Greggilbert\\Recaptcha\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Greggilbert\\Recaptcha\\RecaptchaServiceProvider"
+            ],
+            "aliases": {
+                "Recaptcha": "Greggilbert\\Recaptcha\\Facades\\Recaptcha"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
