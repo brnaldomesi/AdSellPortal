@@ -764,10 +764,11 @@ return [
     'Street' => 'Street',
     'Address verification' => 'Address verification',
     'Number' => 'Number',
-    'Part of the village' => 'Part of the village',
-    'Village' => 'Village',
+    'Town Name' => 'Town Name',
+    'Town District' => 'Town District',
     'ZIP CODE' => 'ZIP CODE',
-    'Verify Address' =>  'Verify Address'
+    'Verify Address' => 'Verify Address',
+    'House/orient. num.' => 'House/orient. num.'
     // end address verification
 
 

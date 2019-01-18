@@ -36,6 +36,7 @@ class PostRequest extends Request
 			'email'        => 'max:100|whitelist_email|whitelist_domain',
 			'phone'        => 'max:20',
 			'city_id'      => 'required|not_in:0',
+            'address_street' => 'required|mb_between:2,200'
 		];
 		
 		// CREATE
