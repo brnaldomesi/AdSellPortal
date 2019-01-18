@@ -1,8 +1,0 @@
-{
-  "errors": [
-    {
-      "code": "RECORD_NOT_FOUND",
-      "message": "Unable to find record."
-    }
-  ]
-}
