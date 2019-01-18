@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     /*
     |--------------------------------------------------------------------------
     | Global Language Lines
@@ -10,11 +10,11 @@ return [
     | The following language lines are used by the global website.
     |
     */
-    
+
     'Free local classified ads in the World' => 'Free Local Classified Ads in the World',
     'Free local classified ads in :location' => 'Free Local Classified Ads in :location',
-	'Sell and buy near you' => 'Sell and Buy near you',
-	'Simple, fast and efficient' => 'Simple, fast and efficient',
+    'Sell and buy near you' => 'Sell and Buy near you',
+    'Simple, fast and efficient' => 'Simple, fast and efficient',
     'Daily good deals' => 'Daily good deals',
     'Daily good deals in :location' => 'Daily good deals in :location',
     'Looking for a product or service' => 'Looking for a product or service',
@@ -70,7 +70,7 @@ return [
     'List of Cities in' => 'List of Cities in',
     'Do have anything to sell or rent?' => 'Do have anything to sell or rent?',
     'Sell your products and services online FOR FREE. It\'s easier than you think !' => 'Sell your products and services online FOR FREE. It\'s easier than you think !',
-    
+
     'footer_note' => '<strong>Sell</strong>, <strong>Offer</strong>, <strong>Rent</strong>, <strong>Bargain</strong>, <strong>Search</strong>, <strong>Buy</strong> products and services in <strong>:country</strong>. It\'s 100% free!',
     'Home' => 'Home',
     'About us' => 'About us',
@@ -81,8 +81,8 @@ return [
     'Terms' => 'Terms',
     'Privacy' => 'Privacy',
     'All Rights Reserved' => 'All Rights Reserved',
-    
-    
+
+
     // Login
     'Password' => 'Password',
     'Submit' => 'Submit',
@@ -91,16 +91,16 @@ return [
     'Don\'t have an account?' => 'Don\'t have an account?',
     'Signup' => 'Signup',
     'Sign Up' => 'Sign Up',
-	'Signin' => 'Signin',
-	'Sign In' => 'Sign In',
-	'Login' => 'Login',
-	'Log In' => 'Log In',
-	'Logout' => 'Logout',
-	'Log Out' => 'Log Out',
-	'Signout' => 'Signout',
-	'Sign Out' => 'Sign Out',
-	
-    
+    'Signin' => 'Signin',
+    'Sign In' => 'Sign In',
+    'Login' => 'Login',
+    'Log In' => 'Log In',
+    'Logout' => 'Logout',
+    'Log Out' => 'Log Out',
+    'Signout' => 'Signout',
+    'Sign Out' => 'Sign Out',
+
+
     // Signup
     'Create your account, Its free' => 'Create your account, It\'s 100% free',
     'Gender' => 'Gender',
@@ -127,17 +127,17 @@ return [
     'By continuing on this website, you accept our <a :attributes>Terms of Use</a>' => 'By continuing on this website, you accept our <a :attributes>Terms of Use</a>',
     'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules' => 'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules',
     'Register' => 'Register',
-    
+
     'Your message has been sent to our moderators' => 'Your message has been sent to our moderators.',
     'Your message has been sent to our moderators. Thank you' => 'Your message has been sent to our moderators. Thank you.',
-    
+
     'Post a Free Classified' => 'Post a Free Classified',
     'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, local, easy, reliable and super fast!' => 'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, for local business and very easy to use!',
     'Create and Manage Items' => 'Create and Manage Items',
     'Become a best seller or buyer. Create and Manage your ads. Repost your old ads, etc.' => 'Become a best seller or buyer. Create and Manage your ads. Repost your old ads, etc.',
     'Create your Favorite ads list.' => 'Create your Favorite ads list.',
     'Create your Favorite ads list, and save your searches. Don\'t forget any deal!' => 'Create your Favorite  ads list. And save your search. Don\'t forget any deal.',
-    
+
     // Post Ads
     'Category' => 'Category',
     'Select a category' => 'Select a category',
@@ -174,15 +174,15 @@ return [
     'City' => 'City',
     'Select a city' => 'Select a city',
     'Cities' => 'Cities',
-    
+
     'How to sell quickly?' => 'How to sell quickly?',
     'Use a brief title and description of the item' => 'Use a brief title and description of the item',
     'Make sure you post in the correct category' => 'Make sure you post in the correct category',
     'Add nice photos to your ad' => 'Add nice photos to your ad',
     'Put a reasonable price' => 'Put a reasonable price',
     'Check the item before publish' => 'Check the item before publish',
-    
-    
+
+
     'My ads' => 'My ads',
     'My ads on :app_name' => 'My ads on :app_name',
     'The repost has failed. Please try again.' => 'The repost has failed. Please try again.',
@@ -197,34 +197,34 @@ return [
     'My saved search on :app_name' => 'My saved search on :app_name',
     'No deletion is done. Please try again.' => 'No deletion is done. Please try again.',
     'Your account details has updated successfully.' => 'Your account details has updated successfully.',
-    
+
     'Your details account has updated successfully.' => 'Your details account has updated successfully.',
     'Your settings account has updated successfully.' => 'Your settings account has updated successfully.',
-    
+
     'My account' => 'My account',
     'My account on :app_name' => 'My account on :app_name',
-    
+
     'Your message has sent successfully to :contact_name.' => 'Your message has sent successfully to :contact_name.',
     'Your report has sent successfully to us. Thank you!' => 'Your report has sent successfully to us. Thank you!',
-    
+
     'Posting Ads was disabled for this time. Please try later. Thank you.' => 'Posting Ads was disabled for this time. Please try later. Thank you.',
     'Your ad has been created.' => 'Your ad has been created.',
-    
+
     'Update My Ad' => 'Update My Ad',
     'Your ad has been updated.' => 'Your ad has been updated.',
-    
+
     'Log in' => 'Log in',
     'Log in to :app_name' => 'Log in to :app_name',
     'The Email Address or Password don\'t match.' => 'The Email Address or Password don\'t match.',
     'You have been logged out.' => 'You have been logged out.',
-    
+
     'Sign Up on :app_name !' => 'Sign Up on :app_name !',
     'Your account has been created.' => 'Your account has been created.',
-    
+
     'Welcome to :app_name' => 'Welcome to :app_name !',
     'Welcome to :app_name : 100% Free Ads Classified' => 'Welcome to :app_name : 100% Free Ads Classified. Sell and buy near you. Simple, fast and efficient.',
     'Sitemap :domain - :country. 100% Free Ads Classified' => 'Sitemap :domain - :country. 100% Free Ads Classified',
-    
+
     'My Ads' => 'My Ads',
     'Archived ads' => 'Archived ads',
     'Favourite ads' => 'Favourite ads',
@@ -242,7 +242,7 @@ return [
     'Edit' => 'Edit',
     'Share' => 'Share',
     'Repost' => 'Repost',
-    
+
     'Close account' => 'Close account',
     'You are sure you want to close your account?' => 'You are sure you want to close your account?',
     'Yes' => 'Yes',
@@ -252,9 +252,9 @@ return [
     'count_visits' => '{0} visit|{1} visit|[2,*] visits',
     'count_favorites' => '{0} favorite|{1} favorite|[2,*] favorites',
     'count_views' => '{0} view|{1} view|[2,*] views',
-	'count_mails' => '{0} mail|{1} mail|[2,*] mails',
-	'count_messages' => '{0} message|{1} message|[2,*] messages',
-    
+    'count_mails' => '{0} mail|{1} mail|[2,*] mails',
+    'count_messages' => '{0} message|{1} message|[2,*] messages',
+
     'Oops ! An error has occurred. Please correct the red fields in the form' => 'Oops ! An error has occurred. Please correct the red fields in the form',
     'Favorites' => 'Favorites',
     'Visits' => 'Visits',
@@ -272,9 +272,9 @@ return [
     'Preferences' => 'Preferences',
     'I want to receive newsletter.' => 'I want to receive newsletter.',
     'I want to receive advice on buying and selling.' => 'I want to receive advice on buying and selling.',
-    
+
     'Saved search' => 'Saved search',
-	'Saved searches' => 'Saved searches',
+    'Saved searches' => 'Saved searches',
     'You have no saved search.' => 'You have no saved search.',
     'Business Ads' => 'Business Ads',
     'Private Ads' => 'Private Ads',
@@ -282,7 +282,7 @@ return [
     'P' => 'P',
     'Please select a saved search to show the result' => 'Please select a saved search to show the result',
     'No result. Refine your search using other criteria.' => 'No result. Refine your search using other criteria.',
-    
+
     'Close' => 'Close',
     'There\'s something wrong with this ads?' => 'There\'s something wrong with this ads?',
     'Reason' => 'Reason',
@@ -291,7 +291,7 @@ return [
     'Message' => 'Message',
     'Cancel' => 'Cancel',
     'Send Report' => 'Send Report',
-    
+
     'Warning! This ad has expired. The product or service is not more available (may be)' => '<strong>Warning !</strong> This ad has expired. The product or service is not more available (may be)',
     'Back to Results' => 'Back to Results',
     ':type ad' => ':type ad',
@@ -315,7 +315,7 @@ return [
     'Pay only after collecting the item' => 'Pay only after collecting the item',
     'Know more' => 'Know more',
     'View phone' => 'View phone',
-    
+
     'Contact advertiser' => 'Contact Advertiser',
     'Name' => 'Name',
     'Your name' => 'Your name',
@@ -323,32 +323,32 @@ return [
     'i.e. you@gmail.com' => 'i.e. you@gmail.com',
     'Your message here...' => 'Your message here...',
     'Send message' => 'Send message',
-    
+
     'Congratulations!' => 'Congratulations!',
     'Oops!' => 'Oops!',
-    
+
     'Download current Resume' => 'Download current Resume',
-    
+
     'Email Address' => 'Email Address',
     'Send Password Reset Link' => 'Send Password Reset Link',
     'Back to the Log In page' => 'Back to the Log In page',
     'Sign Up !' => 'Sign Up !',
-    
+
     'Reset your Password' => 'Reset your Password',
     'Reset Password' => 'Reset Password',
     'Password Confirmation' => 'Password Confirmation',
     'Reset the Password' => 'Reset Password',
-    
+
     ':domain, sell and buy near you. Simple, fast and efficient.' => ':domain, sell and buy near you. Simple, fast and efficient.',
-    
+
     'Choose a city' => 'Choose a city',
     'More cities' => 'More cities',
-    
+
     'Phishing' => 'Phishing',
-    
+
     'Personal Home' => 'Personal Home',
     'Payment history' => 'Payment history',
-    
+
     'Top Ads' => 'Top',
     'Featured Ads' => 'Featured',
     'Save' => 'Save',
@@ -378,22 +378,22 @@ return [
     'Please log in to save your search.' => 'Please log in to save the search.',
     'Search saved successfully !' => 'Search saved successfully !',
     'Search deleted successfully !' => 'Search deleted successfully !',
-    
+
     'The countries' => 'The countries',
     'Our websites abroad' => 'Our websites abroad',
-    
+
     'My Account' => 'My Account',
     'Terminate Account' => 'Terminate Account',
-    
+
     'We do not like robots' => 'We do not like robots :(',
-    
+
     'Sitemap :country' => 'Sitemap - :country',
-    
+
     'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.' => 'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.',
     'Whoops, looks like something went wrong. Please try later.' => 'Whoops, looks like something went wrong. Please try later.',
     'Whoops, looks like something went wrong.' => 'Whoops, looks like something went wrong.',
     'Whoops !' => 'Whoops !',
-    
+
     'Joined' => 'Joined',
 
     'Your session has expired. Please try again.' => 'Your session has expired. Please try again.',
@@ -401,13 +401,13 @@ return [
     'Page not found' => 'Page not found',
     'Oops ! Error 404. Page not found.' => 'Oops ! Error 404. Page not found.',
     'Meanwhile, you may <a href=":url">return to homepage</a>' => 'Meanwhile, you may <a href=":url">return to homepage</a>',
-    
+
     'views' => 'views',
     'View More' => 'View More',
     'View Less' => 'View Less',
     'Free' => 'Free',
-    
-    
+
+
     'Step' => 'Step',
     'Informations about your Ad' => 'Informations about your Ad',
     'Upload' => 'Upload',
@@ -417,7 +417,7 @@ return [
     'Next' => 'Next',
     'Previous' => 'Previous',
     'Skip' => 'Skip',
-    
+
     'Premium Ad' => 'Premium Ad',
     'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.' => 'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.',
     'Regular List' => 'Free',
@@ -428,12 +428,12 @@ return [
     'Gateway' => 'Gateway',
     'Gateways' => 'Gateways',
     'Finish' => 'Finish',
-    
+
     'Trusted Seller' => 'Trusted Seller',
     'Trusted Sellers' => 'Trusted Sellers',
     'Facebook Fans' => 'Facebook Fans',
-    
-    
+
+
     'Sell anything for free' => 'Sell anything for FREE!',
     'Hundreds of buyers every day' => 'Hundreds of buyers every day',
     'Add images to sell faster' => 'Add images to sell faster!',
@@ -441,12 +441,12 @@ return [
     'View all Ads' => 'View all Ads',
     'Browse by' => 'Browse by',
     'View more' => 'View more',
-    
-    
+
+
     'Error in sending mail. Please contact our engineers: :app_email' => 'Error in sending mail. Please contact our engineers: :app_email',
     'The sending messages is not enabled. Please check the SMTP settings in the /.env file.' => 'The sending messages is not enabled. Please check the SMTP settings in the <code>/.env</code> file.',
     'The sending messages is not enabled. Please check the SMTP settings in the admin.' => 'The sending messages is not enabled. Please check the SMTP settings in the admin.',
-    
+
     'Your account has been deleted.' => 'Your account has been deleted.',
     'Your account has been deleted. We regret you.' => 'Your account has been deleted. We regret you.',
     'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.' => 'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.',
@@ -458,38 +458,38 @@ return [
 
     'Address' => 'Address',
     'Fill an address to display on Google Maps.' => 'Fill an address to display on Google Maps.',
-    
+
     'Unknown error. Please try again in a few minutes.' => 'Unknown error. Please try again in a few minutes.',
     'Email address not found. You can\'t use your :provider account on our website.' => 'Email address not found. You can\'t use your :provider account on our website.',
 
     'Payable Amount' => 'Payable Amount',
 
-	'Home - Featured Ads' => 'Featured <span style="font-weight: bold;">Ads</span>',
-	'Similar Ads' => 'Similar <span style="font-weight: bold;">Ads</span>',
-	'More ads at :distance :unit around :city' => 'More ads at :distance :unit around <span style="font-weight: bold;">:city</span>',
+    'Home - Featured Ads' => 'Featured <span style="font-weight: bold;">Ads</span>',
+    'Similar Ads' => 'Similar <span style="font-weight: bold;">Ads</span>',
+    'More ads at :distance :unit around :city' => 'More ads at :distance :unit around <span style="font-weight: bold;">:city</span>',
 
-	'Error' => 'Error',
-	'Unknown error' => 'Unknown error',
+    'Error' => 'Error',
+    'Unknown error' => 'Unknown error',
     'Error. Please select another Country.' => 'Error. Please select another Country.',
-	'Error. Please select another category.' => 'Error. Please select another category.',
-	'Error. Please select another location.' => 'Error. Please select another location.',
-	'Error. Post doesn\'t exist.' => 'Error. Post doesn\'t exist.',
+    'Error. Please select another category.' => 'Error. Please select another category.',
+    'Error. Please select another location.' => 'Error. Please select another location.',
+    'Error. Post doesn\'t exist.' => 'Error. Post doesn\'t exist.',
 
-	'Unactivated ads' => 'Unactivated ads',
-	'Activated ads' => 'Activated ads',
-	'User Registrations' => 'User Registrations',
-	'Activated countries' => 'Installed countries',
+    'Unactivated ads' => 'Unactivated ads',
+    'Activated ads' => 'Activated ads',
+    'User Registrations' => 'User Registrations',
+    'Activated countries' => 'Installed countries',
 
-	'Connect with Facebook' => 'Connect with <strong>Facebook</strong>',
-	'Connect with Google' => 'Connect with <strong>Google</strong>',
-	'Connect with Twitter' => 'Connect with <strong>Twitter</strong>',
-	'or' => 'or',
+    'Connect with Facebook' => 'Connect with <strong>Facebook</strong>',
+    'Connect with Google' => 'Connect with <strong>Google</strong>',
+    'Connect with Twitter' => 'Connect with <strong>Twitter</strong>',
+    'or' => 'or',
 
     'Premium ad' => 'Premium ad',
     'Not available' => 'Not available',
     'Upgrade' => 'Upgrade',
     'Current' => 'Current',
-    
+
     'Help' => 'Help',
     'To launch your website for several countries you need to activate these countries.' => 'To launch your website for several countries you need to activate these countries.',
     'By disabling or removing a country the ads of this country (also) will be deleted.' => 'By disabling or removing a country the ads of this country (also) will be deleted.',
@@ -537,8 +537,8 @@ return [
     'Enter the code you received by SMS or Email in the field below' => 'Enter the code you received by SMS or Email in the field below',
     'The entered code is invalid.' => 'The entered code is invalid.',
     'These credentials do not match our records.' => 'These credentials do not match our records.',
-	'The code does not match your email or phone number.' => 'The code does not match your email or phone number.',
-	'The code does not match your email.' => 'The code does not match your email.',
+    'The code does not match your email or phone number.' => 'The code does not match your email or phone number.',
+    'The code does not match your email.' => 'The code does not match your email.',
     'The code does not match your phone number.' => 'The code does not match your phone number.',
     'The entered value is not registered with us.' => 'The entered value is not registered with us.',
     'This feature has been turned off in demo mode.' => 'This feature has been turned off in demo mode.',
@@ -561,7 +561,7 @@ return [
     'Upload Status' => 'Upload Status',
     'The picture #:key is required.' => 'The picture #:key is required.',
     'The picture #:key must be image.' => 'The picture #:key must be image.',
-	'The picture #:key must be a file of type: :type.' => 'The picture #:key must be a file of type: :type.',
+    'The picture #:key must be a file of type: :type.' => 'The picture #:key must be a file of type: :type.',
     'The picture #:key may not be greater than :max.' => 'The picture #:key may not be greater than :max.',
     'Uploaded file #index successfully' => "'<li>' + 'Uploaded file # ' + (index + 1) + ' - '  + fname + ' successfully.' + '</li>'",
     'Uploaded file #key successfully' => "'<li>' + 'Uploaded file # ' + (key + 1) + ' - '  + fname + ' successfully.' + '</li>'",
@@ -600,37 +600,37 @@ return [
     'Congratulation :name ! Your :field has been verified.' => 'Congratulation :name ! Your :field has been verified.',
     'Your :field is already verified.' => 'Your :field is already verified.',
     'Your :field verification has failed.' => 'Your :field verification has failed.',
-	'Homepage' => 'Homepage',
-	'Messages' => 'Messages',
-	'Messages Received' => 'Messages Received',
-	'Messages Received on :app_name' => 'Messages Received on :app_name',
-	'Ad' => 'Ad',
-	'Download' => 'Download',
-	'View' => 'View',
-	'Transactions' => 'Transactions',
-	'Transaction' => 'Transaction',
-	'My Transactions' => 'My Transactions',
-	'My Transactions on :app_name' => 'My Transactions on :app_name',
-	'Description' => 'Description',
-	'Value' => 'Value',
-	'Status' => 'Status',
-	'Pending payment' => 'Pending payment',
-	'Pending' => 'Pending',
-	'Paid by' => 'Paid by',
-	'1 :entity has been deleted successfully.' => '1 :entity has been deleted successfully.',
-	'x :entities has been deleted successfully.' => ':count :entities has been deleted successfully.',
-	'messages' => 'messages',
-	'message' => 'message',
-	'ad' => 'ad',
+    'Homepage' => 'Homepage',
+    'Messages' => 'Messages',
+    'Messages Received' => 'Messages Received',
+    'Messages Received on :app_name' => 'Messages Received on :app_name',
+    'Ad' => 'Ad',
+    'Download' => 'Download',
+    'View' => 'View',
+    'Transactions' => 'Transactions',
+    'Transaction' => 'Transaction',
+    'My Transactions' => 'My Transactions',
+    'My Transactions on :app_name' => 'My Transactions on :app_name',
+    'Description' => 'Description',
+    'Value' => 'Value',
+    'Status' => 'Status',
+    'Pending payment' => 'Pending payment',
+    'Pending' => 'Pending',
+    'Paid by' => 'Paid by',
+    '1 :entity has been deleted successfully.' => '1 :entity has been deleted successfully.',
+    'x :entities has been deleted successfully.' => ':count :entities has been deleted successfully.',
+    'messages' => 'messages',
+    'message' => 'message',
+    'ad' => 'ad',
     'ads' => 'ads',
-	'post' => 'ad',
+    'post' => 'ad',
     'posts' => 'ads',
-	'Message for' => 'Message for',
-	'Reply' => 'Reply',
-	'Sender\'s Name' => 'Sender\'s Name',
-	'Sender\'s Email' => 'Sender\'s Email',
-	'Sender\'s Phone' => 'Sender\'s Phone',
-	'You have already answered this message.' => 'You have already answered this message.',
+    'Message for' => 'Message for',
+    'Reply' => 'Reply',
+    'Sender\'s Name' => 'Sender\'s Name',
+    'Sender\'s Email' => 'Sender\'s Email',
+    'Sender\'s Phone' => 'Sender\'s Phone',
+    'You have already answered this message.' => 'You have already answered this message.',
     'Error on user\'s login.' => 'Error on user\'s login.',
     'The activation link has been sent to the user to verify his email address.' => 'The activation link has been sent to the user to verify his email address.',
     'The activation code has been sent to the user to verify his phone number.' => 'The activation code has been sent to the user to verify his phone number.',
@@ -656,112 +656,119 @@ return [
     'miles' => 'miles',
     'count_mi' => '{0} mi|{1} mi|[2,*] mi',
     'count_miles' => '{0} mile|{1} mile|[2,*] miles',
-	'Your reply has been sent. Thank you!' => 'Your reply has been sent. Thank you!',
-	'prev' => 'prev',
-	'next' => 'next',
-	'Tags' => 'Tags',
-	'Tag' => 'Tag',
-	'Enter the tags separated by commas.' => 'Enter the tags separated by commas.',
-	'add a tag' => 'add a tag',
-	'Click to see' => 'Click to see',
-	'Payment pending' => 'Payment pending',
-	'Error found' => 'Error found',
-	'Contact & Sitemap' => 'Contact & Sitemap',
-	'Mobile Apps' => 'Mobile Apps',
-	'iOS app' => 'iOS app',
-	'Android App' => 'Android App',
-	'Available on the App Store' => 'Available on the App Store',
-	'Available on Google Play' => 'Available on Google Play',
-	'Follow us on' => 'Follow us on',
-	'Powered by' => 'Powered by',
-	'Select your Country' => 'Select your Country',
-	'Select a Country' => 'Select a Country',
-	'See you soon.' => 'See you soon.',
-	'on' => 'on',
-	'Duration' => 'Duration',
-	'Loading' => 'Loading',
-	'Processing' => 'Processing',
-	'Your picture has been reorder successfully' => 'Your picture has been reorder successfully',
-	'Add Listing' => 'Add Listing',
-	'Choose a city or region' => 'Choose a city or region',
-	'Choose a state or region' => 'Choose a state or region',
-	'Conversations' => 'Conversations',
-	'Conversation' => 'Conversation',
-	'Conversations Received' => 'Conversations Received',
-	'Conversations Received on :app_name' => 'Conversations Received on :app_name',
-	'Conversations Started' => 'Conversations Started',
-	'Conversations Started on :app_name' => 'Conversations Started on :app_name',
-	'Received at' => 'Received at',
-	'Related to the ad' => 'Related to the ad',
-	'Sender' => 'Sender',
-	'Click here to read the messages' => 'Click here to read the messages',
-	'Click here to see' => 'Click here to see',
-	'Reply to' => 'Reply to',
-	'Started by' => 'Started by',
-	'Created by' => 'Created by',
-	':number max' => ':number max',
-	'Impersonate this user' => 'Impersonate this user',
-	'Leave impersonation' => 'Leave impersonation',
-	'Leave' => 'Leave',
-	'The current user can\'t impersonate' => 'The current user can\'t impersonate',
-	'The destination user can\'t be impersonated' => 'The destination user can\'t be impersonated',
-	'Can\'t be accessed by an impersonator' => 'Can\'t be accessed by an impersonator',
-	'Cannot impersonate yourself' => 'Cannot impersonate yourself',
-	'Cannot impersonate admin users' => 'Cannot impersonate admin users',
-	'Cannot impersonate unactivated users' => 'Cannot impersonate unactivated users',
-	'Cannot impersonate when the Domain Mapping plugin is installed' => 'Cannot impersonate when the Domain Mapping plugin is installed',
-	'Admin users can\'t be deleted by this way.' => 'Admin users can\'t be deleted by this way.',
-	'Post Free Ad' => 'Post Free Ad',
-	'Filters' => 'Filters',
-	'This user no longer exists.' => 'This user no longer exists.',
-	'Maybe the user\'s account has been disabled or deleted.' => 'Maybe the user\'s account has been disabled or deleted.',
-	'The results could not be loaded.' => 'The results could not be loaded.',
-	'Please delete #t character' => "'Please delete ' + t + ' character'",
-	'Please enter #t or more characters' => "'Please enter ' + t + ' or more characters'",
-	'Loading more results…' => 'Loading more results…',
-	'You can only select #max item' => "'You can only select ' + e.maximum + ' item'",
-	'No results found' => 'No results found',
-	'Searching…' => 'Searching…',
-	'An error occurred while validating the data.' => 'An error occurred while validating the data.',
-	'Hide the phone number on the ads.' => 'Hide the phone number on the ads.',
-	'Hide' => 'Hide',
-	'Show' => 'Show',
-	'Will never be displayed on the website.' => 'Will never be displayed on the website.',
-	'No payment has been made.' => 'No payment has been made.',
-	'Whoops! Something went wrong!' => 'Whoops! Something went wrong!',
-	'Reload to see New Messages' => 'Reload to see New Messages',
-	'Reload' => 'Reload',
-	'cookie_consent_message' => 'Your experience on this site will be improved by allowing cookies.',
-	'cookie_consent_agree_btn_label' => 'Allow cookies',
-	'Payment' => 'Payment',
-	'Author\'s Actions' => 'Author\'s Actions',
-	'Return to the Ad' => 'Return to the Ad',
-	'Update the Details' => 'Update the Details',
-	'Update Photos' => 'Update Photos',
-	'Make It Premium' => 'Make It Premium',
-	'Manage Ad' => 'Manage Ad',
-	'After the promotion expires, your ad will be offline after :activatedPostsExpiration days.' => 'After the promotion expires, your ad will be offline after :activatedPostsExpiration days.',
-	'count_days' => '{0} day|{1} day|[2,*] days',
-	'count_promotion_days' => '{0} promotion day|{1} promotion day|[2,*] promotion days',
-	'Mobile Phone Number' => 'Mobile Phone Number',
-	'The requested ad type does not exist.' => 'The requested ad type does not exist.',
-	'This user has been banned.' => 'This user has been banned.',
-	'The ad is already online.' => 'The ad is already online.',
-	'Menu' => 'Menu',
-	'Account Details' => 'Account Details',
-	'Photo or Avatar' => 'Photo or Avatar',
-	'Your Photo or Avatar' => 'Your Photo or Avatar',
-	'Click to select' => 'Click to select',
-	'Remove file' => 'Remove file',
-	'Your photo or avatar have been updated.' => 'Your photo or avatar have been updated.',
-	'Your photo or avatar has been deleted.' => 'Your photo or avatar has been deleted.',
-	'User not found' => 'User not found',
-	'Posted by' => 'Posted by',
+    'Your reply has been sent. Thank you!' => 'Your reply has been sent. Thank you!',
+    'prev' => 'prev',
+    'next' => 'next',
+    'Tags' => 'Tags',
+    'Tag' => 'Tag',
+    'Enter the tags separated by commas.' => 'Enter the tags separated by commas.',
+    'add a tag' => 'add a tag',
+    'Click to see' => 'Click to see',
+    'Payment pending' => 'Payment pending',
+    'Error found' => 'Error found',
+    'Contact & Sitemap' => 'Contact & Sitemap',
+    'Mobile Apps' => 'Mobile Apps',
+    'iOS app' => 'iOS app',
+    'Android App' => 'Android App',
+    'Available on the App Store' => 'Available on the App Store',
+    'Available on Google Play' => 'Available on Google Play',
+    'Follow us on' => 'Follow us on',
+    'Powered by' => 'Powered by',
+    'Select your Country' => 'Select your Country',
+    'Select a Country' => 'Select a Country',
+    'See you soon.' => 'See you soon.',
+    'on' => 'on',
+    'Duration' => 'Duration',
+    'Loading' => 'Loading',
+    'Processing' => 'Processing',
+    'Your picture has been reorder successfully' => 'Your picture has been reorder successfully',
+    'Add Listing' => 'Add Listing',
+    'Choose a city or region' => 'Choose a city or region',
+    'Choose a state or region' => 'Choose a state or region',
+    'Conversations' => 'Conversations',
+    'Conversation' => 'Conversation',
+    'Conversations Received' => 'Conversations Received',
+    'Conversations Received on :app_name' => 'Conversations Received on :app_name',
+    'Conversations Started' => 'Conversations Started',
+    'Conversations Started on :app_name' => 'Conversations Started on :app_name',
+    'Received at' => 'Received at',
+    'Related to the ad' => 'Related to the ad',
+    'Sender' => 'Sender',
+    'Click here to read the messages' => 'Click here to read the messages',
+    'Click here to see' => 'Click here to see',
+    'Reply to' => 'Reply to',
+    'Started by' => 'Started by',
+    'Created by' => 'Created by',
+    ':number max' => ':number max',
+    'Impersonate this user' => 'Impersonate this user',
+    'Leave impersonation' => 'Leave impersonation',
+    'Leave' => 'Leave',
+    'The current user can\'t impersonate' => 'The current user can\'t impersonate',
+    'The destination user can\'t be impersonated' => 'The destination user can\'t be impersonated',
+    'Can\'t be accessed by an impersonator' => 'Can\'t be accessed by an impersonator',
+    'Cannot impersonate yourself' => 'Cannot impersonate yourself',
+    'Cannot impersonate admin users' => 'Cannot impersonate admin users',
+    'Cannot impersonate unactivated users' => 'Cannot impersonate unactivated users',
+    'Cannot impersonate when the Domain Mapping plugin is installed' => 'Cannot impersonate when the Domain Mapping plugin is installed',
+    'Admin users can\'t be deleted by this way.' => 'Admin users can\'t be deleted by this way.',
+    'Post Free Ad' => 'Post Free Ad',
+    'Filters' => 'Filters',
+    'This user no longer exists.' => 'This user no longer exists.',
+    'Maybe the user\'s account has been disabled or deleted.' => 'Maybe the user\'s account has been disabled or deleted.',
+    'The results could not be loaded.' => 'The results could not be loaded.',
+    'Please delete #t character' => "'Please delete ' + t + ' character'",
+    'Please enter #t or more characters' => "'Please enter ' + t + ' or more characters'",
+    'Loading more results…' => 'Loading more results…',
+    'You can only select #max item' => "'You can only select ' + e.maximum + ' item'",
+    'No results found' => 'No results found',
+    'Searching…' => 'Searching…',
+    'An error occurred while validating the data.' => 'An error occurred while validating the data.',
+    'Hide the phone number on the ads.' => 'Hide the phone number on the ads.',
+    'Hide' => 'Hide',
+    'Show' => 'Show',
+    'Will never be displayed on the website.' => 'Will never be displayed on the website.',
+    'No payment has been made.' => 'No payment has been made.',
+    'Whoops! Something went wrong!' => 'Whoops! Something went wrong!',
+    'Reload to see New Messages' => 'Reload to see New Messages',
+    'Reload' => 'Reload',
+    'cookie_consent_message' => 'Your experience on this site will be improved by allowing cookies.',
+    'cookie_consent_agree_btn_label' => 'Allow cookies',
+    'Payment' => 'Payment',
+    'Author\'s Actions' => 'Author\'s Actions',
+    'Return to the Ad' => 'Return to the Ad',
+    'Update the Details' => 'Update the Details',
+    'Update Photos' => 'Update Photos',
+    'Make It Premium' => 'Make It Premium',
+    'Manage Ad' => 'Manage Ad',
+    'After the promotion expires, your ad will be offline after :activatedPostsExpiration days.' => 'After the promotion expires, your ad will be offline after :activatedPostsExpiration days.',
+    'count_days' => '{0} day|{1} day|[2,*] days',
+    'count_promotion_days' => '{0} promotion day|{1} promotion day|[2,*] promotion days',
+    'Mobile Phone Number' => 'Mobile Phone Number',
+    'The requested ad type does not exist.' => 'The requested ad type does not exist.',
+    'This user has been banned.' => 'This user has been banned.',
+    'The ad is already online.' => 'The ad is already online.',
+    'Menu' => 'Menu',
+    'Account Details' => 'Account Details',
+    'Photo or Avatar' => 'Photo or Avatar',
+    'Your Photo or Avatar' => 'Your Photo or Avatar',
+    'Click to select' => 'Click to select',
+    'Remove file' => 'Remove file',
+    'Your photo or avatar have been updated.' => 'Your photo or avatar have been updated.',
+    'Your photo or avatar has been deleted.' => 'Your photo or avatar has been deleted.',
+    'User not found' => 'User not found',
+    'Posted by' => 'Posted by',
 
+    // updates
 
-
-
-
+    // address verification
+    'Street' => 'Street',
+    'Address verification' => 'Address verification',
+    'Number' => 'Number',
+    'Part of the village' => 'Part of the village',
+    'Village' => 'Village',
+    'ZIP CODE' => 'ZIP CODE',
+    'Verify Address' =>  'Verify Address'
+    // end address verification
 
 
 ];

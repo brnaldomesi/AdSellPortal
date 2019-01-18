@@ -14,7 +14,7 @@ class OpenGraph
     /**
      * The version number
      */
-    const VERSION = '1.0.5';
+    const VERSION = '1.0.6';
 
     /**
      * Define a prefix for tag names
@@ -393,6 +393,10 @@ class OpenGraph
      */
     public function localeAlternate($locales = array())
     {
+        if (is_string($locales)) {
+            $locales = (array) $locales;
+        }
+        
         foreach ($locales as $key => $locale) {
             if ($this->validate and ! $locale) {
                 throw new Exception("Open Graph: Invalid locale (item key: {$key})");

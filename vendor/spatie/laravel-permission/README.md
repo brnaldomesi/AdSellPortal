@@ -109,7 +109,7 @@ return [
     'models' => [
 
         /*
-         * When using the "HasRoles" trait from this package, we need to know which
+         * When using the "HasPermissions" trait from this package, we need to know which
          * Eloquent model should be used to retrieve your permissions. Of course, it
          * is often just the "Permission" model but you may use whatever you like.
          *
@@ -143,7 +143,7 @@ return [
         'roles' => 'roles',
 
         /*
-         * When using the "HasRoles" trait from this package, we need to know which
+         * When using the "HasPermissions" trait from this package, we need to know which
          * table should be used to retrieve your permissions. We have chosen a basic
          * default value but you may easily change it to any table you like.
          */
@@ -151,7 +151,7 @@ return [
         'permissions' => 'permissions',
 
         /*
-         * When using the "HasRoles" trait from this package, we need to know which
+         * When using the "HasPermissions" trait from this package, we need to know which
          * table should be used to retrieve your models permissions. We have chosen a
          * basic default value but you may easily change it to any table you like.
          */
@@ -263,10 +263,11 @@ $app->routeMiddleware([
 ]);
 ```
 
-As well as the configuration and the service provider:
+As well as the config file, service provider, and cache alias:
 
 ```php
 $app->configure('permission');
+$app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
 ```
 
@@ -933,6 +934,10 @@ The package doesn't come with any screens out of the box, you should build that 
 ``` bash
 composer test
 ```
+
+### Upgrading
+If you're upgrading from v1 to v2, @fabricecw prepared [a gist which may make your data migration easier](https://gist.github.com/fabricecw/58ee93dd4f99e78724d8acbb851658a4).
+You will also need to remove your old `laravel-permission.php` config file and publish the new one `permission.php`, and edit accordingly.
 
 ### Changelog
 

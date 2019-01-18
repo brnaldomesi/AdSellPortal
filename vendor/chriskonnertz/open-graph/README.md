@@ -21,13 +21,13 @@ Or via a console:
 composer require chriskonnertz/open-graph
 ```
 
-Run `composer update` to get the latest version of Open Graph Builder.
+In the future eun `composer update` to update to the latest version of Open Graph Builder.
 
 > This library supports PHP 5.3 - 7.2
 
 ### Framework Support
 
-Laravel 5.5 can auto-detect this package so you can ignore this section. 
+Laravel >=5.5 can auto-detect this package so you can ignore this section. 
 In Laravel 5.0-5.4 you have to edit your `config/app.php` config file. 
 You can either add an alias to the object so you can create a new instance via `new OpenGraph()` ...
 
@@ -38,7 +38,7 @@ You can either add an alias to the object so you can create a new instance via `
 ),
 ```
 
-...or an alias to the facade (this is what happens in Laravel 5.5 via package auto-discovery) so you
+...or an alias to the facade (this is what happens in Laravel >=5.5 via package auto-discovery) so you
 do not have to create the instance by yourself but you can access it via pseduo-static methods. 
 If you choose this path you also have to add the service provider to the config file:
 

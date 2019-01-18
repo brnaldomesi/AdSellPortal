@@ -4,21 +4,16 @@ namespace Spatie\CookieConsent;
 
 use Closure;
 use Illuminate\Http\Response;
-use Illuminate\Contracts\Foundation\Application;
 
 class CookieConsentMiddleware
 {
-    /** @var \Illuminate\Contracts\Foundation\Application */
-    protected $app;
-
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     public function handle($request, Closure $next)
     {
         $response = $next($request);
+
+        if (! config('cookie-consent.enabled')) {
+            return $response;
+        }
 
         if (! $response instanceof Response) {
             return $response;
