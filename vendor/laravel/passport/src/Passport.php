@@ -39,6 +39,13 @@ class Passport
     public static $personalAccessClientId;
 
     /**
+     * The default scope.
+     *
+     * @var string
+     */
+    public static $defaultScope;
+
+    /**
      * All of the scopes defined for the application.
      *
      * @var array
@@ -60,6 +67,13 @@ class Passport
      * @var \DateTimeInterface|null
      */
     public static $refreshTokensExpireAt;
+
+    /**
+     * The date when personal access tokens expire.
+     *
+     * @var \DateTimeInterface|null
+     */
+    public static $personalAccessTokensExpireAt;
 
     /**
      * The name for API token cookies.
@@ -199,6 +213,17 @@ class Passport
     }
 
     /**
+     * Set the default scope(s). Multiple scopes may be an array or specified delimited by spaces.
+     *
+     * @param  array|string  $scope
+     * @return void
+     */
+    public static function setDefaultScope($scope)
+    {
+        static::$defaultScope = is_array($scope) ? implode(' ', $scope) : $scope;
+    }
+
+    /**
      * Get all of the defined scope IDs.
      *
      * @return array
@@ -298,6 +323,25 @@ class Passport
     }
 
     /**
+     * Get or set when personal access tokens expire.
+     *
+     * @param  \DateTimeInterface|null  $date
+     * @return \DateInterval|static
+     */
+    public static function personalAccessTokensExpireIn(DateTimeInterface $date = null)
+    {
+        if (is_null($date)) {
+            return static::$personalAccessTokensExpireAt
+                ? Carbon::now()->diff(static::$personalAccessTokensExpireAt)
+                : new DateInterval('P1Y');
+        }
+
+        static::$personalAccessTokensExpireAt = $date;
+
+        return new static;
+    }
+
+    /**
      * Get or set the name for API token cookies.
      *
      * @param  string|null  $cookie
@@ -317,8 +361,8 @@ class Passport
     /**
      * Indicate that Passport should ignore incoming CSRF tokens.
      *
-     * @param  boolean|null  $ignoreCsrfToken
-     * @return boolean|static
+     * @param  bool  $ignoreCsrfToken
+     * @return static
      */
     public static function ignoreCsrfToken($ignoreCsrfToken = true)
     {
@@ -330,7 +374,7 @@ class Passport
     /**
      * Set the current user for the application with the given scopes.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Passport\HasApiTokens  $user
      * @param  array  $scopes
      * @param  string  $guard
      * @return \Illuminate\Contracts\Auth\Authenticatable

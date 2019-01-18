@@ -96,6 +96,8 @@ class PassportServiceProvider extends ServiceProvider
     {
         $this->app->singleton(AuthorizationServer::class, function () {
             return tap($this->makeAuthorizationServer(), function ($server) {
+                $server->setDefaultScope(Passport::$defaultScope);
+
                 $server->enableGrantType(
                     $this->makeAuthCodeGrant(), Passport::tokensExpireIn()
                 );
@@ -109,7 +111,7 @@ class PassportServiceProvider extends ServiceProvider
                 );
 
                 $server->enableGrantType(
-                    new PersonalAccessGrant, new DateInterval('P1Y')
+                    new PersonalAccessGrant, Passport::personalAccessTokensExpireIn()
                 );
 
                 $server->enableGrantType(

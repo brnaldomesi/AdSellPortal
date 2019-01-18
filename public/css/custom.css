@@ -14,3 +14,10 @@
 
 /* Your custom CSS here... */
 
+
+/* address verification */
+.address_number_stroke {
+    line-height: 40px;
+}
+
+/* end address verification*/

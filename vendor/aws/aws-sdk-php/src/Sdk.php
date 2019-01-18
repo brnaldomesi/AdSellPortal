@@ -14,6 +14,10 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionAmplify(array $args = [])
  * @method \Aws\ApiGateway\ApiGatewayClient createApiGateway(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionApiGateway(array $args = [])
+ * @method \Aws\ApiGatewayManagementApi\ApiGatewayManagementApiClient createApiGatewayManagementApi(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionApiGatewayManagementApi(array $args = [])
+ * @method \Aws\ApiGatewayV2\ApiGatewayV2Client createApiGatewayV2(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionApiGatewayV2(array $args = [])
  * @method \Aws\AppMesh\AppMeshClient createAppMesh(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionAppMesh(array $args = [])
  * @method \Aws\AppSync\AppSyncClient createAppSync(array $args = [])
@@ -104,6 +108,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionDirectConnect(array $args = [])
  * @method \Aws\DirectoryService\DirectoryServiceClient createDirectoryService(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionDirectoryService(array $args = [])
+ * @method \Aws\DocDB\DocDBClient createDocDB(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionDocDB(array $args = [])
  * @method \Aws\DynamoDb\DynamoDbClient createDynamoDb(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionDynamoDb(array $args = [])
  * @method \Aws\DynamoDbStreams\DynamoDbStreamsClient createDynamoDbStreams(array $args = [])
@@ -337,7 +343,7 @@ namespace Aws;
  */
 class Sdk
 {
-    const VERSION = '3.80.2';
+    const VERSION = '3.85.2';
 
     /** @var array Arguments for creating clients */
     private $args;
