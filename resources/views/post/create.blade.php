@@ -351,6 +351,7 @@
                                         </div>
                                         {{--address verification--}}
                                         <p class="text-center"><b>{{t('Address verification')}}</b></p>
+                                        <?php $addressStreet = (isset($errors) and $errors->has('address_street')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
                                                    for="address_street">{{ t('Street') }}
@@ -358,54 +359,55 @@
                                             <div class="col-md-8">
                                                 <input id="address_street" name="address_street"
                                                        placeholder="{{ t('Street') }}"
-                                                       class="form-control input-md{{ $contactNameError }}" type="text"
+                                                       class="form-control input-md{{ $addressStreet }}" type="text"
                                                        value="{{ old('address_street') }}">
                                             </div>
                                         </div>
+                                        <?php $addressStreet = (isset($errors) and $errors->has('address_street')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
-                                                   for="address_number">{{ t('Number') }}
+                                                   for="address_house_no">{{ t('House/orient. num.') }}
                                                 <sup>*</sup></label>
                                             <div class="col-md-8">
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        <input id="address_number" name="address_number_1"
+                                                        <input id="address_house_no" name="address_house_no"
                                                                class="form-control input-md{{ $contactNameError }}"
                                                                type="text"
-                                                               value="{{ old('address_number_1') }}">
+                                                               value="{{ old('address_house_no') }}">
                                                     </div>
                                                     <div class="col-md-1">
                                                         <h2 class="address_number_stroke">/</h2>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input id="address_number" name="address_number_2"
+                                                        <input id="orientational_number" name="orientational_number"
                                                                class="form-control input-md{{ $contactNameError }} second"
                                                                type="text"
-                                                               value="{{ old('address_number_2') }}">
+                                                               value="{{ old('orientational_number') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
-                                                   for="address_part_village">{{ t('Part of the village') }}
+                                                   for="address_town_name">{{ t('Town Name') }}
                                                 <sup>*</sup></label>
                                             <div class="col-md-8">
-                                                <input id="address_part_village" name="address_part_village"
-                                                       placeholder="{{ t('Part of the village') }}"
+                                                <input id="address_town_name" name="address_town_name"
+                                                       placeholder="{{ t('Town Name') }}"
                                                        class="form-control input-md{{ $contactNameError }}" type="text"
-                                                       value="{{ old('address_part_village') }}">
+                                                       value="{{ old('address_town_name') }}">
                                             </div>
                                         </div>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
-                                                   for="address_village">{{ t('Village') }}
+                                                   for="address_town_district">{{ t('Town District') }}
                                                 <sup>*</sup></label>
                                             <div class="col-md-8">
-                                                <input id="address_village" name="address_village"
-                                                       placeholder="{{ t('Village') }}"
+                                                <input id="address_town_district" name="address_town_district"
+                                                       placeholder="{{ t('Town District') }}"
                                                        class="form-control input-md{{ $contactNameError }}" type="text"
-                                                       value="{{ old('address_village') }}">
+                                                       value="{{ old('address_town_district') }}">
                                             </div>
                                         </div>
                                         <div class="form-group row required">
@@ -576,12 +578,36 @@
     <script>
         $(document).ready(function () {
             $('#nextStepBtn').hide();
-            $('#verifyAddressBtn').on('click', function () {
-                console.log('performing address verification');
-                $(this).hide();
-                $('#nextStepBtn').show();
-            })
-        })
+            $('#verifyAddressBtn').on('click', function (e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                var data = {
+                    address_street: $('#address_street').val(),
+                    address_house_no: $('#address_house_no').val(),
+                    orientational_number: $("#orientational_number").val(),
+                    address_town_name: $('#address_town_name').val(),
+                    address_town_district: $('#address_town_district').val(),
+                    zip_code: $('#zip_code').val()
+                };
+                $.ajax({
+                    url: '{{route('verify_address')}}',
+                    method: 'post',
+                    data: data,
+                    success: function (result) {
+                        console.log(result);
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                });
+            });
+            // $(this).hide();
+            // $('#nextStepBtn').show();
+        });
     </script>
     {{--end address verification--}}
     <script src="{{ url('assets/js/app/d.select.category.js') . vTime() }}"></script>
