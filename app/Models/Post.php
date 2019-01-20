@@ -98,6 +98,12 @@ class Post extends BaseModel implements Feedable
 		'deletion_mail_sent_at',
 		'fb_profile',
 		'partner',
+        'street_name',
+        'house_number',
+        'orientational_number',
+        'town_district',
+        'town_name',
+        'zip_code',
 		'created_at',
 	];
 	
