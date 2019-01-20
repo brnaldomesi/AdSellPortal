@@ -41,7 +41,6 @@ use Torann\LaravelMetaTags\Facades\MetaTag;
 use App\Helpers\Localization\Helpers\Country as CountryLocalizationHelper;
 use App\Helpers\Localization\Country as CountryLocalization;
 use App\Http\Controllers\Post\Traits\EditTrait;
-use \CzechRegisters as CR;
 
 class CreateController extends FrontController
 {
@@ -198,6 +197,14 @@ class CreateController extends FrontController
             $post->phone_token = mt_rand(100000, 999999);
             $post->verified_phone = 0;
         }
+
+        // address
+        $post->street_name = $request->input('address_street');
+        $post->house_number = $request->input('address_house_no');
+        $post->orientational_number = $request->input('orientational_number');
+        $post->town_district = $request->input('address_town_district');
+        $post->town_name = $request->input('address_town_name');
+        $post->zip_code = $request->input('address_zip_code');
 
         // Save
         $post->save();

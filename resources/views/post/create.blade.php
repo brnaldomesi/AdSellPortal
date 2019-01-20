@@ -404,7 +404,7 @@
                                                        value="{{ old('address_town_name') }}">
                                             </div>
                                         </div>
-                                        <?php $townDistrict = (isset($errors) and $errors->has('address_town_name')) ? ' is-invalid' : ''; ?>
+                                        <?php $townDistrict = (isset($errors) and $errors->has('address_town_district')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
                                                    for="address_town_district">{{ t('Town District') }}
@@ -425,7 +425,7 @@
                                                 <input id="address_zip_code" name="address_zip_code"
                                                        placeholder="{{ t('ZIP CODE') }}"
                                                        class="form-control input-md{{ $zipCode }}" type="text"
-                                                       value="{{ old('address_village') }}">
+                                                       value="{{ old('address_zip_code') }}">
                                             </div>
                                         </div>
                                         {{--end address verification--}}
@@ -621,13 +621,13 @@
                                 '                                            </button>\n' +
                                 '                                        </div>')
                         }
+                        $("#verifyAddressBtn").hide();
+                        $('#nextStepBtn').show();
                     },
                     error: function (error) {
                     }
                 });
             });
-            // $(this).hide();
-            // $('#nextStepBtn').show();
         });
     </script>
     {{--end address verification--}}
