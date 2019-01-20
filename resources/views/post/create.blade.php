@@ -351,6 +351,9 @@
                                         </div>
                                         {{--address verification--}}
                                         <p class="text-center"><b>{{t('Address verification')}}</b></p>
+                                        <div id="error">
+
+                                        </div>
                                         <?php $addressStreet = (isset($errors) and $errors->has('address_street')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
@@ -363,7 +366,8 @@
                                                        value="{{ old('address_street') }}">
                                             </div>
                                         </div>
-                                        <?php $addressStreet = (isset($errors) and $errors->has('address_street')) ? ' is-invalid' : ''; ?>
+                                        <?php $houseNo = (isset($errors) and $errors->has('address_house_no')) ? ' is-invalid' : ''; ?>
+                                        <?php $orientationalNumber = (isset($errors) and $errors->has('orientational_number')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
                                                    for="address_house_no">{{ t('House/orient. num.') }}
@@ -372,7 +376,7 @@
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <input id="address_house_no" name="address_house_no"
-                                                               class="form-control input-md{{ $contactNameError }}"
+                                                               class="form-control input-md{{ $houseNo }}"
                                                                type="text"
                                                                value="{{ old('address_house_no') }}">
                                                     </div>
@@ -381,13 +385,14 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <input id="orientational_number" name="orientational_number"
-                                                               class="form-control input-md{{ $contactNameError }} second"
+                                                               class="form-control input-md{{ $orientationalNumber }} second"
                                                                type="text"
                                                                value="{{ old('orientational_number') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php $townName = (isset($errors) and $errors->has('address_town_name')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
                                                    for="address_town_name">{{ t('Town Name') }}
@@ -395,10 +400,11 @@
                                             <div class="col-md-8">
                                                 <input id="address_town_name" name="address_town_name"
                                                        placeholder="{{ t('Town Name') }}"
-                                                       class="form-control input-md{{ $contactNameError }}" type="text"
+                                                       class="form-control input-md{{ $townName }}" type="text"
                                                        value="{{ old('address_town_name') }}">
                                             </div>
                                         </div>
+                                        <?php $townDistrict = (isset($errors) and $errors->has('address_town_name')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
                                                    for="address_town_district">{{ t('Town District') }}
@@ -406,10 +412,11 @@
                                             <div class="col-md-8">
                                                 <input id="address_town_district" name="address_town_district"
                                                        placeholder="{{ t('Town District') }}"
-                                                       class="form-control input-md{{ $contactNameError }}" type="text"
+                                                       class="form-control input-md{{ $townDistrict }}" type="text"
                                                        value="{{ old('address_town_district') }}">
                                             </div>
                                         </div>
+                                        <?php $zipCode = (isset($errors) and $errors->has('address_zip_code')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row required">
                                             <label class="col-md-3 col-form-label"
                                                    for="address_zip_code">{{ t('ZIP CODE') }}
@@ -417,7 +424,7 @@
                                             <div class="col-md-8">
                                                 <input id="address_zip_code" name="address_zip_code"
                                                        placeholder="{{ t('ZIP CODE') }}"
-                                                       class="form-control input-md{{ $contactNameError }}" type="text"
+                                                       class="form-control input-md{{ $zipCode }}" type="text"
                                                        value="{{ old('address_village') }}">
                                             </div>
                                         </div>
@@ -588,20 +595,34 @@
                 var data = {
                     address_street: $('#address_street').val(),
                     address_house_no: $('#address_house_no').val(),
-                    orientational_number: $("#orientational_number").val(),
+                    orientational_number: $('#orientational_number').val(),
                     address_town_name: $('#address_town_name').val(),
                     address_town_district: $('#address_town_district').val(),
-                    zip_code: $('#zip_code').val()
+                    zip_code: $('#address_zip_code').val()
                 };
                 $.ajax({
                     url: '{{route('verify_address')}}',
                     method: 'post',
                     data: data,
                     success: function (result) {
-                        console.log(result);
+                        $('#address_street').val(result.data.street_name);
+                        $('#address_house_no').val(result.data.house_number);
+                        $('#orientational_number').val(result.data.orientational_number);
+                        $('#address_town_name').val(result.data.town_name);
+                        $('#address_town_district').val(result.data.town_district);
+                        $('#address_zip_code').val(result.data.zip_code);
+                        if (typeof result.data !== "object") {
+
+                            $('#error').html('' +
+                                '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                result.data + '\n' +
+                                '                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                                '                                                <span aria-hidden="true">&times;</span>\n' +
+                                '                                            </button>\n' +
+                                '                                        </div>')
+                        }
                     },
                     error: function (error) {
-                        console.log(error)
                     }
                 });
             });
