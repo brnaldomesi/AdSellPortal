@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Ajax;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use \CzechRegisters as CR;
+use CzechRegisters\CzechRegisters;
 
 class VerifyAddressController extends Controller
 {
@@ -17,10 +17,7 @@ class VerifyAddressController extends Controller
      */
     public function verifyAddress(Request $request)
     {
-        $request->validate([
-            'address_street' => 'required'
-        ]);
-        $cr = new CR\CzechRegisters();
+        $cr = new CzechRegisters();
         // get address input
         $input = array(
             'street_name' => $request->input('address_street'),
@@ -32,9 +29,9 @@ class VerifyAddressController extends Controller
         );
         try {
             $data = $cr->isAddressValid($input);
-            return response()->json(['data' => json_encode($data)]);
+            return response()->json(['data' => $data]);
         } catch (Exception $ex) {
-            return response()->json(['data' => json_encode($ex->getMessage())]);
+            return response()->json(['data' => $ex->getMessage()]);
         }
     }
 }
