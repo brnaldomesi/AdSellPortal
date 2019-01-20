@@ -620,9 +620,10 @@
                                 '                                                <span aria-hidden="true">&times;</span>\n' +
                                 '                                            </button>\n' +
                                 '                                        </div>')
+                        } else {
+                            $("#verifyAddressBtn").hide();
+                            $('#nextStepBtn').show();
                         }
-                        $("#verifyAddressBtn").hide();
-                        $('#nextStepBtn').show();
                     },
                     error: function (error) {
                     }
