@@ -147,17 +147,14 @@
                                             </div>
                                         </div>
 
-                                        <!-- customFields -->
-                                        <div id="customFields"></div>
-
                                         <!-- price -->
                                         <?php $priceError = (isset($errors) and $errors->has('price')) ? ' is-invalid' : ''; ?>
                                         <div id="priceBloc" class="form-group row">
                                             <label class="col-md-3 col-form-label" for="price">{{ t('Price') }}</label>
                                             <div class="input-group col-md-8">
-                                                <div class="input-group-prepend">
+                                              <!--  <div class="input-group-prepend">
                                                     <span class="input-group-text">{!! config('currency')['symbol'] !!}</span>
-                                                </div>
+                                                </div> -->
 
                                                 <input id="price"
                                                        name="price"
@@ -167,13 +164,18 @@
                                                 >
 
                                             <!-- XLABS <div class="input-group-append">
-													<span class="input-group-text">
-														<input id="negotiable" name="negotiable" type="checkbox"
-															   value="1" {{ (old('negotiable')=='1') ? 'checked="checked"' : '' }}>&nbsp;<small>{{ t('Negotiable') }}</small>
-													</span>
-												</div> -->
+                          <span class="input-group-text">
+                            <input id="negotiable" name="negotiable" type="checkbox"
+                                 value="1" {{ (old('negotiable')=='1') ? 'checked="checked"' : '' }}>&nbsp;<small>{{ t('Negotiable') }}</small>
+                          </span>
+                        </div> -->
                                             </div>
                                         </div>
+
+                                        <!-- customFields -->
+                                        <div id="customFields"></div>
+
+
 
                                         <!-- country_code -->
                                         <?php $countryCodeError = (isset($errors) and $errors->has('country_code')) ? ' is-invalid' : ''; ?>
@@ -244,21 +246,119 @@
                                             </div>
                                         </div>
 
+
                                         <!-- XLABS Add address -->
                                         <!-- 1. Ulice 2.Část 3.obce  4.Obec 5.PSČ 6. Číslo (2 fields seperated with /) -->
-                                    <!--		<div id="cityBox" class="form-group row required">
-											<label class="col-md-3 col-form-label{{ $cityIdError }}" for="city_id">{{ t('City') }} <sup>*</sup></label>
-											<div class="col-md-8">
-												<select id="cityId" name="city_id" class="form-control sselecter{{ $cityIdError }}">
-													<option value="0" {{ (!old('city_id') or old('city_id')==0) ? 'selected="selected"' : '' }}>
-														{{ t('Select a city') }}
+                                      <!--		<div id="cityBox" class="form-group row required">
+                                      <label class="col-md-3 col-form-label{{ $cityIdError }}" for="city_id">{{ t('City') }} <sup>*</sup></label>
+                                      <div class="col-md-8">
+                                      <select id="cityId" name="city_id" class="form-control sselecter{{ $cityIdError }}">
+                                      <option value="0" {{ (!old('city_id') or old('city_id')==0) ? 'selected="selected"' : '' }}>
+                                      {{ t('Select a city') }}
                                             </option>
                                         </select>
-                                    </div>
-                                </div> -->
-                                        <!-- XLABS Address
+                                      </div>
+                                      </div> -->
+
+                                        <!-- XLABS Address-->
+                                        {{--address verification--}}
+                                        <div class="content-subheading">
+                                            <i class="icon-home fa"></i>
+                                            <strong>Adresa nemovitosti</strong>
+                                        </div>
+
+                                        <div id="error">
+
+                                        </div>
+                                        <?php $addressStreet = (isset($errors) and $errors->has('address_street')) ? ' is-invalid' : ''; ?>
+                                        <div class="form-group row required">
+                                            <label class="col-md-3 col-form-label"
+                                                   for="address_street">Ulice
+                                                <sup>*</sup></label>
+                                            <div class="col-md-8">
+                                                <input id="address_street" name="address_street"
+                                                       placeholder="Ulice"
+                                                       class="form-control input-md{{ $addressStreet }}" type="text"
+                                                       value="{{ old('address_street') }}">
+                                            </div>
+                                        </div>
+                                        <?php $houseNo = (isset($errors) and $errors->has('address_house_no')) ? ' is-invalid' : ''; ?>
+                                        <?php $orientationalNumber = (isset($errors) and $errors->has('orientational_number')) ? ' is-invalid' : ''; ?>
+                                        <div class="form-group row required">
+                                            <label class="col-md-3 col-form-label"
+                                                   for="address_house_no">Číslo
+                                                <sup>*</sup></label>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <input id="address_house_no" name="address_house_no"
+                                                               class="form-control input-md{{ $houseNo }}"
+                                                                 placeholder="Popisné"
+                                                               type="text"
+                                                               value="{{ old('address_house_no') }}">
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <h2 class="address_number_stroke">/</h2>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input id="orientational_number" name="orientational_number"
+                                                               class="form-control input-md{{ $orientationalNumber }} second"
+                                                               type="text"
+                                                                placeholder="Orientační"
+                                                               value="{{ old('orientational_number') }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php $townName = (isset($errors) and $errors->has('address_town_name')) ? ' is-invalid' : ''; ?>
+                                        <div class="form-group row required">
+                                            <label class="col-md-3 col-form-label"
+                                                   for="address_town_name">Obec / Město
+                                                <sup>*</sup></label>
+                                            <div class="col-md-8">
+                                                <input id="address_town_name" name="address_town_name"
+                                                       placeholder="Obec"
+                                                       class="form-control input-md{{ $townName }}" type="text"
+                                                       value="{{ old('address_town_name') }}">
+                                            </div>
+                                        </div>
+                                        <?php $townDistrict = (isset($errors) and $errors->has('address_town_district')) ? ' is-invalid' : ''; ?>
+                                        <div class="form-group row required">
+                                            <label class="col-md-3 col-form-label"
+                                                   for="address_town_district">Okres
+                                                <sup>*</sup></label>
+                                            <div class="col-md-8">
+                                                <input id="address_town_district" name="address_town_district"
+                                                       placeholder="Okres"
+                                                       class="form-control input-md{{ $townDistrict }}"
+                                                       value="{{ old('address_town_district') }}">
+                                            </div>
+                                        </div>
+                                        <?php $zipCode = (isset($errors) and $errors->has('address_zip_code')) ? ' is-invalid' : ''; ?>
+                                        <div class="form-group row required">
+                                            <label class="col-md-3 col-form-label"
+                                                   for="address_zip_code">PSČ
+                                                <sup>*</sup></label>
+                                            <div class="col-md-8">
+                                                <input id="address_zip_code" name="address_zip_code"
+                                                       placeholder="PSČ"
+                                                       class="form-control input-md{{ $zipCode }}" type="text"
+                                                       value="{{ old('address_zip_code') }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row pt-3">
+                                            <div class="col-md-12 text-center">
+                                                <button id="verifyAddressBtn"
+                                                        class="btn btn-primary btn-lg"> {{ t('Verify Address') }} </button>
+                                            </div>
+                                        </div>
+                                        {{--end address verification--}}
+
+
 
                                         <!-- tags -->
+                                        <!--
                                         <?php $tagsError = (isset($errors) and $errors->has('tags')) ? ' is-invalid' : ''; ?>
                                         <div class="form-group row">
                                             <label class="col-md-3 col-form-label" for="title">{{ t('Tags') }}</label>
@@ -274,6 +374,7 @@
                                                        class="form-text text-muted">{{ t('Enter the tags separated by commas.') }}</small>
                                             </div>
                                         </div>
+                                      -->
 
 
                                         <div class="content-subheading">
@@ -349,86 +450,7 @@
 												</div> -->
                                             </div>
                                         </div>
-                                        {{--address verification--}}
-                                        <p class="text-center"><b>{{t('Address verification')}}</b></p>
-                                        <div id="error">
 
-                                        </div>
-                                        <?php $addressStreet = (isset($errors) and $errors->has('address_street')) ? ' is-invalid' : ''; ?>
-                                        <div class="form-group row required">
-                                            <label class="col-md-3 col-form-label"
-                                                   for="address_street">{{ t('Street') }}
-                                                <sup>*</sup></label>
-                                            <div class="col-md-8">
-                                                <input id="address_street" name="address_street"
-                                                       placeholder="{{ t('Street') }}"
-                                                       class="form-control input-md{{ $addressStreet }}" type="text"
-                                                       value="{{ old('address_street') }}">
-                                            </div>
-                                        </div>
-                                        <?php $houseNo = (isset($errors) and $errors->has('address_house_no')) ? ' is-invalid' : ''; ?>
-                                        <?php $orientationalNumber = (isset($errors) and $errors->has('orientational_number')) ? ' is-invalid' : ''; ?>
-                                        <div class="form-group row required">
-                                            <label class="col-md-3 col-form-label"
-                                                   for="address_house_no">{{ t('House/orient. num.') }}
-                                                <sup>*</sup></label>
-                                            <div class="col-md-8">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <input id="address_house_no" name="address_house_no"
-                                                               class="form-control input-md{{ $houseNo }}"
-                                                               type="text"
-                                                               value="{{ old('address_house_no') }}">
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <h2 class="address_number_stroke">/</h2>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <input id="orientational_number" name="orientational_number"
-                                                               class="form-control input-md{{ $orientationalNumber }} second"
-                                                               type="text"
-                                                               value="{{ old('orientational_number') }}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php $townName = (isset($errors) and $errors->has('address_town_name')) ? ' is-invalid' : ''; ?>
-                                        <div class="form-group row required">
-                                            <label class="col-md-3 col-form-label"
-                                                   for="address_town_name">{{ t('Town Name') }}
-                                                <sup>*</sup></label>
-                                            <div class="col-md-8">
-                                                <input id="address_town_name" name="address_town_name"
-                                                       placeholder="{{ t('Town Name') }}"
-                                                       class="form-control input-md{{ $townName }}" type="text"
-                                                       value="{{ old('address_town_name') }}">
-                                            </div>
-                                        </div>
-                                        <?php $townDistrict = (isset($errors) and $errors->has('address_town_district')) ? ' is-invalid' : ''; ?>
-                                        <div class="form-group row required">
-                                            <label class="col-md-3 col-form-label"
-                                                   for="address_town_district">{{ t('Town District') }}
-                                                <sup>*</sup></label>
-                                            <div class="col-md-8">
-                                                <input id="address_town_district" name="address_town_district"
-                                                       placeholder="{{ t('Town District') }}"
-                                                       class="form-control input-md{{ $townDistrict }}" type="text"
-                                                       value="{{ old('address_town_district') }}">
-                                            </div>
-                                        </div>
-                                        <?php $zipCode = (isset($errors) and $errors->has('address_zip_code')) ? ' is-invalid' : ''; ?>
-                                        <div class="form-group row required">
-                                            <label class="col-md-3 col-form-label"
-                                                   for="address_zip_code">{{ t('ZIP CODE') }}
-                                                <sup>*</sup></label>
-                                            <div class="col-md-8">
-                                                <input id="address_zip_code" name="address_zip_code"
-                                                       placeholder="{{ t('ZIP CODE') }}"
-                                                       class="form-control input-md{{ $zipCode }}" type="text"
-                                                       value="{{ old('address_zip_code') }}">
-                                            </div>
-                                        </div>
-                                        {{--end address verification--}}
                                         @if (config('settings.security.recaptcha_activation'))
                                         <!-- recaptcha -->
                                             <?php $recaptchaError = (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>
@@ -453,12 +475,9 @@
                                         </div>
 
                                         <!-- Button  -->
-                                        <div class="form-group row pt-3">
-                                            <div class="col-md-12 text-center">
-                                                <button id="verifyAddressBtn"
-                                                        class="btn btn-primary btn-lg"> {{ t('Verify Address') }} </button>
-                                            </div>
-                                        </div>
+
+
+
                                         <div class="form-group row pt-3">
                                             <div class="col-md-12 text-center">
                                                 <button id="nextStepBtn"
