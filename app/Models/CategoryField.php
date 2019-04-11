@@ -21,35 +21,35 @@ use Larapen\Admin\app\Models\Crud;
 class CategoryField extends BaseModel
 {
 	use Crud;
-	
+
 	/**
 	 * The table associated with the model.
 	 *
 	 * @var string
 	 */
 	protected $table = 'category_field';
-	
+
 	/**
 	 * The primary key for the model.
 	 *
 	 * @var string
 	 */
 	// protected $primaryKey = 'id';
-	
+
 	/**
 	 * Indicates if the model should be timestamped.
 	 *
 	 * @var boolean
 	 */
 	public $timestamps = false;
-	
+
 	/**
 	 * The attributes that aren't mass assignable.
 	 *
 	 * @var array
 	 */
 	protected $guarded = ['id'];
-	
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -64,21 +64,21 @@ class CategoryField extends BaseModel
 		'rgt',
 		'depth',
 	];
-	
+
 	/**
 	 * The attributes that should be hidden for arrays
 	 *
 	 * @var array
 	 */
 	// protected $hidden = [];
-	
+
 	/**
 	 * The attributes that should be mutated to dates.
 	 *
 	 * @var array
 	 */
 	// protected $dates = [];
-	
+
 	/*
 	|--------------------------------------------------------------------------
 	| FUNCTIONS
@@ -88,31 +88,31 @@ class CategoryField extends BaseModel
 	{
 		parent::boot();
 	}
-	
+
 	public function getCategoryHtml()
 	{
 		$out = '';
 		if (!empty($this->category)) {
 			$currentUrl = preg_replace('#/(search)$#', '', url()->current());
 			$editUrl = $currentUrl . '/' . $this->category->id . '/edit';
-			
+
 			$out .= '<a href="' . $editUrl . '">' . $this->category->name . '</a>';
 		} else {
 			$out .= '--';
 		}
-		
+
 		return $out;
 	}
-	
+
 	public function getFieldHtml()
 	{
 		$out = '';
 		if (!empty($this->field)) {
 			$currentUrl = preg_replace('#/(search)$#', '', url()->current());
 			$editUrl = $currentUrl . '/' . $this->field->id . '/edit';
-			
+
 			$out .= '<a href="' . $editUrl . '" style="float:left;">' . $this->field->name . '</a>';
-			
+
 			if (in_array($this->field->type, ['select', 'radio', 'checkbox_multiple'])) {
 				$optionUrl = admin_url('custom_fields/' . $this->field->id . '/options');
 				$out .= ' ';
@@ -123,15 +123,15 @@ class CategoryField extends BaseModel
 		} else {
 			$out .= '--';
 		}
-		
+
 		return $out;
 	}
-	
+
 	public function getDisabledInSubCategoriesHtml()
 	{
 		return checkboxDisplay($this->disabled_in_subcategories);
 	}
-	
+
 	/**
 	 * Get Fields details
 	 *
@@ -143,24 +143,24 @@ class CategoryField extends BaseModel
 	public static function getFields($catNestedIds, $postId = null, $languageCode = null)
 	{
 		$fields = [];
-		
+
 		// Make sure that the Category nested IDs variables exist
 		if (!isset($catNestedIds->parentId) || !isset($catNestedIds->id)) {
 			return collect($fields);
 		}
-		
+
 		// Make sure that the category nested IDs variable are not empty
 		if (empty($catNestedIds->parentId) && empty($catNestedIds->id)) {
 			return collect($fields);
 		}
-		
+
 		// Get Post's Custom Fields values
 		$postFieldsValues = collect([]);
 		if (!empty($postId) && trim($postId) != '') {
 			$postFieldsValues = PostValue::where('post_id', $postId)->get();
 			$postFieldsValues = self::keyingByFieldId($postFieldsValues);
 		}
-		
+
 		// Get Category's fields
 		if (!empty($catNestedIds->parentId) && !empty($catNestedIds->id)) {
 			$catFields = self::with(['field' => function ($builder) {
@@ -170,6 +170,7 @@ class CategoryField extends BaseModel
 					$query->where('category_id', $catNestedIds->parentId)->availableForSubCats();
 				})
 				->orWhere('category_id', $catNestedIds->id)
+				->orWhere('categories','LIKE', '%'. $catNestedIds->id .'%')
 				->orderBy('lft', 'ASC')
 				->get();
 		} else {
@@ -178,6 +179,7 @@ class CategoryField extends BaseModel
 					$builder->with(['options']);
 				}])
 					->where('category_id', $catNestedIds->parentId)
+					->orWhere('categories','LIKE', '%'. $catNestedIds->parentId .'%')
 					->availableForSubCats()
 					->orderBy('lft', 'ASC')
 					->get();
@@ -186,16 +188,17 @@ class CategoryField extends BaseModel
 					$builder->with(['options']);
 				}])
 					->where('category_id', $catNestedIds->id)
+					->orWhere('categories','LIKE', '%'. $catNestedIds->id .'%')
 					->orderBy('lft', 'ASC')
 					->get();
 			}
 		}
-		
+
 		if ($catFields->count() > 0) {
 			foreach ($catFields as $key => $catField) {
 				if (!empty($catField->field)) {
 					$fields[$key] = $catField->field;
-					
+
 					// Retrieve the Field's Default value
 					if ($postFieldsValues->count() > 0) {
 						if ($postFieldsValues->has($catField->field->tid)) {
@@ -215,18 +218,18 @@ class CategoryField extends BaseModel
 									$defaultValue = [];
 								}
 							}
-							
+
 							$fields[$key]->default = $defaultValue;
 						}
 					}
-					
+
 				}
 			}
 		}
-		
+
 		return collect($fields);
 	}
-	
+
 	/**
 	 * @param $values
 	 * @return \Illuminate\Support\Collection
@@ -236,7 +239,7 @@ class CategoryField extends BaseModel
 		if (empty($values) || $values->count() <= 0) {
 			return $values;
 		}
-		
+
 		$postValues = [];
 		foreach ($values as $value) {
 			if (!empty($value->option_id)) {
@@ -245,10 +248,10 @@ class CategoryField extends BaseModel
 				$postValues[$value->field_id] = $value;
 			}
 		}
-		
+
 		return collect($postValues);
 	}
-	
+
 	/*
 	|--------------------------------------------------------------------------
 	| RELATIONS
@@ -258,12 +261,12 @@ class CategoryField extends BaseModel
 	{
 		return $this->belongsTo(Category::class, 'category_id', 'translation_of')->where('translation_lang', config('app.locale'));
 	}
-	
+
 	public function field()
 	{
 		return $this->belongsTo(Field::class, 'field_id', 'translation_of')->where('translation_lang', config('app.locale'));
 	}
-	
+
 	/*
 	|--------------------------------------------------------------------------
 	| SCOPES
@@ -273,18 +276,18 @@ class CategoryField extends BaseModel
 	{
 		return $builder->where('disabled_in_subcategories', '!=', 1);
 	}
-	
+
 	public function scopeUnavailableForSubCats($builder)
 	{
 		return $builder->where('disabled_in_subcategories', 1);
 	}
-	
+
 	/*
 	|--------------------------------------------------------------------------
 	| ACCESORS
 	|--------------------------------------------------------------------------
 	*/
-	
+
 	/*
 	|--------------------------------------------------------------------------
 	| MUTATORS

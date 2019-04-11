@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     /*
     |--------------------------------------------------------------------------
     | Global Language Lines
@@ -10,7 +10,7 @@ return [
     | The following language lines are used by the global website.
     |
     */
-    
+
     'Free local classified ads in the World' => 'Free Local Classified Ads in the World',
     'Free local classified ads in :location' => 'Free Local Classified Ads in :location',
 	'Sell and buy near you' => 'Sell and Buy near you',
@@ -70,7 +70,7 @@ return [
     'List of Cities in' => 'List of Cities in',
     'Do have anything to sell or rent?' => 'Do have anything to sell or rent?',
     'Sell your products and services online FOR FREE. It\'s easier than you think !' => 'Sell your products and services online FOR FREE. It\'s easier than you think !',
-    
+
     'footer_note' => '<strong>Sell</strong>, <strong>Offer</strong>, <strong>Rent</strong>, <strong>Bargain</strong>, <strong>Search</strong>, <strong>Buy</strong> products and services in <strong>:country</strong>. It\'s 100% free!',
     'Home' => 'Home',
     'About us' => 'About us',
@@ -81,26 +81,26 @@ return [
     'Terms' => 'Terms',
     'Privacy' => 'Privacy',
     'All Rights Reserved' => 'All Rights Reserved',
-    
-    
+
+
     // Login
-    'Password' => 'Password',
-    'Submit' => 'Submit',
-    'Keep me logged in' => 'Keep me logged in',
-    'Lost your password?' => 'Lost your password?',
-    'Don\'t have an account?' => 'Don\'t have an account?',
-    'Signup' => 'Signup',
-    'Sign Up' => 'Sign Up',
+    'Password' => 'Heslo',
+    'Submit' => 'Nechte mě přihlášeného',
+    'Keep me logged in' => 'Nechte mě přihlášeného',
+    'Lost your password?' => 'Zapomněli jste heslo?',
+    'Don\'t have an account?' => 'Nemáte účet?',
+    'Signup' => 'Registrace',
+    'Sign Up' => 'Registrace',
 	'Signin' => 'Signin',
 	'Sign In' => 'Sign In',
-	'Login' => 'Login',
-	'Log In' => 'Log In',
-	'Logout' => 'Logout',
-	'Log Out' => 'Log Out',
+	'Login' => 'Přihlásit se',
+	'Log In' => 'Přihlásit se',
+	'Logout' => 'Odhlásit se',
+	'Log Out' => 'Odhlásit se',
 	'Signout' => 'Signout',
 	'Sign Out' => 'Sign Out',
-	
-    
+
+
     // Signup
     'Create your account, Its free' => 'Create your account, It\'s 100% free',
     'Gender' => 'Gender',
@@ -126,25 +126,25 @@ return [
     'I have read and agree to the <a :attributes>Terms & Conditions</a>' => 'I have read and agree to the <a :attributes>Terms & Conditions</a>',
     'By continuing on this website, you accept our <a :attributes>Terms of Use</a>' => 'By continuing on this website, you accept our <a :attributes>Terms of Use</a>',
     'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules' => 'By continuing on this website, you accept our <a :attributes>Terms of Use</a> and Posting Rules',
-    'Register' => 'Register',
-    
+    'Register' => 'Registrace',
+
     'Your message has been sent to our moderators' => 'Your message has been sent to our moderators.',
     'Your message has been sent to our moderators. Thank you' => 'Your message has been sent to our moderators. Thank you.',
-    
+
     'Post a Free Classified' => 'Post a Free Classified',
     'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, local, easy, reliable and super fast!' => 'Do you have something to sell, to rent, any service to offer or a job offer? Post it at :app_name, its free, for local business and very easy to use!',
     'Create and Manage Items' => 'Create and Manage Items',
     'Become a best seller or buyer. Create and Manage your ads. Repost your old ads, etc.' => 'Become a best seller or buyer. Create and Manage your ads. Repost your old ads, etc.',
     'Create your Favorite ads list.' => 'Create your Favorite ads list.',
     'Create your Favorite ads list, and save your searches. Don\'t forget any deal!' => 'Create your Favorite  ads list. And save your search. Don\'t forget any deal.',
-    
+
     // Post Ads
-    'Category' => 'Category',
-    'Select a category' => 'Select a category',
-    'Sub-Category' => 'Sub-Category',
-    'Select a sub-category' => 'Select a sub-category',
+    'Category' => 'Kategorie',
+    'Select a category' => 'Vyberte kategorii',
+    'Sub-Category' => 'Podkategorie',
+    'Select a sub-category' => 'Vyberte Podkategorie',
     'Ad type' => 'Ad type',
-    'Type' => 'Type',
+    'Type' => 'Typ nabídky',
     'Private' => 'Private',
     'Business' => 'Business',
     'Title' => 'Title',
@@ -153,7 +153,7 @@ return [
     'A great title needs at least 60 characters.' => 'A great title needs at least 60 characters.',
     'Describe ad' => 'Describe ad',
     'Describe what makes your ad unique' => 'Describe what makes your ad unique',
-    'Price' => 'Price',
+    'Price' => 'Cena',
     'e.i. 15000' => 'eg 15000',
     'Negotiable' => 'Negotiable',
     'Pictures' => 'Pictures',
@@ -162,7 +162,7 @@ return [
     'File types: :file_types' => 'File types: :file_types',
     'Browse' => 'Browse',
     'Add up to :pictures_number photos. Use a real image of your product, not catalogs.' => 'Add up to :pictures_number photos. Use a real image of your product, not catalogs.',
-    'Seller information' => 'Seller information',
+    'Seller information' => 'Informace o prodávajícím',
     'Seller Name' => 'Seller Name',
     'Seller Email' => 'Seller Email',
     'Phone Number (in local format)' => 'Phone Number (in local format)',
@@ -174,15 +174,15 @@ return [
     'City' => 'City',
     'Select a city' => 'Select a city',
     'Cities' => 'Cities',
-    
+
     'How to sell quickly?' => 'How to sell quickly?',
     'Use a brief title and description of the item' => 'Use a brief title and description of the item',
     'Make sure you post in the correct category' => 'Make sure you post in the correct category',
     'Add nice photos to your ad' => 'Add nice photos to your ad',
     'Put a reasonable price' => 'Put a reasonable price',
     'Check the item before publish' => 'Check the item before publish',
-    
-    
+
+
     'My ads' => 'My ads',
     'My ads on :app_name' => 'My ads on :app_name',
     'The repost has failed. Please try again.' => 'The repost has failed. Please try again.',
@@ -197,41 +197,41 @@ return [
     'My saved search on :app_name' => 'My saved search on :app_name',
     'No deletion is done. Please try again.' => 'No deletion is done. Please try again.',
     'Your account details has updated successfully.' => 'Your account details has updated successfully.',
-    
+
     'Your details account has updated successfully.' => 'Your details account has updated successfully.',
     'Your settings account has updated successfully.' => 'Your settings account has updated successfully.',
-    
+
     'My account' => 'My account',
     'My account on :app_name' => 'My account on :app_name',
-    
+
     'Your message has sent successfully to :contact_name.' => 'Your message has sent successfully to :contact_name.',
     'Your report has sent successfully to us. Thank you!' => 'Your report has sent successfully to us. Thank you!',
-    
+
     'Posting Ads was disabled for this time. Please try later. Thank you.' => 'Posting Ads was disabled for this time. Please try later. Thank you.',
     'Your ad has been created.' => 'Your ad has been created.',
-    
+
     'Update My Ad' => 'Update My Ad',
     'Your ad has been updated.' => 'Your ad has been updated.',
-    
+
     'Log in' => 'Log in',
     'Log in to :app_name' => 'Log in to :app_name',
     'The Email Address or Password don\'t match.' => 'The Email Address or Password don\'t match.',
     'You have been logged out.' => 'You have been logged out.',
-    
+
     'Sign Up on :app_name !' => 'Sign Up on :app_name !',
     'Your account has been created.' => 'Your account has been created.',
-    
+
     'Welcome to :app_name' => 'Welcome to :app_name !',
     'Welcome to :app_name : 100% Free Ads Classified' => 'Welcome to :app_name : 100% Free Ads Classified. Sell and buy near you. Simple, fast and efficient.',
     'Sitemap :domain - :country. 100% Free Ads Classified' => 'Sitemap :domain - :country. 100% Free Ads Classified',
-    
+
     'My Ads' => 'My Ads',
     'Archived ads' => 'Archived ads',
     'Favourite ads' => 'Favourite ads',
     'Pending approval' => 'Pending approval',
     'Posts' => 'Posts',
     'Ads' => 'Ads',
-    'Select' => 'Select',
+    'Select' => '--Vybrat--',
     'All' => 'All',
     'Delete' => 'Delete',
     'clear' => 'clear',
@@ -242,7 +242,7 @@ return [
     'Edit' => 'Edit',
     'Share' => 'Share',
     'Repost' => 'Repost',
-    
+
     'Close account' => 'Close account',
     'You are sure you want to close your account?' => 'You are sure you want to close your account?',
     'Yes' => 'Yes',
@@ -254,7 +254,7 @@ return [
     'count_views' => '{0} view|{1} view|[2,*] views',
 	'count_mails' => '{0} mail|{1} mail|[2,*] mails',
 	'count_messages' => '{0} message|{1} message|[2,*] messages',
-    
+
     'Oops ! An error has occurred. Please correct the red fields in the form' => 'Oops ! An error has occurred. Please correct the red fields in the form',
     'Favorites' => 'Favorites',
     'Visits' => 'Visits',
@@ -272,7 +272,7 @@ return [
     'Preferences' => 'Preferences',
     'I want to receive newsletter.' => 'I want to receive newsletter.',
     'I want to receive advice on buying and selling.' => 'I want to receive advice on buying and selling.',
-    
+
     'Saved search' => 'Saved search',
 	'Saved searches' => 'Saved searches',
     'You have no saved search.' => 'You have no saved search.',
@@ -282,16 +282,16 @@ return [
     'P' => 'P',
     'Please select a saved search to show the result' => 'Please select a saved search to show the result',
     'No result. Refine your search using other criteria.' => 'No result. Refine your search using other criteria.',
-    
+
     'Close' => 'Close',
     'There\'s something wrong with this ads?' => 'There\'s something wrong with this ads?',
     'Reason' => 'Reason',
     'Select a reason' => 'Select a reason',
     'Your E-mail' => 'Your E-mail',
     'Message' => 'Message',
-    'Cancel' => 'Cancel',
+    'Cancel' => 'Zrušení',
     'Send Report' => 'Send Report',
-    
+
     'Warning! This ad has expired. The product or service is not more available (may be)' => '<strong>Warning !</strong> This ad has expired. The product or service is not more available (may be)',
     'Back to Results' => 'Back to Results',
     ':type ad' => ':type ad',
@@ -315,7 +315,7 @@ return [
     'Pay only after collecting the item' => 'Pay only after collecting the item',
     'Know more' => 'Know more',
     'View phone' => 'View phone',
-    
+
     'Contact advertiser' => 'Contact Advertiser',
     'Name' => 'Name',
     'Your name' => 'Your name',
@@ -323,32 +323,32 @@ return [
     'i.e. you@gmail.com' => 'i.e. you@gmail.com',
     'Your message here...' => 'Your message here...',
     'Send message' => 'Send message',
-    
+
     'Congratulations!' => 'Congratulations!',
     'Oops!' => 'Oops!',
-    
+
     'Download current Resume' => 'Download current Resume',
-    
+
     'Email Address' => 'Email Address',
     'Send Password Reset Link' => 'Send Password Reset Link',
     'Back to the Log In page' => 'Back to the Log In page',
     'Sign Up !' => 'Sign Up !',
-    
+
     'Reset your Password' => 'Reset your Password',
     'Reset Password' => 'Reset Password',
     'Password Confirmation' => 'Password Confirmation',
     'Reset the Password' => 'Reset Password',
-    
+
     ':domain, sell and buy near you. Simple, fast and efficient.' => ':domain, sell and buy near you. Simple, fast and efficient.',
-    
+
     'Choose a city' => 'Choose a city',
     'More cities' => 'More cities',
-    
+
     'Phishing' => 'Phishing',
-    
+
     'Personal Home' => 'Personal Home',
     'Payment history' => 'Payment history',
-    
+
     'Top Ads' => 'Top',
     'Featured Ads' => 'Featured',
     'Save' => 'Save',
@@ -378,22 +378,22 @@ return [
     'Please log in to save your search.' => 'Please log in to save the search.',
     'Search saved successfully !' => 'Search saved successfully !',
     'Search deleted successfully !' => 'Search deleted successfully !',
-    
+
     'The countries' => 'The countries',
     'Our websites abroad' => 'Our websites abroad',
-    
+
     'My Account' => 'My Account',
     'Terminate Account' => 'Terminate Account',
-    
+
     'We do not like robots' => 'We do not like robots :(',
-    
+
     'Sitemap :country' => 'Sitemap - :country',
-    
+
     'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.' => 'We regret that we can not process your request at this time. Our engineers have been notified of this problem and will try to resolve it as soon as possible.',
     'Whoops, looks like something went wrong. Please try later.' => 'Whoops, looks like something went wrong. Please try later.',
     'Whoops, looks like something went wrong.' => 'Whoops, looks like something went wrong.',
     'Whoops !' => 'Whoops !',
-    
+
     'Joined' => 'Joined',
 
     'Your session has expired. Please try again.' => 'Your session has expired. Please try again.',
@@ -401,13 +401,13 @@ return [
     'Page not found' => 'Page not found',
     'Oops ! Error 404. Page not found.' => 'Oops ! Error 404. Page not found.',
     'Meanwhile, you may <a href=":url">return to homepage</a>' => 'Meanwhile, you may <a href=":url">return to homepage</a>',
-    
+
     'views' => 'views',
     'View More' => 'View More',
     'View Less' => 'View Less',
     'Free' => 'Free',
-    
-    
+
+
     'Step' => 'Step',
     'Informations about your Ad' => 'Informations about your Ad',
     'Upload' => 'Upload',
@@ -417,7 +417,7 @@ return [
     'Next' => 'Next',
     'Previous' => 'Previous',
     'Skip' => 'Skip',
-    
+
     'Premium Ad' => 'Premium Ad',
     'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.' => 'The premium package help sellers to promote their products or services by giving more visibility to their ads to attract more buyers and sell faster.',
     'Regular List' => 'Free',
@@ -428,12 +428,12 @@ return [
     'Gateway' => 'Gateway',
     'Gateways' => 'Gateways',
     'Finish' => 'Finish',
-    
+
     'Trusted Seller' => 'Trusted Seller',
     'Trusted Sellers' => 'Trusted Sellers',
     'Facebook Fans' => 'Facebook Fans',
-    
-    
+
+
     'Sell anything for free' => 'Sell anything for FREE!',
     'Hundreds of buyers every day' => 'Hundreds of buyers every day',
     'Add images to sell faster' => 'Add images to sell faster!',
@@ -441,12 +441,12 @@ return [
     'View all Ads' => 'View all Ads',
     'Browse by' => 'Browse by',
     'View more' => 'View more',
-    
-    
+
+
     'Error in sending mail. Please contact our engineers: :app_email' => 'Error in sending mail. Please contact our engineers: :app_email',
     'The sending messages is not enabled. Please check the SMTP settings in the /.env file.' => 'The sending messages is not enabled. Please check the SMTP settings in the <code>/.env</code> file.',
     'The sending messages is not enabled. Please check the SMTP settings in the admin.' => 'The sending messages is not enabled. Please check the SMTP settings in the admin.',
-    
+
     'Your account has been deleted.' => 'Your account has been deleted.',
     'Your account has been deleted. We regret you.' => 'Your account has been deleted. We regret you.',
     'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.' => 'Your account has been deleted. We regret you. <a href=":url">Re-register</a> if that is a mistake.',
@@ -458,7 +458,7 @@ return [
 
     'Address' => 'Address',
     'Fill an address to display on Google Maps.' => 'Fill an address to display on Google Maps.',
-    
+
     'Unknown error. Please try again in a few minutes.' => 'Unknown error. Please try again in a few minutes.',
     'Email address not found. You can\'t use your :provider account on our website.' => 'Email address not found. You can\'t use your :provider account on our website.',
 
@@ -489,7 +489,7 @@ return [
     'Not available' => 'Not available',
     'Upgrade' => 'Upgrade',
     'Current' => 'Current',
-    
+
     'Help' => 'Help',
     'To launch your website for several countries you need to activate these countries.' => 'To launch your website for several countries you need to activate these countries.',
     'By disabling or removing a country the ads of this country (also) will be deleted.' => 'By disabling or removing a country the ads of this country (also) will be deleted.',
@@ -611,7 +611,7 @@ return [
 	'Transaction' => 'Transaction',
 	'My Transactions' => 'My Transactions',
 	'My Transactions on :app_name' => 'My Transactions on :app_name',
-	'Description' => 'Description',
+	'Description' => 'Popis nemovitoti',
 	'Value' => 'Value',
 	'Status' => 'Status',
 	'Pending payment' => 'Pending payment',
@@ -682,7 +682,7 @@ return [
 	'Loading' => 'Loading',
 	'Processing' => 'Processing',
 	'Your picture has been reorder successfully' => 'Your picture has been reorder successfully',
-	'Add Listing' => 'Add Listing',
+	'Add Listing' => 'Nový inzerát',
 	'Choose a city or region' => 'Choose a city or region',
 	'Choose a state or region' => 'Choose a state or region',
 	'Conversations' => 'Conversations',
