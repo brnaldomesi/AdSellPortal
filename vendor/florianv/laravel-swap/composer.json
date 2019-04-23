@@ -1,0 +1,61 @@
+{
+    "name": "florianv/laravel-swap",
+    "type": "library",
+    "description": "Currency exchange rates library for Laravel and Lumen",
+    "keywords": [
+        "laravel",
+        "lumen",
+        "currency",
+        "money",
+        "rate",
+        "conversion",
+        "exchange rates"
+    ],
+    "homepage": "https://github.com/florianv/laravel-swap",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Florian Voutzinos",
+            "email": "florian@voutzinos.com",
+            "homepage": "http://florian.voutzinos.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Swap\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Swap\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^5.5|^7.0",
+        "florianv/swap": "^3.4",
+        "psr/cache": "^1.0",
+        "cache/adapter-common": "^0.3"
+    },
+    "require-dev": {
+        "graham-campbell/testbench": "~2.1",
+        "php-http/guzzle6-adapter": "^1.0",
+        "php-http/message": "^1.0",
+        "cache/integration-tests": "^0.11"
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Swap\\Laravel\\SwapServiceProvider"
+            ],
+            "aliases": {
+                "Swap": "Swap\\Laravel\\Facades\\Swap"
+            }
+        }
+    }
+}
