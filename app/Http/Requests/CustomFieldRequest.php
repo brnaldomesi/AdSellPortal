@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -47,11 +47,11 @@ class CustomFieldRequest extends Request
 		$this->customFields = CategoryField::getFields($catNestedIds);
 		if ($this->customFields->count() > 0) {
 			foreach ($this->customFields as $field) {
-				$cfRules = '';
+				$cfRules = [];
 				
 				// Check if the field is required
 				if ($field->required == 1 && $field->type != 'file') {
-					$cfRules = 'required';
+					$cfRules[] = 'required';
 				}
 				
 				// Check if the field is an upload type
@@ -69,12 +69,12 @@ class CustomFieldRequest extends Request
 					
 					if ($field->required == 1) {
 						if (!$fileExists) {
-							$cfRules = 'required';
+							$cfRules[] = 'required';
 						}
 					}
 					
-					$cfRules = (!empty($cfRules)) ? $cfRules . '|' : '';
-					$cfRules = $cfRules . 'mimes:' . getUploadFileTypes('file') . '|max:' . (int)config('settings.upload.max_file_size', 1000);
+					$cfRules[] = 'mimes:' . getUploadFileTypes('file');
+					$cfRules[] = 'max:' . (int)config('settings.upload.max_file_size', 1000);
 				}
 				
 				$rules['cf.' . $field->tid] = $cfRules;

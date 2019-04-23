@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -23,6 +23,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
@@ -128,7 +129,7 @@ class SellerContacted extends Notification implements ShouldQueue
 		return trans('sms.post_seller_contacted_content', [
 			'appName' => config('app.name'),
 			'postId'  => $this->msg->post_id,
-			'message' => str_limit(strip_tags($this->msg->message), 50),
+			'message' => Str::limit(strip_tags($this->msg->message), 50),
 		]);
 	}
 }

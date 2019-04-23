@@ -58,7 +58,7 @@
 									<td>{!! checkboxDisplay($entry->{$column['name']}) !!}</td>
                                 @else
                                     {{-- regular object attribute --}}
-                                    <td>{{ str_limit(strip_tags($entry->{$column['name']}), 80, "[...]") }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit(strip_tags($entry->{$column['name']}), 80, "[...]") }}</td>
                                 @endif
 
                             @endforeach

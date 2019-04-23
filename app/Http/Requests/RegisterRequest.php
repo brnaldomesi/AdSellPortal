@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,33 +15,46 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BetweenRule;
+use App\Rules\BlacklistDomainRule;
+use App\Rules\BlacklistEmailRule;
+use App\Rules\UsernameIsAllowedRule;
+use App\Rules\UsernameIsValidRule;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Routing\Router;
+use Illuminate\Config\Repository;
+
 class RegisterRequest extends Request
 {
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
+	 * @param \Illuminate\Routing\Router $router
+	 * @param \Illuminate\Filesystem\Filesystem $files
+	 * @param \Illuminate\Config\Repository $config
 	 * @return array
 	 */
-	public function rules()
+	public function rules(Router $router, Filesystem $files, Repository $config)
 	{
 		$rules = [
-			'name'         => 'required|mb_between:2,200',
-			'country_code' => 'sometimes|required|not_in:0',
-			'phone'        => 'max:20',
-			'email'        => 'max:100|whitelist_email|whitelist_domain',
-			'password'     => 'required|between:6,60|dumbpwd|confirmed',
-			'term'         => 'accepted',
+			'name'         => ['required', new BetweenRule(2, 200)],
+			'country_code' => ['sometimes', 'required', 'not_in:0'],
+			'phone'        => ['max:20'],
+			'email'        => ['max:100', new BlacklistEmailRule(), new BlacklistDomainRule()],
+			'password'     => ['required', 'between:6,60', 'dumbpwd', 'confirmed'],
+			'term'         => ['accepted'],
 		];
 		
 		// Email
 		if ($this->filled('email')) {
-			$rules['email'] = 'email|unique:users,email|' . $rules['email'];
+			$rules['email'][] = 'email';
+			$rules['email'][] = 'unique:users,email';
 		}
 		if (isEnabledField('email')) {
 			if (isEnabledField('phone') and isEnabledField('email')) {
-				$rules['email'] = 'required_without:phone|' . $rules['email'];
+				$rules['email'][] = 'required_without:phone';
 			} else {
-				$rules['email'] = 'required|' . $rules['email'];
+				$rules['email'][] = 'required';
 			}
 		}
 		
@@ -52,29 +65,34 @@ class RegisterRequest extends Request
 				if ($countryCode == 'UK') {
 					$countryCode = 'GB';
 				}
-				$rules['phone'] = 'phone:' . $countryCode . '|' . $rules['phone'];
+				$rules['phone'][] = 'phone:' . $countryCode;
 			}
 		}
 		if (isEnabledField('phone')) {
 			if (isEnabledField('phone') and isEnabledField('email')) {
-				$rules['phone'] = 'required_without:email|' . $rules['phone'];
+				$rules['phone'][] = 'required_without:email';
 			} else {
-				$rules['phone'] = 'required|' . $rules['phone'];
+				$rules['phone'][] = 'required';
 			}
 		}
 		if ($this->filled('phone')) {
-			$rules['phone'] = 'unique:users,phone|' . $rules['phone'];
+			$rules['phone'][] = 'unique:users,phone';
 		}
 		
 		// Username
 		if (isEnabledField('username')) {
-			$rules['username'] = ($this->filled('username')) ? 'valid_username|allowed_username|between:3,100|unique:users,username' : '';
+			if ($this->filled('username')) {
+				$rules['username'] = [
+					'between:3,100',
+					'unique:users,username',
+					new UsernameIsValidRule(),
+					new UsernameIsAllowedRule($router, $files, $config)
+				];
+			}
 		}
 		
-		// Recaptcha
-		if (config('settings.security.recaptcha_activation')) {
-			$rules['g-recaptcha-response'] = 'required';
-		}
+		// reCAPTCHA
+		$rules = $this->recaptchaRules($rules);
 		
 		return $rules;
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
 	 */
 	protected $commands = [
 		\App\Console\Commands\Inspire::class,
-		\App\Console\Commands\AdsCleaner::class,
+		\App\Console\Commands\AdsClear::class,
 	];
 	
 	/**
@@ -38,12 +38,15 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		// $schedule->command('inspire')->hourly();
-		$schedule->command('ads:clean')->hourly();
+		// Clear Ads
+		$schedule->command('ads:clear')->hourly();
 		
-		// BackupManager
-		// $schedule->command('backup:clean')->daily()->at('04:00');
-		// $schedule->command('backup:run')->daily()->at('05:00');
+		// Clear Cache & Views
+		if (!env('DISABLE_CACHE_AUTO_CLEAR') || (int)env('DISABLE_CACHE_AUTO_CLEAR', 0) != 1) {
+			$schedule->command('cache:clear')->weeklyOn(7, '6:00');
+			$schedule->command('cache:clear')->weeklyOn(7, '6:05'); // To prevent file lock issues (Optional)
+			$schedule->command('view:clear')->weeklyOn(7, '6:00');
+		}
 	}
 	
 	/**

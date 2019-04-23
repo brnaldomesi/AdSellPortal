@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -158,6 +158,18 @@ class EditController extends AccountBaseController
 	 */
 	public function updatePhoto($userId, Request $request)
 	{
+		if (isDemo()) {
+			$message = t('This feature has been turned off in demo mode.');
+			
+			if ($request->ajax()) {
+				return response()->json(['error' => $message]);
+			}
+			
+			flash($message)->info();
+			
+			return back();
+		}
+		
 		// Get User
 		$user = User::find($userId);
 		

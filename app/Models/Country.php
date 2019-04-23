@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use App\Observer\CountryObserver;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Larapen\Admin\app\Models\Crud;
 use Prologue\Alerts\Facades\Alert;
@@ -216,7 +217,7 @@ class Country extends BaseModel
     public function scopeActive($query)
     {
         if (request()->segment(1) == admin_uri()) {
-        	if (str_contains(Route::currentRouteAction(), 'Admin\CountryController')) {
+        	if (Str::contains(Route::currentRouteAction(), 'Admin\CountryController')) {
 				return $query;
 			}
         }
@@ -226,7 +227,7 @@ class Country extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
     public function getIcodeAttribute()
@@ -252,7 +253,7 @@ class Country extends BaseModel
 		// If the image was erased
 		if (empty($value)) {
 			// delete the image from disk
-			if (!str_contains($this->{$attribute_name}, config('larapen.core.picture.default'))) {
+			if (!Str::contains($this->{$attribute_name}, config('larapen.core.picture.default'))) {
 				Storage::delete($this->{$attribute_name});
 			}
 			
@@ -290,7 +291,7 @@ class Country extends BaseModel
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (!starts_with($value, $destination_path)) {
+				if (!Str::startsWith($value, $destination_path)) {
 					$value = $destination_path . last(explode($destination_path, $value));
 				}
 				$this->attributes[$attribute_name] = $value;

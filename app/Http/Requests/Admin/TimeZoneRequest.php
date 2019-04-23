@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -25,10 +25,10 @@ class TimeZoneRequest extends Request
     public function rules()
     {
         return [
-            'country_code' => 'required',
-            'time_zone_id' => 'required',
-            'gmt'          => 'required',
-            'dst'          => 'required',
+            'country_code' => ['required'],
+            'time_zone_id' => ['required'],
+            'gmt'          => ['required'],
+            'dst'          => ['required'],
         ];
     }
 }

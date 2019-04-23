@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -25,13 +25,11 @@ class ForgotPasswordRequest extends Request
     public function rules()
     {
         $rules = [
-            'login' => 'required',
+            'login' => ['required'],
         ];
     
-        // Recaptcha
-        if (config('settings.security.recaptcha_activation')) {
-            $rules['g-recaptcha-response'] = 'required';
-        }
+        // reCAPTCHA
+		$rules = $this->recaptchaRules($rules);
         
         return $rules;
     }

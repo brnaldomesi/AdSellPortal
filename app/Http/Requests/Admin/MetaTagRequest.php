@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -28,9 +28,9 @@ class MetaTagRequest extends Request
 	{
 		$rules = [
 			'page'        => ['required'],
-			'title'       => 'required|max:200',
-			'description' => 'required|max:255',
-			'keywords'    => 'max:255',
+			'title'       => ['required', 'max:200'],
+			'description' => ['required', 'max:255'],
+			'keywords'    => ['max:255'],
 		];
 		
 		if (in_array($this->method(), ['POST', 'CREATE'])) {

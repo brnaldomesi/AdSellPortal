@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -25,7 +25,7 @@ class CategoryRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:255',
+            'name' => ['required', 'min:2', 'max:255'],
         ];
     }
 }

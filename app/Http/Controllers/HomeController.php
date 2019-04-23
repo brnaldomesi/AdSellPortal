@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Helpers\DBTool;
 use App\Models\Post;
 use App\Models\Category;
@@ -143,7 +143,7 @@ class HomeController extends FrontController
 			
 			return $cities;
 		});
-		$cities = collect($cities)->push(Arr::toObject([
+		$cities = collect($cities)->push(ArrayHelper::toObject([
 			'id'             => 999999999,
 			'name'           => t('More cities') . ' &raquo;',
 			'subadmin1_code' => 0,
@@ -195,7 +195,7 @@ class HomeController extends FrontController
 		
 		if (!empty($posts)) {
 			if ($orderBy == 'random') {
-				$posts = Arr::shuffle($posts);
+				$posts = ArrayHelper::shuffleAssoc($posts);
 			}
 			$attr = ['countryCode' => config('country.icode')];
 			$sponsored = [
@@ -203,7 +203,7 @@ class HomeController extends FrontController
 				'link'  => lurl(trans('routes.v-search', $attr), $attr),
 				'posts' => $posts,
 			];
-			$sponsored = Arr::toObject($sponsored);
+			$sponsored = ArrayHelper::toObject($sponsored);
 		}
 		
 		view()->share('featured', $sponsored);
@@ -237,7 +237,7 @@ class HomeController extends FrontController
 		
 		if (!empty($posts)) {
 			if ($orderBy == 'random') {
-				$posts = Arr::shuffle($posts);
+				$posts = ArrayHelper::shuffleAssoc($posts);
 			}
 		}
 		

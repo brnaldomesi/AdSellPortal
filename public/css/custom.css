@@ -1,5 +1,5 @@
 /*
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -14,10 +14,3 @@
 
 /* Your custom CSS here... */
 
-
-/* address verification */
-.address_number_stroke {
-    line-height: 40px;
-}
-
-/* end address verification*/

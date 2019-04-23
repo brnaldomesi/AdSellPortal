@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -19,6 +19,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 abstract class Request extends FormRequest
@@ -53,7 +54,7 @@ abstract class Request extends FormRequest
 			];
 			
 			// Add a specific json attributes for 'bootstrap-fileinput' plugin
-			if (str_contains(get_called_class(), 'PhotoRequest')) {
+			if (Str::contains(get_called_class(), 'PhotoRequest')) {
 				// Get errors in text
 				$errorsTxt = t('Error found');
 				if (is_array($errors) && count($errors) > 0) {
@@ -77,5 +78,25 @@ abstract class Request extends FormRequest
 		}
 		
 		parent::failedValidation($validator);
+	}
+	
+	/**
+	 * reCAPTCHA Rules
+	 *
+	 * @param array $rules
+	 * @return array
+	 */
+	protected function recaptchaRules($rules = [])
+	{
+		// reCAPTCHA
+		if (
+			config('settings.security.recaptcha_activation')
+			&& config('recaptcha.site_key')
+			&& config('recaptcha.secret_key')
+		) {
+			$rules['g-recaptcha-response'] = ['recaptcha'];
+		}
+		
+		return $rules;
 	}
 }

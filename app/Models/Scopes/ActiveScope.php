@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class ActiveScope implements Scope
 {
@@ -32,7 +33,7 @@ class ActiveScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
     	// Load only activated entries on Settings selection
-		if (str_contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\SettingController')) {
+		if (Str::contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\SettingController')) {
 			return $builder->where('active', 1);
 		}
 		

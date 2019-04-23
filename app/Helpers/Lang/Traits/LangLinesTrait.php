@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,9 +15,11 @@
 
 namespace App\Helpers\Lang\Traits;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Str;
 
 trait LangLinesTrait
 {
@@ -46,13 +48,13 @@ trait LangLinesTrait
 				unset($missingEntriesFormatted['vendor']);
 				
 				foreach ($packagesMissingEntries as $namespace => $packageMissingEntries) {
-					$packageMissingEntries = array_dot($packageMissingEntries);
+					$packageMissingEntries = Arr::dot($packageMissingEntries);
 					Lang::addLines($packageMissingEntries, $langCode, $namespace);
 				}
 			}
 			
 			// Add the main languages missing lines
-			$mainMissingEntries = array_dot($missingEntriesFormatted);
+			$mainMissingEntries = Arr::dot($missingEntriesFormatted);
 			Lang::addLines($mainMissingEntries, $langCode);
 			
 			// Get language files grouped by file name
@@ -112,7 +114,7 @@ trait LangLinesTrait
 	{
 		$newArray = [];
 		foreach ($array as $group => $lines) {
-			if (str_contains($group, '::')) {
+			if (Str::contains($group, '::')) {
 				list($namespace, $groupName) = explode('::', $group, 2);
 				$newArray['vendor'][$namespace][$groupName] = $lines;
 			} else {
@@ -154,7 +156,7 @@ trait LangLinesTrait
 		}
 		
 		// Get the Current Language missing entries
-		$missingEntries = Arr::diffAssoc($masterLangEntries, $langEntries);
+		$missingEntries = ArrayHelper::diffAssoc($masterLangEntries, $langEntries);
 		
 		return $missingEntries;
 	}
@@ -178,7 +180,7 @@ trait LangLinesTrait
 		$filesByFile = $files->groupBy(function ($file) {
 			$fileName = $file->getBasename('.' . $file->getExtension());
 			
-			if (str_contains($file->getPath(), 'vendor')) {
+			if (Str::contains($file->getPath(), 'vendor')) {
 				$fileName = str_replace('.php', '', $file->getFileName());
 				
 				$packageName = basename(dirname($file->getPath()));

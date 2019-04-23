@@ -1,6 +1,6 @@
 @charset "utf-8";
 /*
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -1246,6 +1246,16 @@ aside .inner-box.enable-long-words {
 }
 
 /* From WYSIWYG Editor */
+.from-wysiwyg dir, .from-wysiwyg li, .from-wysiwyg menu, .from-wysiwyg ol, .from-wysiwyg ul,
+.simditor-body dir, .simditor-body li, .simditor-body menu, .simditor-body ol, .simditor-body ul {
+	list-style-type: inherit;
+}
+.from-wysiwyg blockquote {
+	border-left: 6px solid #ddd;
+	padding: 5px 0 5px 10px;
+	margin: 15px 0 15px 15px;
+}
+
 .from-wysiwyg li ul, .from-wysiwyg li ol {
 	margin: 0 10px;
 }
@@ -1993,4 +2003,58 @@ li.lang-menu ul.dropdown-menu > li {
 .form-group .control-label.is-invalid,
 .form-group .control-label.was-validated {
 	color: #dc3545;
+}
+
+@media (max-width: 479px) {
+	.pricetag {
+		top: 10%;
+	}
+}
+
+/* Price Range */
+@media (min-width: 576px) {
+	.form-inline .form-control {
+		width: 100%;
+	}
+}
+
+/* LinkedIn Button */
+.btn-lkin {
+	color: #fff;
+	background-color: #426d9b;
+}
+.btn-lkin:focus, .btn-lkin.focus {
+	color: #fff;
+	background-color: #4682B4;
+	border-color: #4673a5;
+}
+.btn-lkin:hover {
+	color: #fff;
+	background-color: #4682B4;
+	border-color: #4673a5;
+}
+.btn-lkin:active, .btn-lkin.active,
+.open > .btn-lkin.dropdown-toggle {
+	color: #fff;
+	background-color: #4682B4;
+	border-color: #4673a5;
+}
+.btn-lkin:active:hover, .btn-lkin:active:focus, .btn-lkin:active.focus, .btn-lkin.active:hover, .btn-lkin.active:focus, .btn-lkin.active.focus,
+.open > .btn-lkin.dropdown-toggle:hover,
+.open > .btn-lkin.dropdown-toggle:focus,
+.open > .btn-lkin.dropdown-toggle.focus {
+	color: #fff;
+	background-color: #4682B4;
+	border-color: #4673a5;
+}
+.btn-lkin:active, .btn-lkin.active,
+.open > .btn-lkin.dropdown-toggle {
+	background-image: none;
+}
+.btn-lkin.disabled:hover, .btn-lkin.disabled:focus, .btn-lkin.disabled.focus, .btn-lkin[disabled]:hover, .btn-lkin[disabled]:focus, .btn-lkin[disabled].focus,
+fieldset[disabled] .btn-lkin:hover,
+fieldset[disabled] .btn-lkin:focus,
+fieldset[disabled] .btn-lkin.focus {
+	background-color: #4682B4;
+	border-color: #4673a5;
 }

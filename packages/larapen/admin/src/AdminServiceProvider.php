@@ -71,8 +71,8 @@ class AdminServiceProvider extends ServiceProvider
 	{
 		Route::aliasMiddleware('admin', \App\Http\Middleware\Admin::class);
 		Route::aliasMiddleware('clearance', \App\Http\Middleware\Clearance::class);
-		Route::aliasMiddleware('bannedUser', \App\Http\Middleware\BannedUser::class);
-		Route::aliasMiddleware('installChecker', \App\Http\Middleware\InstallationChecker::class);
+		Route::aliasMiddleware('banned.user', \App\Http\Middleware\BannedUser::class);
+		Route::aliasMiddleware('install.checker', \App\Http\Middleware\InstallationChecker::class);
 	}
 	
 	public function publishFiles()
@@ -107,7 +107,7 @@ class AdminServiceProvider extends ServiceProvider
 		// Admin Interface Routes
 		$router->group(['namespace' => 'App\Http\Controllers\Admin'], function ($router) {
 			Route::group([
-				'middleware' => ['admin', 'clearance', 'bannedUser', 'installChecker'],
+				'middleware' => ['admin', 'clearance', 'banned.user', 'install.checker'],
 				'prefix'     => config('larapen.admin.route_prefix', 'admin'),
 			], function () {
 				// Language

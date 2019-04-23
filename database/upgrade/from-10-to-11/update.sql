@@ -45,7 +45,7 @@ TRUNCATE TABLE `<<prefix>>settings`;
 INSERT INTO `<<prefix>>settings` (`id`, `key`, `name`, `value`, `description`, `field`, `parent_id`, `lft`, `rgt`, `depth`, `active`, `created_at`, `updated_at`) VALUES
 (1, 'app_name', 'App Name', 'LaraClassified', 'Website name', '', 0, 2, 13, 1, 1, NULL, '2016-06-15 00:33:22'),
 (2, 'app_logo', 'Logo', '', 'Website Logo', '{"name":"value","label":"Value","type":"browse"}', 1, 3, 4, 2, 1, NULL, '2016-06-14 22:27:49'),
-(3, 'app_slogan', 'App Slogan', 'LaraClassified - Geo Classified Ads CMS', 'Website slogan (for Meta Title)', '', 1, 5, 6, 2, 1, NULL, '2016-06-14 22:27:49'),
+(3, 'app_slogan', 'App Slogan', 'LaraClassified - Classified Ads Web Application', 'Website slogan (for Meta Title)', '', 1, 5, 6, 2, 1, NULL, '2016-06-14 22:27:49'),
 (4, 'app_theme', 'Theme', '', 'Supported: blue, yellow, green, red (or empty)', '', 1, 7, 8, 2, 1, NULL, '2016-06-14 22:27:49'),
 (5, 'app_email', 'Email', 'contact@larapen.com', 'The email address that all emails from the contact form will go to.', '{"name":"value","label":"Value","type":"email"}', 1, 9, 10, 2, 1, NULL, '2016-06-14 22:27:49'),
 (6, 'app_phone_number', 'Phone number', NULL, 'Website phone number', '', 1, 11, 12, 2, 1, NULL, '2016-06-14 22:27:49'),

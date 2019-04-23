@@ -1,65 +1,53 @@
 <?php
+/**
+ * Laravel reCAPTCHA
+ * Author: Bedigit
+ * Web: www.bedigit.com
+ */
 
+/*
+ * To configure correctly please visit https://developers.google.com/recaptcha/docs/start
+ */
 return [
-    
-    /*
-    |--------------------------------------------------------------------------
-    | API Keys
-    |--------------------------------------------------------------------------
-    |
-    | Set the public and private API keys as provided by reCAPTCHA.
-    |
-    | In version 2 of reCAPTCHA, public_key is the Site key,
-    | and private_key is the Secret key.
-    |
-    */
-    'public_key' => null,
-    'private_key' => null,
-    
-    /*
-    |--------------------------------------------------------------------------
-    | Template
-    |--------------------------------------------------------------------------
-    |
-    | Set a template to use if you don't want to use the standard one.
-    |
-    */
-    'template' => '',
-    
-    /*
-    |--------------------------------------------------------------------------
-    | Driver
-    |--------------------------------------------------------------------------
-    |
-    | Determine how to call out to get response; values are 'curl' or 'native'.
-    | Only applies to v2.
-    |
-    */
-    'driver' => 'curl',
-    
-    /*
-    |--------------------------------------------------------------------------
-    | Options
-    |--------------------------------------------------------------------------
-    |
-    | Various options for the driver
-    |
-    */
-    'options' => [
-        
-        'curl_timeout' => 1,
-    
-    ],
-    
-    /*
-    |--------------------------------------------------------------------------
-    | Version
-    |--------------------------------------------------------------------------
-    |
-    | Set which version of ReCaptcha to use.
-    |
-    */
-    
-    'version' => 2,
 
+	/*
+	 * The site key
+	 * Get site key @ www.google.com/recaptcha/admin
+	 */
+	'site_key' => env('RECAPTCHA_SITE_KEY', ''),
+
+	/*
+	 * The secret key
+	 * Get secret key @ www.google.com/recaptcha/admin
+	 */
+	'secret_key' => env('RECAPTCHA_SECRET_KEY', ''),
+	
+	/*
+	 * The language code
+	 * Get more info @ https://developers.google.com/recaptcha/docs/versions
+	 */
+	'lang' => 'en',
+
+	/*
+	 * ReCATCHA version
+	 * Supported: "v2", "invisible", "v3",
+	 *
+	 * Get more info @ https://developers.google.com/recaptcha/docs/versions
+	 */
+	'version' => env('RECAPTCHA_VERSION', 'v2'),
+
+	/*
+	 * IP addresses for which validation will be skipped
+	 */
+	'skip_ip' => [],
+
+	/*
+	 * Default route called to check the Google reCAPTCHA token
+	 */
+	'validation_route' => env('RECAPTCHA_VALIDATION_ROUTE', 'lara-recaptcha/validate'),
+
+	/*
+	 * The name of the parameter used to send Google reCAPTCHA token to verify route
+	 */
+	'token_parameter_name' => env('RECAPTCHA_TOKEN_PARAMETER_NAME', 'token'),
 ];

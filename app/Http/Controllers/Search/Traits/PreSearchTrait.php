@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,12 +15,13 @@
 
 namespace App\Http\Controllers\Search\Traits;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Models\Category;
 use App\Models\City;
 use Illuminate\Support\Facades\Request;
 use App\Models\SubAdmin1;
 use App\Models\SubAdmin2;
+use Illuminate\Support\Str;
 
 trait PreSearchTrait
 {
@@ -74,7 +75,7 @@ trait PreSearchTrait
 		// Search by administrative division name with magic word "area:" - Example: "area:New York"
 		if (!empty($location)) {
 			$location = preg_replace('/\s+\:/', ':', $location);
-			if (str_contains($location, t('area:'))) {
+			if (Str::contains($location, t('area:'))) {
 				$adminName = last(explode(t('area:'), $location));
 				$adminName = trim($adminName);
 				
@@ -113,9 +114,9 @@ trait PreSearchTrait
 		
 		// City not found
 		if (empty($this->city)) {
-			$this->city = Arr::toObject([
+			$this->city = ArrayHelper::toObject([
 				'id'             => -999999,
-				'name'           => str_limit($cityName, 70),
+				'name'           => Str::limit($cityName, 70),
 				'longitude'      => -999999,
 				'latitude'       => -999999,
 				'subadmin1_code' => '',
@@ -160,9 +161,9 @@ trait PreSearchTrait
 			
 			// Admin not found
 			if (empty($this->admin)) {
-				$this->admin = Arr::toObject([
+				$this->admin = ArrayHelper::toObject([
 					'code' => 'XXX',
-					'name' => str_limit($adminName, 70),
+					'name' => Str::limit($adminName, 70),
 				]);
 			}
 			
@@ -178,7 +179,7 @@ trait PreSearchTrait
 			
 			$fullUrl = url(Request::getRequestUri());
 			$fullUrlNoParams = head(explode('?', $fullUrl));
-			$url = qsurl($fullUrlNoParams, array_merge(request()->except(['r']), ['l' => $this->city->id, 'location' => $adminName]));
+			$url = qsurl($fullUrlNoParams, array_merge(request()->except(['r']), ['l' => $this->city->id, 'location' => $adminName]), null, false);
 			
 			headerLocation($url);
 		}

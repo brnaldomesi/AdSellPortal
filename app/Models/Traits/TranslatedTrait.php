@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -18,6 +18,7 @@ namespace App\Models\Traits;
 
 use App\Models\Language;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 trait TranslatedTrait
 {
@@ -36,7 +37,7 @@ trait TranslatedTrait
 	{
 		// Don't perform this action during languages setup,
 		// For performance concerns.
-		if (str_contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\LanguageController')) {
+		if (Str::contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\LanguageController')) {
 			return $this;
 		}
 		
@@ -66,7 +67,7 @@ trait TranslatedTrait
 		
 		// Don't perform this action during languages setup,
 		// For performance concerns.
-		if (str_contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\LanguageController')) {
+		if (Str::contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\LanguageController')) {
 			return $createdIds;
 		}
 		
@@ -131,7 +132,7 @@ trait TranslatedTrait
 		
 		// For performance concerns,
 		// Don't perform this action during languages setup.
-		if (str_contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\LanguageController')) {
+		if (Str::contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\LanguageController')) {
 			return $updatedIds;
 		}
 		
@@ -270,7 +271,7 @@ trait TranslatedTrait
 	
 	/*
 	|--------------------------------------------------------------------------
-	| ACCESORS
+	| ACCESSORS
 	|--------------------------------------------------------------------------
 	*/
 	public function getTranslationOfAttribute()

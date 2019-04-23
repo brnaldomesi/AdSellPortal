@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -20,6 +20,7 @@ use App\Models\Scopes\LocalizedScope;
 use App\Models\Traits\CountryTrait;
 use App\Observer\TimeZoneObserver;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Larapen\Admin\app\Models\Crud;
 
 class TimeZone extends BaseModel
@@ -104,13 +105,13 @@ class TimeZone extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
     public function getIdAttribute($value)
     {
 		// Load 'time_zone_id' value instead of the ID value on Settings selection
-		if (str_contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\SettingController')) {
+		if (Str::contains(Route::currentRouteAction(), 'Admin\app\Http\Controllers\SettingController')) {
 			return $this->attributes['time_zone_id'];
 		}
 		

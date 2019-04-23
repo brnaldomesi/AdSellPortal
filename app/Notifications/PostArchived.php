@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -30,10 +30,12 @@ class PostArchived extends Notification implements ShouldQueue
 	use Queueable;
 	
 	protected $post;
+	protected $archivedPostsExpiration;
 	
-	public function __construct(Post $post)
+	public function __construct(Post $post, $archivedPostsExpiration)
 	{
 		$this->post = $post;
+		$this->archivedPostsExpiration = $archivedPostsExpiration;
 	}
 	
 	public function via($notifiable)
@@ -64,7 +66,7 @@ class PostArchived extends Notification implements ShouldQueue
 			->line(trans('mail.post_archived_content_3', ['repostUrl' => $repostUrl]))
 			->line(trans('mail.post_archived_content_4', [
 				'dateDel' => $this->post->archived_at
-					->addDays(config('settings.listing.archived_posts_expiration', 7))
+					->addDays($this->archivedPostsExpiration)
 					->formatLocalized(config('settings.app.default_date_format')),
 			]))
 			->line(trans('mail.post_archived_content_5'))

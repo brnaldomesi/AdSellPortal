@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers\Post;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Http\Requests\ReportRequest;
 use App\Models\Permission;
 use App\Models\Post;
@@ -41,6 +41,8 @@ class ReportController extends FrontController
             
             return $next($request);
         });
+	
+		$this->middleware('demo.restriction')->only(['sendReport']);
     }
     
     /**
@@ -61,8 +63,8 @@ class ReportController extends FrontController
         $data['post'] = Post::findOrFail($postId);
         
         // Meta Tags
-        $data['title'] = t('Report for :title', ['title' => ucfirst($data['post']->title)]);
-        $description = t('Send a report for :title', ['title' => ucfirst($data['post']->title)]);
+        $data['title'] = t('Report for :title', ['title' => mb_ucfirst($data['post']->title)]);
+        $description = t('Send a report for :title', ['title' => mb_ucfirst($data['post']->title)]);
         
         MetaTag::set('title', $data['title']);
         MetaTag::set('description', strip_tags($description));
@@ -87,7 +89,7 @@ class ReportController extends FrontController
         // Store Report
 		$report = $request->all();
 		$report['post_id'] = $post->id;
-		$report = Arr::toObject($report);
+		$report = ArrayHelper::toObject($report);
         
         // Send Abuse Report to admin
         try {

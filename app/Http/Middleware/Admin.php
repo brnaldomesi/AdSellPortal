@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -44,7 +44,11 @@ class Admin
 				}
 			}
 		} else {
-			if (!Schema::hasTable('permissions')) {
+			try {
+				if (!Schema::hasTable('permissions')) {
+					return $next($request);
+				}
+			} catch (\Exception $e) {
 				return $next($request);
 			}
 			

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -320,7 +320,11 @@ class LocationController extends FrontController
 					$html .= '<li> <a href="' . $url . '">' . t('All Cities', [], 'global', $languageCode) . '</a> </li>';
 				}
 				// Build URL
-				$pathUri = $languageCode . '/' . t('v-search', ['countryCode' => strtolower($countryCode)], 'routes', $languageCode);
+				if (currentLocaleShouldBeHiddenInUrl()) {
+					$pathUri = t('v-search', ['countryCode' => strtolower($countryCode)], 'routes', $languageCode);
+				} else {
+					$pathUri = $languageCode . '/' . t('v-search', ['countryCode' => strtolower($countryCode)], 'routes', $languageCode);
+				}
 				$params = ['d' => config('country.icode'), 'l' => $city->id, '_token' => $_token];
 				$url = qsurl($pathUri, array_merge($currSearch, $params), null, false);
 				

@@ -55,7 +55,7 @@ if (isset($title)) {
           <span class="logo-mini">{!! config('larapen.admin.logo_mini') !!}</span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">
-              <strong>{!! strtoupper(str_limit(config('app.name'), 15, '.')) !!}</strong>
+              <strong>{!! strtoupper(\Illuminate\Support\Str::limit(config('app.name'), 15, '.')) !!}</strong>
           </span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->

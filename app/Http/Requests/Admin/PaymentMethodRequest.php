@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -25,8 +25,8 @@ class PaymentMethodRequest extends Request
     public function rules()
     {
         return [
-            'display_name' => 'required|min:2|max:255',
-            //'description'  => 'required|min:2|max:3000',
+            'display_name' => ['required', 'min:2', 'max:255'],
+            //'description'  => ['required', 'min:2', 'max:3000'],
         ];
     }
 }

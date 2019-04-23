@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,8 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\BetweenRule;
+
 class PostRequest extends Request
 {
 	/**
@@ -25,12 +27,12 @@ class PostRequest extends Request
 	public function rules()
 	{
 		$rules = [
-			'category_id'  => 'required|not_in:0',
-			'post_type_id' => 'required|not_in:0',
-			'title'        => 'required|mb_between:2,150',
-			'description'  => 'required|mb_between:5,6000',
-			'contact_name' => 'required|mb_between:2,200',
-			'email'        => 'required|email|max:100',
+			'category_id'  => ['required', 'not_in:0'],
+			'post_type_id' => ['required', 'not_in:0'],
+			'title'        => ['required', new BetweenRule(2, 150)],
+			'description'  => ['required', new BetweenRule(5, 6000)],
+			'contact_name' => ['required', new BetweenRule(2, 200)],
+			'email'        => ['required', 'email', 'max:100'],
 		];
 		
 		/*
@@ -45,7 +47,7 @@ class PostRequest extends Request
 		 * /u 	=> Unicode modifier. Pattern strings are treated as UTF-16. Also causes escape sequences to match unicode characters
 		 */
 		if ($this->filled('tags')) {
-			$rules['tags'] = 'regex:/^[\p{L}\p{N} ,;_-]+$/u';
+			$rules['tags'] = ['regex:/^[\p{L}\p{N} ,;_-]+$/u'];
 		}
 		
 		return $rules;

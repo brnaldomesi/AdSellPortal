@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -30,7 +30,7 @@ class ImpersonateController extends \Lab404\Impersonate\Controllers\ImpersonateC
 	public function __construct()
 	{
 		$this->middleware('auth');
-		$this->middleware('demo');
+		$this->middleware('demo.restriction');
 		
 		$this->manager = app()->make(ImpersonateManager::class);
 	}

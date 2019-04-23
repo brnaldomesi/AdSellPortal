@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -19,6 +19,7 @@ use App\Helpers\DBTool;
 use App\Models\Payment;
 use App\Models\Permission;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Larapen\Admin\app\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\City;
@@ -95,7 +96,10 @@ class InlineRequestController extends Controller
 				$filename = last(explode('/', $filePath));
 				$modelName = head(explode('.', $filename));
 				
-				if (!str_contains(strtolower($filename), '.php') || str_contains(strtolower($modelName), 'base')) {
+				if (
+					!Str::contains(strtolower($filename), '.php')
+					|| Str::contains(strtolower($modelName), 'base')
+				) {
 					continue;
 				}
 				

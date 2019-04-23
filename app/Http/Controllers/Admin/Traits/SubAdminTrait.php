@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -17,6 +17,7 @@ namespace App\Http\Controllers\Admin\Traits;
 
 
 use App\Models\Scopes\ActiveScope;
+use Illuminate\Support\Str;
 
 trait SubAdminTrait
 {
@@ -84,7 +85,7 @@ trait SubAdminTrait
             else {
                 
                 // Value contains the Custom Prefix
-                if (starts_with($value, $customPrefix)) {
+                if (Str::startsWith($value, $customPrefix)) {
                     
                     $prefixLoop = '';
                     $partOfValue = '';

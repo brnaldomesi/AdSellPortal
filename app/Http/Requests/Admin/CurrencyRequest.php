@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -25,8 +25,8 @@ class CurrencyRequest extends Request
     public function rules()
     {
         return [
-            'code' => 'required|min:3|max:3',
-            'name' => 'required|min:2|max:255',
+            'code' => ['required', 'min:3', 'max:3'],
+            'name' => ['required', 'min:2', 'max:255'],
         ];
     }
 }

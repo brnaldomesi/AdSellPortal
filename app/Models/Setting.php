@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -17,6 +17,7 @@ namespace App\Models;
 
 use App\Observer\SettingObserver;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Larapen\Admin\app\Models\Crud;
 use Prologue\Alerts\Facades\Alert;
@@ -130,15 +131,15 @@ class Setting extends BaseModel
 	
 	/*
 	|--------------------------------------------------------------------------
-	| ACCESORS
+	| ACCESSORS
 	|--------------------------------------------------------------------------
 	*/
 	public function getValueAttribute($value)
 	{
 		// Hide all these fake field content
 		$hiddenValues = [
-			'recaptcha_public_key',
-			'recaptcha_private_key',
+			'recaptcha_site_key',
+			'recaptcha_secret_key',
 			'mail_password',
 			'mailgun_secret',
 			'mandrill_secret',
@@ -151,11 +152,13 @@ class Setting extends BaseModel
 			'paypal_signature',
 			'facebook_client_id',
 			'facebook_client_secret',
+			'linkedin_client_id',
+			'linkedin_client_secret',
+			'twitter_client_id',
+			'twitter_client_secret',
 			'google_client_id',
 			'google_client_secret',
 			'google_maps_key',
-			'twitter_client_id',
-			'twitter_client_secret',
 			'fixer_access_key',
 			'currency_layer_access_key',
 			'open_exchange_rates_app_id',
@@ -196,6 +199,9 @@ class Setting extends BaseModel
 				}
 				if (!isset($value['favicon'])) {
 					$value['favicon'] = config('larapen.core.favicon');
+				}
+				if (!isset($value['auto_detect_language'])) {
+					$value['auto_detect_language'] = '0';
 				}
 				if (!isset($value['default_date_format'])) {
 					$value['default_date_format'] = config('larapen.core.defaultDateFormat');
@@ -258,6 +264,12 @@ class Setting extends BaseModel
 			}
 			
 			if ($this->key == 'single') {
+				if (!isset($value['publication_form_type'])) {
+					$value['publication_form_type'] = '1';
+				}
+				if (!isset($value['picture_mandatory'])) {
+					$value['picture_mandatory'] = '1';
+				}
 				if (!isset($value['pictures_limit'])) {
 					$value['pictures_limit'] = '5';
 				}
@@ -267,27 +279,14 @@ class Setting extends BaseModel
 				if (!isset($value['guests_can_post_ads'])) {
 					$value['guests_can_post_ads'] = '1';
 				}
-				if (!isset($value['guests_can_contact_seller'])) {
-					$value['guests_can_contact_seller'] = '1';
+				if (!isset($value['guests_can_contact_ads_authors'])) {
+					$value['guests_can_contact_ads_authors'] = '1';
+				}
+				if (!isset($value['auto_registration'])) {
+					$value['auto_registration'] = '0';
 				}
 				if (!isset($value['simditor_wysiwyg'])) {
 					$value['simditor_wysiwyg'] = '1';
-				}
-			}
-			
-			if ($this->key == 'seo') {
-				if (!isset($value['posts_permalink'])) {
-					$value['posts_permalink'] = '{slug}/{id}';
-				}
-				if (!isset($value['posts_permalink_ext'])) {
-					if (is_null($value['posts_permalink_ext'])) {
-						$value['posts_permalink_ext'] = '';
-					} else {
-						$value['posts_permalink_ext'] = '.html';
-					}
-				}
-				if (!isset($value['multi_countries_urls'])) {
-					$value['multi_countries_urls'] = config('larapen.core.multiCountriesUrls');
 				}
 			}
 			
@@ -319,6 +318,17 @@ class Setting extends BaseModel
 				if (!isset($value['login_decay_minutes'])) {
 					$value['login_decay_minutes'] = '15';
 				}
+				if (!isset($value['recaptcha_version'])) {
+					$value['recaptcha_version'] = 'v2';
+				}
+				
+				// Get reCAPTCHA old config values
+				if (isset($value['recaptcha_public_key'])) {
+					$value['recaptcha_site_key'] = $value['recaptcha_public_key'];
+				}
+				if (isset($value['recaptcha_private_key'])) {
+					$value['recaptcha_secret_key'] = $value['recaptcha_private_key'];
+				}
 			}
 			
 			if ($this->key == 'social_link') {
@@ -336,6 +346,58 @@ class Setting extends BaseModel
 				}
 				if (!isset($value['pinterest_url'])) {
 					$value['pinterest_url'] = '';
+				}
+				if (!isset($value['instagram_url'])) {
+					$value['instagram_url'] = '';
+				}
+			}
+			
+			if ($this->key == 'optimization') {
+				if (!isset($value['cache_driver'])) {
+					$value['cache_driver'] = 'file';
+				}
+				if (!isset($value['cache_expiration'])) {
+					$value['cache_expiration'] = '1440';
+				}
+				if (!isset($value['memcached_servers_1_host'])) {
+					$value['memcached_servers_1_host'] = '127.0.0.1';
+				}
+				if (!isset($value['memcached_servers_1_port'])) {
+					$value['memcached_servers_1_port'] = '11211';
+				}
+				if (!isset($value['redis_client'])) {
+					$value['redis_client'] = 'predis';
+				}
+				if (!isset($value['redis_cluster'])) {
+					$value['redis_cluster'] = 'predis';
+				}
+				if (!isset($value['redis_host'])) {
+					$value['redis_host'] = '127.0.0.1';
+				}
+				if (!isset($value['redis_password'])) {
+					$value['redis_password'] = null;
+				}
+				if (!isset($value['redis_port'])) {
+					$value['redis_port'] = '6379';
+				}
+				if (!isset($value['redis_database'])) {
+					$value['redis_database'] = '0';
+				}
+			}
+			
+			if ($this->key == 'seo') {
+				if (!isset($value['posts_permalink'])) {
+					$value['posts_permalink'] = '{slug}/{id}';
+				}
+				if (!isset($value['posts_permalink_ext'])) {
+					if (is_null($value['posts_permalink_ext'])) {
+						$value['posts_permalink_ext'] = '';
+					} else {
+						$value['posts_permalink_ext'] = '.html';
+					}
+				}
+				if (!isset($value['multi_countries_urls'])) {
+					$value['multi_countries_urls'] = config('larapen.core.multiCountriesUrls');
 				}
 			}
 			
@@ -355,9 +417,6 @@ class Setting extends BaseModel
 				if (!isset($value['cookie_expiration'])) {
 					$value['cookie_expiration'] = '86400';
 				}
-				if (!isset($value['cache_expiration'])) {
-					$value['cache_expiration'] = '1440';
-				}
 			}
 			
 			if ($this->key == 'cron') {
@@ -369,6 +428,9 @@ class Setting extends BaseModel
 				}
 				if (!isset($value['archived_posts_expiration'])) {
 					$value['archived_posts_expiration'] = '30';
+				}
+				if (!isset($value['manually_archived_posts_expiration'])) {
+					$value['manually_archived_posts_expiration'] = '180';
 				}
 			}
 			
@@ -457,6 +519,7 @@ class Setting extends BaseModel
 					$value['app_name'] = config('app.name');
 					$value['logo'] = config('larapen.core.logo');
 					$value['favicon'] = config('larapen.core.favicon');
+					$value['auto_detect_language'] = '0';
 					$value['default_date_format'] = config('larapen.core.defaultDateFormat');
 					$value['default_datetime_format'] = config('larapen.core.defaultDatetimeFormat');
 					$value['default_timezone'] = config('larapen.core.defaultTimezone');
@@ -478,16 +541,14 @@ class Setting extends BaseModel
 					$value['search_distance_interval'] = '100';
 				}
 				if ($this->key == 'single') {
+					$value['publication_form_type'] = '1';
+					$value['picture_mandatory'] = '1';
 					$value['pictures_limit'] = '5';
 					$value['tags_limit'] = '15';
 					$value['guests_can_post_ads'] = '1';
-					$value['guests_can_contact_seller'] = '1';
+					$value['guests_can_contact_ads_authors'] = '1';
+					$value['auto_registration'] = '0';
 					$value['simditor_wysiwyg'] = '1';
-				}
-				if ($this->key == 'seo') {
-					$value['posts_permalink'] = '{slug}/{id}';
-					$value['posts_permalink_ext'] = '';
-					$value['multi_countries_urls'] = config('larapen.core.multiCountriesUrls');
 				}
 				if ($this->key == 'upload') {
 					$value['image_types'] = 'jpg,jpeg,gif,png';
@@ -501,6 +562,7 @@ class Setting extends BaseModel
 					$value['login_open_in_modal'] = '1';
 					$value['login_max_attempts'] = '5';
 					$value['login_decay_minutes'] = '15';
+					$value['recaptcha_version'] = 'v2';
 				}
 				if ($this->key == 'social_link') {
 					$value['facebook_page_url'] = '#';
@@ -508,6 +570,24 @@ class Setting extends BaseModel
 					$value['google_plus_url'] = '#';
 					$value['linkedin_url'] = '#';
 					$value['pinterest_url'] = '#';
+					$value['instagram_url'] = '#';
+				}
+				if ($this->key == 'optimization') {
+					$value['cache_driver'] = 'file';
+					$value['cache_expiration'] = '1440';
+					$value['memcached_servers_1_host'] = '127.0.0.1';
+					$value['memcached_servers_1_port'] = '11211';
+					$value['redis_client'] = 'predis';
+					$value['redis_cluster'] = 'predis';
+					$value['redis_host'] = '127.0.0.1';
+					$value['redis_password'] = null;
+					$value['redis_port'] = '6379';
+					$value['redis_database'] = '0';
+				}
+				if ($this->key == 'seo') {
+					$value['posts_permalink'] = '{slug}/{id}';
+					$value['posts_permalink_ext'] = '';
+					$value['multi_countries_urls'] = config('larapen.core.multiCountriesUrls');
 				}
 				if ($this->key == 'other') {
 					$value['cookie_consent_enabled'] = '0';
@@ -515,12 +595,12 @@ class Setting extends BaseModel
 					$value['timer_new_messages_checking'] = 60000;
 					$value['simditor_wysiwyg'] = '1';
 					$value['cookie_expiration'] = '86400';
-					$value['cache_expiration'] = '1440';
 				}
 				if ($this->key == 'cron') {
 					$value['unactivated_posts_expiration'] = '30';
 					$value['activated_posts_expiration'] = '90';
 					$value['archived_posts_expiration'] = '30';
+					$value['manually_archived_posts_expiration'] = '180';
 				}
 				if ($this->key == 'footer') {
 					$value['hide_payment_plugins_logos'] = '1';
@@ -547,6 +627,59 @@ class Setting extends BaseModel
 				}
 				if ($this->key == 'domain_mapping') {
 					$value['share_session'] = '1';
+				}
+			}
+		}
+		
+		// During the Cache variable updating from the Admin panel,
+		// Check if the /.env file's cache configuration variables are different to the DB value,
+		// If so, then display the right value from the /.env file.
+		if (isset($this->key) && $this->key == 'optimization' && is_array($value)) {
+			if (Str::contains(\Route::currentRouteAction(), 'Admin\SettingController@edit')) {
+				if (array_key_exists('cache_driver', $value) && getenv('CACHE_DRIVER')) {
+					if ($value['cache_driver'] != env('CACHE_DRIVER')) {
+						$value['cache_driver'] = env('CACHE_DRIVER');
+					}
+				}
+				if (array_key_exists('memcached_servers_1_host', $value) && getenv('MEMCACHED_SERVER_1_HOST')) {
+					if ($value['memcached_servers_1_host'] != env('MEMCACHED_SERVER_1_HOST')) {
+						$value['memcached_servers_1_host'] = env('MEMCACHED_SERVER_1_HOST');
+					}
+				}
+				if (array_key_exists('memcached_servers_1_port', $value) && getenv('MEMCACHED_SERVER_1_PORT')) {
+					if ($value['memcached_servers_1_port'] != env('MEMCACHED_SERVER_1_PORT')) {
+						$value['memcached_servers_1_port'] = env('MEMCACHED_SERVER_1_PORT');
+					}
+				}
+				if (array_key_exists('redis_client', $value) && getenv('REDIS_CLIENT')) {
+					if ($value['redis_client'] != env('REDIS_CLIENT')) {
+						$value['redis_client'] = env('REDIS_CLIENT');
+					}
+				}
+				if (array_key_exists('redis_cluster', $value) && getenv('REDIS_CLUSTER')) {
+					if ($value['redis_cluster'] != env('REDIS_CLUSTER')) {
+						$value['redis_cluster'] = env('REDIS_CLUSTER');
+					}
+				}
+				if (array_key_exists('redis_host', $value) && getenv('REDIS_HOST')) {
+					if ($value['redis_host'] != env('REDIS_HOST')) {
+						$value['redis_host'] = env('REDIS_HOST');
+					}
+				}
+				if (array_key_exists('redis_password', $value) && getenv('REDIS_PASSWORD')) {
+					if ($value['redis_password'] != env('REDIS_PASSWORD')) {
+						$value['redis_password'] = env('REDIS_PASSWORD');
+					}
+				}
+				if (array_key_exists('redis_port', $value) && getenv('REDIS_PORT')) {
+					if ($value['redis_port'] != env('REDIS_PORT')) {
+						$value['redis_port'] = env('REDIS_PORT');
+					}
+				}
+				if (array_key_exists('redis_database', $value) && getenv('REDIS_DB')) {
+					if ($value['redis_database'] != env('REDIS_DB')) {
+						$value['redis_database'] = env('REDIS_DB');
+					}
 				}
 			}
 		}
@@ -633,7 +766,7 @@ class Setting extends BaseModel
 			// Delete the image from disk
 			if (isset($this->value) && isset($this->value[$attribute_name])) {
 				if (!empty($params['default'])) {
-					if (!str_contains($this->value[$attribute_name], $params['default'])) {
+					if (!Str::contains($this->value[$attribute_name], $params['default'])) {
 						Storage::delete($this->value[$attribute_name]);
 					}
 				} else {
@@ -690,10 +823,10 @@ class Setting extends BaseModel
 			} else {
 				// Retrieve current value without upload a new file.
 				if (!empty($params['default'])) {
-					if (str_contains($value[$attribute_name], $params['default'])) {
+					if (Str::contains($value[$attribute_name], $params['default'])) {
 						$value[$attribute_name] = null;
 					} else {
-						if (!starts_with($value[$attribute_name], $destination_path)) {
+						if (!Str::startsWith($value[$attribute_name], $destination_path)) {
 							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
 						}
 					}
@@ -701,7 +834,7 @@ class Setting extends BaseModel
 					if ($value[$attribute_name] == url('/')) {
 						$value[$attribute_name] = null;
 					} else {
-						if (!starts_with($value[$attribute_name], $destination_path)) {
+						if (!Str::startsWith($value[$attribute_name], $destination_path)) {
 							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
 						}
 					}
@@ -738,6 +871,10 @@ class Setting extends BaseModel
 	{"name":"separator_clear_1","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
 	{"name":"email","label":"Email","type":"email","hint":"The email address that all emails from the contact form will go to.","wrapperAttributes":{"class":"form-group col-md-6"}},
 	{"name":"phone_number","label":"Phone number","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"language_auto_detection_sep","type":"custom_html","value":"language_auto_detection_sep_value"},
+	{"name":"auto_detect_language","label":"auto_detect_language_label","type":"select2_from_array","options":{"0":"' . trans('admin::messages.auto_detect_language_option_0') . '","1":"' . trans('admin::messages.auto_detect_language_option_1') . '","2":"' . trans('admin::messages.auto_detect_language_option_2') . '"},"wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"auto_detect_language_warning_sep","type":"custom_html","value":"auto_detect_language_warning_sep_value"},
 	
 	{"name":"separator_2","type":"custom_html","value":"<h3>Date Format</h3>"},
 	{"name":"default_date_format","label":"Date Format","type":"text","hint":"The implementation makes a call to <a href=\"http://php.net/strftime\" target=\"_blank\">strftime</a> using the current instance timestamp.","wrapperAttributes":{"class":"form-group col-md-6"}},
@@ -823,18 +960,27 @@ class Setting extends BaseModel
 		}
 		
 		if ($this->key == 'single') {
-			$value = '{"name":"separator_1","type":"custom_html","value":"<h3>Publication</h3>"},
-	{"name":"pictures_limit","label":"Pictures Limit","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+			$value = '{"name":"publication_sep","type":"custom_html","value":"<h3>Publication</h3>"},
+	{"name":"publication_form_type","label":"publication_form_type_label","type":"select2_from_array","options":{"1":"' . trans('admin::messages.publication_form_type_option_1') . '","2":"' . trans('admin::messages.publication_form_type_option_2') . '"},"hint":"publication_form_type_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"picture_mandatory","label":"picture_mandatory_label","type":"checkbox","hint":"picture_mandatory_hint","wrapperAttributes":{"class":"form-group col-md-6","style":"margin-top: 10px;"}},
+	{"name":"separator_clear_1","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
+	{"name":"pictures_limit","label":"Pictures Limit","type":"text","hint":"pictures_limit_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 	{"name":"tags_limit","label":"Tags Limit","type":"text","hint":"NOTE: The \'tags\' field in the \'posts\' table is a varchar 255","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"guests_can_post_ads","label":"Allow Guests to post Ads","type":"checkbox","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"posts_review_activation","label":"Allow Ads to be reviewed by Admins","type":"checkbox","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"guests_can_contact_seller","label":"Allow Guests to contact Sellers","type":"checkbox","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"separator_clear_2","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
+	{"name":"guests_can_post_ads","label":"Allow Guests to post Ads","type":"checkbox","hint":"guests_can_post_ads_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"posts_review_activation","label":"Allow Ads to be reviewed by Admins","type":"checkbox","hint":"posts_review_activation_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 	
-	{"name":"separator_2","type":"custom_html","value":"<h3>Edition</h3>"},
+	{"name":"auto_registration_sep","type":"custom_html","value":"auto_registration_sep_value"},
+	{"name":"auto_registration","label":"auto_registration_label","type":"select2_from_array","options":{"0":"' . trans('admin::messages.auto_registration_option_0') . '","1":"' . trans('admin::messages.auto_registration_option_1') . '","2":"' . trans('admin::messages.auto_registration_option_2') . '"},"hint":"auto_registration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"edition_sep","type":"custom_html","value":"<h3>Edition</h3>"},
 	{"name":"simditor_wysiwyg","label":"Allow the Simditor WYSIWYG Editor","type":"checkbox"},
 	{"name":"ckeditor_wysiwyg","label":"Allow the CKEditor WYSIWYG Editor","type":"checkbox","hint":"For commercial use: http://ckeditor.com/pricing. NOTE: You need to disable the \'Simditor WYSIWYG Editor\'"},
 	
-	{"name":"separator_3","type":"custom_html","value":"<h3>External Services</h3>"},
+	{"name":"others_sep","type":"custom_html","value":"others_sep_value"},
+	{"name":"guests_can_contact_ads_authors","label":"guests_can_contact_ads_authors_label","type":"checkbox","hint":"guests_can_contact_ads_authors_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"external_services_sep","type":"custom_html","value":"<h3>External Services</h3>"},
 	{"name":"show_post_on_googlemap","label":"Show Ads on Google Maps (Single Page Only)","type":"checkbox","hint":"You have to enter your Google Maps API key at: <br>Setup -> General Settings -> Others.","wrapperAttributes":{"class":"form-group col-md-6"}},
 	{"name":"activation_facebook_comments","label":"Allow Facebook Comments (Single Page Only)","type":"checkbox","hint":"You have to configure the Login with Facebook at: <br>Setup -> General Settings -> Social Login.","wrapperAttributes":{"class":"form-group col-md-6"}}';
 		}
@@ -897,12 +1043,125 @@ class Setting extends BaseModel
 	{"name":"message_activation","label":"Enable SMS Message","type":"checkbox","hint":"Send a SMS in addition for each message between users. NOTE: You will have a lot to spend on the SMS sending credit."}';
 		}
 		
+		if ($this->key == 'upload') {
+			$value = '{"name":"image_types","label":"Upload Image Types","type":"text","hint":"Upload image types (ex: jpg,jpeg,gif,png,...)","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"file_types","label":"Upload File Types","type":"text","hint":"Upload file types (ex: pdf,doc,docx,odt,...)","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"max_file_size","label":"Upload Max File Size","type":"text","hint":"Upload Max File Size (in KB)","wrapperAttributes":{"class":"form-group col-md-6"}}';
+		}
+		
+		if ($this->key == 'geo_location') {
+			$value = '{"name":"geolocation_activation","label":"Enable Geolocation","type":"checkbox","hint":"Before enabling this option you need to download the Maxmind database by following the documentation <a href=\"http://support.bedigit.com/help-center/articles/14/enable-the-geo-location\" target=\"_blank\">here</a>.","wrapperAttributes":{"class":"form-group col-md-6","style":"margin-top: 20px;"}},
+	{"name":"default_country_code","label":"Default Country","type":"select2","attribute":"asciiname","model":"\\\App\\\Models\\\Country","allows_null":"true","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"separator_clear_1","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
+	{"name":"country_flag_activation","label":"Show country flag on top","type":"checkbox","hint":"<br>","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"local_currency_packages_activation","label":"Allow users to pay the Packages in their country currency","type":"checkbox","hint":"You have to create a list of <a href=\"#admin#/package\" target=\"_blank\">Packages</a> per currency (using currencies of activated countries) to allow users to pay the Packages in their local currency.<br>NOTE: By unchecking this field all the lists of Packages (without currency matching) will be shown during the payment process.","wrapperAttributes":{"class":"form-group col-md-6"}}';
+		}
+		
+		if ($this->key == 'security') {
+			$value = '{"name":"login_sep","type":"custom_html","value":"login_sep_value"},
+	{"name":"login_open_in_modal","label":"Open In Modal","type":"checkbox","hint":"Open the top login link into Modal"},
+	{"name":"login_max_attempts","label":"Max Attempts","type":"select2_from_array","options":{"30":"30","20":"20","10":"10","5":"5","4":"4","3":"3","2":"2","1":"1"},"hint":"The maximum number of attempts to allow","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"login_decay_minutes","label":"Decay Minutes","type":"select2_from_array","options":{"1440":"1440","720":"720","60":"60","30":"30","20":"20","15":"15","10":"10","5":"5","4":"4","3":"3","2":"2","1":"1"},"hint":"The number of minutes to throttle for","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"recaptcha_sep","type":"custom_html","value":"recaptcha_sep_value"},
+	{"name":"recaptcha_sep_info","type":"custom_html","value":"recaptcha_sep_info_value"},
+	{"name":"recaptcha_activation","label":"recaptcha_activation_label","type":"checkbox"},
+	{"name":"recaptcha_site_key","label":"recaptcha_site_key_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"recaptcha_secret_key","label":"recaptcha_secret_key_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"recaptcha_version","label":"recaptcha_version_label","type":"select2_from_array","options":{"v2":"v2","v3":"v3"},"hint":"recaptcha_version_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"recaptcha_skip_ips","label":"recaptcha_skip_ips_label","type":"textarea","hint":"recaptcha_skip_ips_hint","wrapperAttributes":{"class":"form-group col-md-6"}}';
+		}
+		
+		if ($this->key == 'social_auth') {
+			$value = '{"name":"social_login_activation","label":"social_login_activation_label","type":"checkbox","hint":"social_login_activation_hint"},
+	
+	{"name":"facebook_sep","type":"custom_html","value":"facebook_sep_value"},
+	{"name":"facebook_sep_1","type":"custom_html","value":"facebook_sep_1_value"},
+	{"name":"facebook_client_id","label":"facebook_client_id_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"facebook_client_secret","label":"facebook_client_secret_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"linkedin_sep","type":"custom_html","value":"linkedin_sep_value"},
+	{"name":"linkedin_sep_1","type":"custom_html","value":"linkedin_sep_1_value"},
+	{"name":"linkedin_client_id","label":"linkedin_client_id_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"linkedin_client_secret","label":"linkedin_client_secret_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"twitter_sep","type":"custom_html","value":"twitter_sep_value"},
+	{"name":"twitter_sep_1","type":"custom_html","value":"twitter_sep_1_value"},
+	{"name":"twitter_client_id","label":"twitter_client_id_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"twitter_client_secret","label":"twitter_client_secret_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"google_sep","type":"custom_html","value":"google_sep_value"},
+	{"name":"google_sep_1","type":"custom_html","value":"google_sep_1_value"},
+	{"name":"google_client_id","label":"google_client_id_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"google_client_secret","label":"google_client_secret_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}}';
+		}
+		
+		if ($this->key == 'social_link') {
+			$value = '{"name":"facebook_page_url","label":"Facebook Page URL","type":"text"},
+	{"name":"twitter_url","label":"Twitter URL","type":"text"},
+	{"name":"google_plus_url","label":"Google+ URL","type":"text"},
+	{"name":"linkedin_url","label":"LinkedIn URL","type":"text"},
+	{"name":"pinterest_url","label":"Pinterest URL","type":"text"},
+	{"name":"instagram_url","label":"Instagram URL","type":"text"}';
+		}
+		
+		if ($this->key == 'optimization') {
+			$value = '{"name":"caching_system_sep","type":"custom_html","value":"caching_system_sep_value"},
+	{"name":"cache_driver","label":"cache_driver_label","type":"select2_from_array","options":{"file":"File (Default)","array":"None","database":"Database","apc":"APC","memcached":"Memcached","redis":"Redis"},"hint":"cache_driver_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"cache_expiration","label":"cache_expiration_label","type":"text","hint":"cache_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"cache_driver_info_sep","type":"custom_html","value":"cache_driver_info"},
+	
+	{"name":"memcached_sep","type":"custom_html","value":"memcached_sep_value"},
+	{"name":"memcached_persistent_id","label":"memcached_persistent_id_label","type":"text","hint":"memcached_persistent_id_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"separator_clear_1","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
+	{"name":"memcached_sasl_username","label":"memcached_sasl_username_label","type":"text","hint":"memcached_sasl_username_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"memcached_sasl_password","label":"memcached_sasl_password_label","type":"text","hint":"memcached_sasl_password_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"memcached_servers_sep","type":"custom_html","value":"memcached_servers_sep_value"},
+	{"name":"memcached_servers_1_host","label":"' . trans('admin::messages.memcached_servers_host_label', ['num' => 1]) . '","type":"text","hint":"' . trans('admin::messages.memcached_servers_host_hint') . '","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"memcached_servers_1_port","label":"' . trans('admin::messages.memcached_servers_port_label', ['num' => 1]) . '","type":"text","hint":"' . trans('admin::messages.memcached_servers_port_hint') . '","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"memcached_servers_2_host","label":"' . trans('admin::messages.memcached_servers_host_label', ['num' => 2]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"memcached_servers_2_port","label":"' . trans('admin::messages.memcached_servers_port_label', ['num' => 2]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"memcached_servers_3_host","label":"' . trans('admin::messages.memcached_servers_host_label', ['num' => 3]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"memcached_servers_3_port","label":"' . trans('admin::messages.memcached_servers_port_label', ['num' => 3]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	
+	{"name":"redis_sep","type":"custom_html","value":"redis_sep_value"},
+	{"name":"redis_client","label":"redis_client_label","type":"select2_from_array","options":{"predis":"Predis","phpredis":"PhpRedis"},"hint":"redis_client_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"separator_clear_2","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
+	{"name":"redis_cluster_activation","label":"redis_cluster_activation_label","type":"checkbox","hint":"redis_cluster_activation_hint","wrapperAttributes":{"class":"form-group col-md-6","style":"margin-top: 5px;"}},
+	{"name":"redis_cluster","label":"redis_cluster_label","type":"select2_from_array","options":{"predis":"Predis","redis":"Redis"},"hint":"redis_cluster_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"separator_clear_3","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
+	{"name":"redis_server_sep","type":"custom_html","value":"redis_server_sep_value"},
+	{"name":"redis_host","label":"redis_host_label","type":"text","hint":"redis_host_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"redis_password","label":"redis_password_label","type":"text","hint":"redis_password_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"redis_port","label":"redis_port_label","type":"text","hint":"redis_port_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"redis_database","label":"redis_database_label","type":"text","hint":"redis_database_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"redis_clusters_sep","type":"custom_html","value":"redis_clusters_sep_value"},
+	{"name":"redis_cluster_1_host","label":"' . trans('admin::messages.redis_cluster_host_label', ['num' => 1]) . '","type":"text","hint":"' . trans('admin::messages.redis_cluster_host_hint') . '","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_1_password","label":"' . trans('admin::messages.redis_cluster_password_label', ['num' => 1]) . '","type":"text","hint":"' . trans('admin::messages.redis_cluster_password_hint') . '","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_1_port","label":"' . trans('admin::messages.redis_cluster_port_label', ['num' => 1]) . '","type":"text","hint":"' . trans('admin::messages.redis_cluster_port_hint') . '","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_1_database","label":"' . trans('admin::messages.redis_cluster_database_label', ['num' => 1]) . '","type":"text","hint":"' . trans('admin::messages.redis_cluster_database_hint') . '","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_2_host","label":"' . trans('admin::messages.redis_cluster_host_label', ['num' => 2]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_2_password","label":"' . trans('admin::messages.redis_cluster_password_label', ['num' => 2]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_2_port","label":"' . trans('admin::messages.redis_cluster_port_label', ['num' => 2]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_2_database","label":"' . trans('admin::messages.redis_cluster_database_label', ['num' => 2]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_3_host","label":"' . trans('admin::messages.redis_cluster_host_label', ['num' => 3]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_3_password","label":"' . trans('admin::messages.redis_cluster_password_label', ['num' => 3]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_3_port","label":"' . trans('admin::messages.redis_cluster_port_label', ['num' => 3]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	{"name":"redis_cluster_3_database","label":"' . trans('admin::messages.redis_cluster_database_label', ['num' => 3]) . ' (' . trans('admin::messages.Optional') . ')","type":"text","wrapperAttributes":{"class":"form-group col-md-6"},"disableTrans":"true"},
+	
+	{"name":"separator_hr_1","type":"custom_html","value":"<hr>"},
+	
+	{"name":"minify_html_sep","type":"custom_html","value":"minify_html_sep_value"},
+	{"name":"minify_html_activation","label":"minify_html_activation_label","type":"checkbox","hint":"minify_html_activation_hint","wrapperAttributes":{"class":"form-group col-md-6"}}';
+		}
+		
 		if ($this->key == 'seo') {
-			$value = '{"name":"separator_1","type":"custom_html","value":"<h3>Verification Tools</h3>"},
-	{"name":"google_site_verification","label":"Google site verification content","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"alexa_verify_id","label":"Alexa site verification content","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"msvalidate","label":"Bing site verification content","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"twitter_username","label":"Twitter Username","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+			$value = '{"name":"verification_tools_sep","type":"custom_html","value":"verification_tools_sep_value"},
+	{"name":"google_site_verification","label":"google_site_verification_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"alexa_verify_id","label":"alexa_verify_id_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"msvalidate","label":"msvalidate_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"yandex_verification","label":"yandex_verification_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"twitter_username","label":"twitter_username_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
 	
 	{"name":"separator_2","type":"custom_html","value":"<h3>Indexing (On Search Engines)</h3>"},
 	{"name":"no_index_categories","label":"No Index Categories Pages","type":"checkbox","wrapperAttributes":{"class":"form-group col-md-6"}},
@@ -919,55 +1178,8 @@ class Setting extends BaseModel
 	
 	{"name":"separator_4","type":"custom_html","value":"<h3>Multi-countries URLs Optimization</h3>"},
 	{"name":"separator_4_1","type":"custom_html","value":"multi_countries_urls_optimization_warning"},
-	{"name":"multi_countries_urls","label":"Enable The Multi-countries URLs Optimization","type":"checkbox","hint":"multi_countries_urls_optimization_hint"}';
-		}
-		
-		if ($this->key == 'upload') {
-			$value = '{"name":"image_types","label":"Upload Image Types","type":"text","hint":"Upload image types (ex: jpg,jpeg,gif,png,...)","wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"file_types","label":"Upload File Types","type":"text","hint":"Upload file types (ex: pdf,doc,docx,odt,...)","wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"max_file_size","label":"Upload Max File Size","type":"text","hint":"Upload Max File Size (in KB)","wrapperAttributes":{"class":"form-group col-md-6"}}';
-		}
-		
-		if ($this->key == 'geo_location') {
-			$value = '{"name":"geolocation_activation","label":"Enable Geolocation","type":"checkbox","hint":"Before enabling this option you need to download the Maxmind database by following the documentation <a href=\"http://support.bedigit.com/help-center/articles/14/enable-the-geo-location\" target=\"_blank\">here</a>.","wrapperAttributes":{"class":"form-group col-md-6","style":"margin-top: 20px;"}},
-	{"name":"default_country_code","label":"Default Country","type":"select2","attribute":"asciiname","model":"\\\App\\\Models\\\Country","allows_null":"true","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"separator_clear_1","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
-	{"name":"country_flag_activation","label":"Show country flag on top","type":"checkbox","hint":"<br>","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"local_currency_packages_activation","label":"Allow users to pay the Packages in their country currency","type":"checkbox","hint":"You have to create a list of <a href=\"#admin#/package\" target=\"_blank\">Packages</a> per currency (using currencies of activated countries) to allow users to pay the Packages in their local currency.<br>NOTE: By unchecking this field all the lists of Packages (without currency matching) will be shown during the payment process.","wrapperAttributes":{"class":"form-group col-md-6"}}';
-		}
-		
-		if ($this->key == 'security') {
-			$value = '{"name":"separator_1","type":"custom_html","value":"<h3>Login</h3>"},
-	{"name":"login_open_in_modal","label":"Open In Modal","type":"checkbox","hint":"Open the top login link into Modal"},
-	{"name":"login_max_attempts","label":"Max Attempts","type":"select2_from_array","options":{"30":"30","20":"20","10":"10","5":"5","4":"4","3":"3","2":"2","1":"1"},"hint":"The maximum number of attempts to allow","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"login_decay_minutes","label":"Decay Minutes","type":"select2_from_array","options":{"1440":"1440","720":"720","60":"60","30":"30","20":"20","15":"15","10":"10","5":"5","4":"4","3":"3","2":"2","1":"1"},"hint":"The number of minutes to throttle for","wrapperAttributes":{"class":"form-group col-md-6"}},
-	
-	{"name":"separator_2","type":"custom_html","value":"<h3>reCAPTCHA</h3>"},
-	{"name":"recaptcha_activation","label":"Enable reCAPTCHA","type":"checkbox","hint":"Get reCAPTCHA site keys <a href=\"https://www.google.com/recaptcha/\" target=\"_blank\">here</a>."},
-	{"name":"recaptcha_public_key","label":"reCAPTCHA Public Key","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"recaptcha_private_key","label":"reCAPTCHA Private Key","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}}';
-		}
-		
-		if ($this->key == 'social_auth') {
-			$value = '{"name":"social_login_activation","label":"Enable Social Login","type":"checkbox","hint":"Allow users to connect via social networks"},
-	
-	{"name":"separator_1","type":"custom_html","value":"<h3>Facebook</h3>"},
-	{"name":"separator_1_1","type":"custom_html","value":"Create a Facebook App <a href=\"https://developers.facebook.com/\" target=\"_blank\">here</a>. The \"OAuth redirect URI\" is: (http:// or https://) yoursite.com<strong>/auth/facebook/callback</strong> or www.yoursite.com<strong>/auth/facebook/callback</strong>"},
-	{"name":"facebook_client_id","label":"Facebook Client ID","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"facebook_client_secret","label":"Facebook Client Secret","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
-	
-	{"name":"separator_2","type":"custom_html","value":"<h3>Google+</h3>"},
-	{"name":"separator_2_1","type":"custom_html","value":"Create a Google+ App <a href=\"https://console.developers.google.com/\" target=\"_blank\">here</a>. The \"Authorized Redirect URI\" is: (http:// or https://) yoursite.com<strong>/auth/google/callback</strong> or www.yoursite.com<strong>/auth/google/callback</strong>"},
-	{"name":"google_client_id","label":"Google Client ID","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"google_client_secret","label":"Google Client Secret","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}}';
-		}
-		
-		if ($this->key == 'social_link') {
-			$value = '{"name":"facebook_page_url","label":"Facebook Page URL","type":"text"},
-	{"name":"twitter_url","label":"Twitter URL","type":"text"},
-	{"name":"google_plus_url","label":"Google+ URL","type":"text"},
-	{"name":"linkedin_url","label":"LinkedIn URL","type":"text"},
-	{"name":"pinterest_url","label":"Pinterest URL","type":"text"}';
+	{"name":"multi_countries_urls","label":"Enable The Multi-countries URLs Optimization","type":"checkbox","hint":"multi_countries_urls_optimization_hint"},
+	{"name":"separator_4_2","type":"custom_html","value":"multi_countries_urls_optimization_info"}';
 		}
 		
 		if ($this->key == 'other') {
@@ -992,25 +1204,25 @@ class Setting extends BaseModel
 	{"name":"separator_6","type":"custom_html","value":"<h3>Number Format</h3>"},
 	{"name":"decimals_superscript","label":"Decimals Superscript","type":"checkbox"},
 	
-	{"name":"separator_7","type":"custom_html","value":"<h3>Optimization</h3>"},
-	{"name":"cookie_expiration","label":"Cookie Expiration Time","type":"text","hint":"Cookie Expiration Time (in seconds)","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"cache_expiration","label":"Cache Expiration Time","type":"text","hint":"Cache Expiration Time (in minutes)","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"minify_html_activation","label":"Enable HTML Minify","type":"checkbox","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"cookie_sep","type":"custom_html","value":"cookie_sep_value"},
+	{"name":"cookie_expiration","label":"cookie_expiration_label","type":"text","hint":"cookie_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 	
 	{"name":"separator_8","type":"custom_html","value":"<h3>JavaScript (in the &lt;head&gt; section)</h3>"},
 	{"name":"js_code","label":"JavaScript Code","type":"textarea","attributes":{"rows":"10"},"hint":"Paste your JavaScript code here to put it in the &lt;head&gt; section of HTML pages."}';
 		}
 		
 		if ($this->key == 'cron') {
-			$value = '{"name":"separator_1","type":"custom_html","value":"<h3>Cron</h3>"},
-	{"name":"separator_1_1","type":"custom_html","value":"You need to add \'/usr/bin/php -q /path/to/your/website/artisan ads:clean\' in your Cron Job tab. Click <a href=\"http://support.bedigit.com/help-center/articles/19/configuring-the-cron-job\" target=\"_blank\">here</a> for more information."},
-	{"name":"unactivated_posts_expiration","label":"Unactivated Ads Expiration","type":"text", "hint":"In days (Delete the unactivated ads after this expiration)","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"activated_posts_expiration","label":"Activated Ads Expiration","type":"text", "hint":"In days (Archive the activated ads after this expiration)","wrapperAttributes":{"class":"form-group col-md-6"}},
-	{"name":"archived_posts_expiration","label":"Archived Ads Expiration","type":"text", "hint":"In days (Delete the archived ads after this expiration)","wrapperAttributes":{"class":"form-group col-md-6"}},
+			$value = '{"name":"cron_sep","type":"custom_html","value":"cron_sep_value"},
+	{"name":"cron_info_sep","type":"custom_html","value":"cron_info_sep_value"},
+	{"name":"cron_ads_clear_sep","type":"custom_html","value":"cron_ads_clear_sep_value"},
+	{"name":"unactivated_posts_expiration","label":"unactivated_posts_expiration_label","type":"text", "hint":"unactivated_posts_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"activated_posts_expiration","label":"activated_posts_expiration_label","type":"text", "hint":"activated_posts_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"archived_posts_expiration","label":"archived_posts_expiration_label","type":"text", "hint":"archived_posts_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+	{"name":"manually_archived_posts_expiration","label":"manually_archived_posts_expiration_label","type":"text", "hint":"manually_archived_posts_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 	
-	{"name":"separator_2","type":"custom_html","value":"<h3>Test</h3>"},
-	{"name":"separator_2_1","type":"custom_html","value":"cron_settings_details"},
-	{"name":"separator_2_2","type":"custom_html","value":"cron_settings_details_btn"}';
+	{"name":"cron_test_sep","type":"custom_html","value":"cron_test_sep_value"},
+	{"name":"cron_test_sep_details","type":"custom_html","value":"cron_settings_details"},
+	{"name":"cron_test_sep_detail_btn","type":"custom_html","value":"cron_settings_details_btn"}';
 		}
 		
 		if ($this->key == 'footer') {

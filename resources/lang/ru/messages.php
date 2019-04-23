@@ -78,7 +78,7 @@ return [
         Вставьте следующие строки в систему crontab. <br />
         Обратите внимание: ниже рекомендуются тайминги для запуска заданий cron, вы можете изменить их, если хотите.
     ',
-    'cron_jobs_comment' => 'Вы должны настроить команду Удаления объявлений на своем сервере crontab, чтобы запускать каждый час.',
+	'cron_jobs_comment' => 'You have to configure the Scheduler command on your server crontab that to run every minute.',
     'socket' => 'Разъем Unix (необязательно). Оставьте пустым, если ваш <a href="http://php.net/manual/en/ref.pdo-mysql.connection.php" target="_blank">сервер</a> не имеет такой опции',
     'sparkpost' => 'Sparkpost',
     'sparkpost_secret' => 'Sparkpost secret',

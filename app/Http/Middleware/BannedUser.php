@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -80,7 +80,7 @@ class BannedUser
 	 */
 	private function invalidateBannedUser($request)
 	{
-		$cacheExpiration = (int)config('settings.other.cache_expiration', 1440);
+		$cacheExpiration = (int)config('settings.optimization.cache_expiration', 1440);
 		
 		// Check if the user's email address has been banned
 		$cacheId = 'blacklist.email.' . auth()->user()->email;

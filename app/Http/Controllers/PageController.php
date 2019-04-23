@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Http\Requests\ContactRequest;
 use App\Models\City;
 use App\Models\Page;
@@ -24,10 +24,21 @@ use App\Models\User;
 use App\Notifications\FormSent;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Torann\LaravelMetaTags\Facades\MetaTag;
 
 class PageController extends FrontController
 {
+	/**
+	 * ReportController constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->middleware('demo.restriction')->only(['contactPost']);
+	}
+	
 	/**
 	 * @param $slug
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -49,7 +60,7 @@ class PageController extends FrontController
 		
 		// SEO
 		$title = $page->title;
-		$description = str_limit(str_strip($page->content), 200);
+		$description = Str::limit(str_strip($page->content), 200);
 		
 		// Meta Tags
 		MetaTag::set('title', $title);
@@ -98,7 +109,7 @@ class PageController extends FrontController
 		$contactForm = $request->all();
 		$contactForm['country_code'] = config('country.code');
 		$contactForm['country_name'] = config('country.name');
-		$contactForm = Arr::toObject($contactForm);
+		$contactForm = ArrayHelper::toObject($contactForm);
 		
 		// Send Contact Email
 		try {

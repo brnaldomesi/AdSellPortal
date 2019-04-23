@@ -11,14 +11,14 @@
 					<i class="fa fa-calendar"></i>
 				</div>
 				<input class="form-control pull-right"
-					   id="datepicker-{{ str_slug($filter->name) }}"
+					   id="datepicker-{{ \Illuminate\Support\Str::slug($filter->name) }}"
 					   type="text"
 					   @if ($filter->currentValue)
 					   value="{{ $filter->currentValue }}"
 						@endif
 				>
 				<div class="input-group-addon">
-					<a class="datepicker-{{ str_slug($filter->name) }}-clear-button" href=""><i class="fa fa-times"></i></a>
+					<a class="datepicker-{{ \Illuminate\Support\Str::slug($filter->name) }}-clear-button" href=""><i class="fa fa-times"></i></a>
 				</div>
 			</div>
 		</div>
@@ -50,7 +50,7 @@
 	<script type="text/javascript" src="{{ asset('vendor/adminlte/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 	<script>
 		jQuery(document).ready(function($) {
-			var dateInput = $('#datepicker-{{ str_slug($filter->name) }}').datepicker({
+			var dateInput = $('#datepicker-{{ \Illuminate\Support\Str::slug($filter->name) }}').datepicker({
 					autoclose: true,
 					format: 'yyyy-mm-dd',
 					todayHighlight: true
@@ -87,18 +87,18 @@
 						$('li[filter-name={{ $filter->name }}]').trigger('filter:clear');
 					}
 				});
-			$('li[filter-name={{ str_slug($filter->name) }}]').on('filter:clear', function(e) {
+			$('li[filter-name={{ \Illuminate\Support\Str::slug($filter->name) }}]').on('filter:clear', function(e) {
 				// console.log('date filter cleared');
 				$('li[filter-name={{ $filter->name }}]').removeClass('active');
-				$('#datepicker-{{ str_slug($filter->name) }}').datepicker('clearDates');
+				$('#datepicker-{{ \Illuminate\Support\Str::slug($filter->name) }}').datepicker('clearDates');
 			});
 			
 			// datepicker clear button
-			$(".datepicker-{{ str_slug($filter->name) }}-clear-button").click(function(e) {
+			$(".datepicker-{{ \Illuminate\Support\Str::slug($filter->name) }}-clear-button").click(function(e) {
 				e.preventDefault();
 				
-				$('li[filter-name={{ str_slug($filter->name) }}]').trigger('filter:clear');
-				$('#datepicker-{{ str_slug($filter->name) }}').trigger('changeDate');
+				$('li[filter-name={{ \Illuminate\Support\Str::slug($filter->name) }}]').trigger('filter:clear');
+				$('#datepicker-{{ \Illuminate\Support\Str::slug($filter->name) }}').trigger('changeDate');
 			})
 		});
 	</script>

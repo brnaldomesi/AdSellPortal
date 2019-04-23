@@ -1,6 +1,6 @@
 <?php
 if (!isset($cacheExpiration)) {
-    $cacheExpiration = (int)config('settings.other.cache_expiration');
+    $cacheExpiration = (int)config('settings.optimization.cache_expiration');
 }
 ?>
 @if (isset($featured) and !empty($featured) and !empty($featured->posts))
@@ -62,7 +62,7 @@ if (!isset($cacheExpiration)) {
 										<span class="item-carousel-thumb">
 											<img class="img-fluid" src="{{ $postImg }}" alt="{{ $post->title }}" style="border: 1px solid #e7e7e7; margin-top: 2px;">
 										</span>
-										<span class="item-name">{{ str_limit($post->title, 70) }}</span>
+										<span class="item-name">{{ \Illuminate\Support\Str::limit($post->title, 70) }}</span>
 										
 										@if (config('plugins.reviews.installed'))
 											@if (view()->exists('reviews::ratings-list'))

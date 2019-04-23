@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) Mayeul Akpovi. All Rights Reserved
  *
  * Website: http://www.bedigit.com

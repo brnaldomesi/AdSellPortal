@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -12,11 +12,11 @@
  * Please read the full License from here - http://codecanyon.net/licenses/standard
 --}}
 <?php
-	$fullUrl = url(\Illuminate\Support\Facades\Request::getRequestUri());
+	$fullUrl = rawurldecode(url(\Illuminate\Support\Facades\Request::getRequestUri()));
 	$plugins = array_keys((array)config('plugins'));
 ?>
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}"{!! (config('lang.direction')=='rtl') ? ' dir="rtl"' : '' !!}>
+<html lang="{{ ietfLangTag(config('app.locale')) }}"{!! (config('lang.direction')=='rtl') ? ' dir="rtl"' : '' !!}>
 <head>
 	<meta charset="utf-8">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -30,11 +30,11 @@
 	<link rel="shortcut icon" href="{{ \Storage::url(config('settings.app.favicon')) . getPictureVersion() }}">
 	<title>{!! MetaTag::get('title') !!}</title>
 	{!! MetaTag::tag('description') !!}{!! MetaTag::tag('keywords') !!}
-	<link rel="canonical" href="{{ $fullUrl }}"/>
 	@foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-		@if (strtolower($localeCode) != strtolower(config('app.locale')))
-			<link rel="alternate" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" hreflang="{{ strtolower($localeCode) }}"/>
+		@if (strtolower($localeCode) == strtolower(config('country.lang.abbr', config('app.locales'))))
+			<link rel="canonical" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}"/>
 		@endif
+		<link rel="alternate" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" hreflang="{{ strtolower($localeCode) }}"/>
 	@endforeach
 	@if (count($dnsPrefetch) > 0)
 		@foreach($dnsPrefetch as $dns)
@@ -65,6 +65,9 @@
 	@endif
 	@if (config('settings.seo.alexa_verify_id'))
 		<meta name="alexaVerifyID" content="{{ config('settings.seo.alexa_verify_id') }}" />
+	@endif
+	@if (config('settings.seo.yandex_verification'))
+		<meta name="yandex-verification" content="{{ config('settings.seo.yandex_verification') }}" />
 	@endif
     
     @yield('before_styles')
@@ -111,9 +114,41 @@
 	</script>
 	<script src="{{ url('assets/js/pace.min.js') }}"></script>
 	<script src="{{ url('assets/plugins/modernizr/modernizr-custom.js') }}"></script>
+	
+	@section('recaptcha_scripts')
+		@if (
+			config('settings.security.recaptcha_activation')
+			and config('recaptcha.site_key')
+			and config('recaptcha.secret_key')
+		)
+			<style>
+				.is-invalid .g-recaptcha iframe,
+				.has-error .g-recaptcha iframe {
+					border: 1px solid #f85359;
+				}
+			</style>
+			@if (config('recaptcha.version') == 'v3')
+				<script type="text/javascript">
+					function myCustomValidation(token){
+						/* read HTTP status */
+						/* console.log(token); */
+						
+						if ($('#gRecaptchaResponse').length) {
+							$('#gRecaptchaResponse').val(token);
+						}
+					}
+				</script>
+				{!! recaptchaApiV3JsScriptTag([
+					'action' 		    => request()->path(),
+					'custom_validation' => 'myCustomValidation'
+				]) !!}
+			@else
+				{!! recaptchaApiJsScriptTag() !!}
+			@endif
+		@endif
+	@show
 </head>
 <body class="{{ config('app.skin') }}">
-
 <div id="wrapper">
 	
 	@section('header')

@@ -78,7 +78,7 @@ return [
         ქვემოთ მოცემული სტრიქონები ჩასვით თქვენს სისტებაში. <br />
         მიაქციეთ ყურადღება იმას, რომ დრო cron jobs  უკვე მოცემულია. თქვენ შეგიძლიათ შეცვალოთ ის, როგორც გინდათ.
     ',
-    'cron_jobs_comment' => 'თქვენ უნდა მისცეთ ბრძანება Ads Cleaner -ს თქვენს server crontab-ზე, რომელიც ყოველ საათს ირთვება.',
+	'cron_jobs_comment' => 'You have to configure the Scheduler command on your server crontab that to run every minute.',
     'socket' => 'Unix socket (Optional) - დატოვეთ ცარიელი, თუ <a href="http://php.net/manual/en/ref.pdo-mysql.connection.php" target="_blank">სერვერს</a> ეს ოფცია არ აქვს',
     'sparkpost' => 'Sparkpost',
     'sparkpost_secret' => 'Sparkpost secret',

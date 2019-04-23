@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -37,19 +37,21 @@ class UserRequest extends Request
             }
 
             return [
-                //'gender_id'  => 'required|not_in:0',
-                'name'         => 'required|min:2|max:100',
-                'country_code' => 'sometimes|required|not_in:0',
-                'email'        => ($uniqueEmailIsRequired) ? 'required|email|unique:'.config('permission.table_names.users', 'users').',email' : 'required|email',
-                //'password'   => 'required|between:5,15',
+                //'gender_id'  => ['required', 'not_in:0'],
+                'name'         => ['required', 'min:2', 'max:100'],
+                'country_code' => ['sometimes', 'required', 'not_in:0'],
+                'email'        => ($uniqueEmailIsRequired)
+					? ['required', 'email', 'unique:' . config('permission.table_names.users', 'users') . ',email']
+					: ['required', 'email'],
+                //'password'   => ['required', 'between:5,15'],
             ];
         } else {
             return [
-                //'gender_id'  => 'required|not_in:0',
-                'name'         => 'required|min:2|max:100',
-                'country_code' => 'sometimes|required|not_in:0',
-                'email'        => 'required|email|unique:users,email',
-                //'password'   => 'required|between:5,15',
+                //'gender_id'  => ['required', 'not_in:0'],
+                'name'         => ['required', 'min:2', 'max:100'],
+                'country_code' => ['sometimes', 'required', 'not_in:0'],
+                'email'        => ['required', 'email', 'unique:users,email'],
+                //'password'   => ['required', 'between:5,15'],
             ];
         }
     }

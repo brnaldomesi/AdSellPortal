@@ -8,14 +8,14 @@
 		<div class="form-group backpack-filter m-b-0">
 			<div class="input-group">
 				<input class="form-control pull-right"
-					   id="text-filter-{{ str_slug($filter->name) }}"
+					   id="text-filter-{{ \Illuminate\Support\Str::slug($filter->name) }}"
 					   type="text"
 					   @if ($filter->currentValue)
 					   value="{{ $filter->currentValue }}"
 					   @endif
 				>
 				<div class="input-group-addon">
-					<a class="text-filter-{{ str_slug($filter->name) }}-clear-button" href=""><i class="fa fa-times"></i></a>
+					<a class="text-filter-{{ \Illuminate\Support\Str::slug($filter->name) }}-clear-button" href=""><i class="fa fa-times"></i></a>
 				</div>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 	<!-- include select2 js-->
 	<script>
 		jQuery(document).ready(function($) {
-			$('#text-filter-{{ str_slug($filter->name) }}').on('change', function(e) {
+			$('#text-filter-{{ \Illuminate\Support\Str::slug($filter->name) }}').on('change', function(e) {
 				
 				var parameter = '{{ $filter->name }}';
 				var value = $(this).val();
@@ -55,18 +55,18 @@
 				}
 			});
 			
-			$('li[filter-name={{ str_slug($filter->name) }}]').on('filter:clear', function(e) {
+			$('li[filter-name={{ \Illuminate\Support\Str::slug($filter->name) }}]').on('filter:clear', function(e) {
 				$('li[filter-name={{ $filter->name }}]').removeClass('active');
-				$('#text-filter-{{ str_slug($filter->name) }}').val('');
+				$('#text-filter-{{ \Illuminate\Support\Str::slug($filter->name) }}').val('');
 			});
 			
 			// datepicker clear button
-			$(".text-filter-{{ str_slug($filter->name) }}-clear-button").click(function(e) {
+			$(".text-filter-{{ \Illuminate\Support\Str::slug($filter->name) }}-clear-button").click(function(e) {
 				e.preventDefault();
 				
-				$('li[filter-name={{ str_slug($filter->name) }}]').trigger('filter:clear');
-				$('#text-filter-{{ str_slug($filter->name) }}').val('');
-				$('#text-filter-{{ str_slug($filter->name) }}').trigger('change');
+				$('li[filter-name={{ \Illuminate\Support\Str::slug($filter->name) }}]').trigger('filter:clear');
+				$('#text-filter-{{ \Illuminate\Support\Str::slug($filter->name) }}').val('');
+				$('#text-filter-{{ \Illuminate\Support\Str::slug($filter->name) }}').trigger('change');
 			})
 		});
 	</script>

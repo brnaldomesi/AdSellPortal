@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -22,7 +22,7 @@ namespace App\Http\Controllers;
  */
 set_time_limit(0);
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Helpers\Localization\Helpers\Country as CountryLocalizationHelper;
 use App\Helpers\Localization\Country as CountryLocalization;
 use App\Models\Category;
@@ -350,7 +350,7 @@ class SitemapsController extends FrontController
 			$tab['timezone'] = config('timezone.id');
 		}
 		
-		$tab = Arr::toObject($tab);
+		$tab = ArrayHelper::toObject($tab);
 		
 		// Set the Country's Locale & Default Date
 		if ($canApplySettings) {

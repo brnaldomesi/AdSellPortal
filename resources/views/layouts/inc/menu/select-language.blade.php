@@ -1,7 +1,7 @@
 @if (count(LaravelLocalization::getSupportedLocales()) > 1)
-	<!-- Language selector -->
+	<!-- Language Selector -->
 	<li class="dropdown lang-menu nav-item">
-		<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-target="#langMenuDropdown">
+		<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
 			<span class="lang-title">{{ strtoupper(config('app.locale')) }}</span>
 		</button>
 		<ul id="langMenuDropdown" class="dropdown-menu dropdown-menu-right user-menu shadow-sm" role="menu">
@@ -39,6 +39,11 @@
 					if (isset($uriPathPageSlug)) {
 						$attr['slug'] = $uriPathPageSlug;
 					}
+					if (\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\DetailsController')) {
+						$attr['slug'] = getSegment(1);
+						$attr['id'] = getSegment(2);
+					}
+					// $attr['debug'] = '1';
 					
 					// Default
 					// $link = LaravelLocalization::getLocalizedURL($localeCode, null, $attr);
@@ -47,7 +52,7 @@
 					?>
 					<li class="dropdown-item">
 						<a href="{{ $link }}" tabindex="-1" rel="alternate" hreflang="{{ $localeCode }}">
-							<span class="lang-name">{{{ $properties['native'] }}}</span>
+							<span class="lang-name">{!! $properties['native'] !!}</span>
 						</a>
 					</li>
 				@endif

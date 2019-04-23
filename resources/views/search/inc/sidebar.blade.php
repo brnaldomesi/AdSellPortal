@@ -99,13 +99,13 @@
 											@if ((isset($uriPathSubCatSlug) and $uriPathSubCatSlug == $iSubCat->slug) or (request()->input('sc') == $iSubCat->tid))
 												<strong>
 													<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat->name }}">
-														{{ str_limit($iSubCat->name, 100) }}
+														{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}
 														<span class="count">({{ $countSubCatPosts->get($iSubCat->tid)->total ?? 0 }})</span>
 													</a>
 												</strong>
 											@else
 												<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}" title="{{ $iSubCat->name }}">
-													{{ str_limit($iSubCat->name, 100) }}
+													{{ \Illuminate\Support\Str::limit($iSubCat->name, 100) }}
 													<span class="count">({{ $countSubCatPosts->get($iSubCat->tid)->total ?? 0 }})</span>
 												</a>
 											@endif
@@ -172,12 +172,12 @@
 							<li>
 								@if ((isset($uriPathCityId) and $uriPathCityId == $city->id) or (request()->input('l')==$city->id))
 									<strong>
-										<a href="{!! qsurl($fullUrlLocation, array_merge(request()->except(['page'] + array_keys($locationParams)), $locationParams)) !!}" title="{{ $city->name }}">
+										<a href="{!! qsurl($fullUrlLocation, array_merge(request()->except(['page'] + array_keys($locationParams)), $locationParams), null, false) !!}" title="{{ $city->name }}">
 											{{ $city->name }}
 										</a>
 									</strong>
 								@else
-									<a href="{!! qsurl($fullUrlLocation, array_merge(request()->except(['page'] + array_keys($locationParams)), $locationParams)) !!}" title="{{ $city->name }}">
+									<a href="{!! qsurl($fullUrlLocation, array_merge(request()->except(['page'] + array_keys($locationParams)), $locationParams), null, false) !!}" title="{{ $city->name }}">
 										{{ $city->name }}
 									</a>
 								@endif

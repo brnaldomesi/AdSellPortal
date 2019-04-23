@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -16,8 +16,10 @@
 namespace App\Http\Controllers\Search\Traits;
 
 use App\Helpers\DBTool;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Request;
 use App\Helpers\Search;
+use Illuminate\Support\Str;
 
 trait TitleTrait
 {
@@ -101,7 +103,7 @@ trait TitleTrait
 	 */
 	public function getHtmlTitle()
 	{
-		$fullUrl = url(Request::getRequestUri());
+		$fullUrl = rawurldecode(url(Request::getRequestUri()));
 		$tmpExplode = explode('?', $fullUrl);
 		$fullUrlNoParams = current($tmpExplode);
 		
@@ -117,11 +119,11 @@ trait TitleTrait
 		// Location
 		if ((isset($this->isCitySearch) && $this->isCitySearch) || (isset($this->isAdminSearch) && $this->isAdminSearch)) {
 			if (request()->filled('l') || request()->filled('r')) {
-				$searchUrl = qsurl($fullUrlNoParams, request()->except(['l', 'r', 'location']));
+				$searchUrl = qsurl($fullUrlNoParams, request()->except(['l', 'r', 'location']), null, false);
 			} else {
 				$attr = ['countryCode' => config('country.icode')];
 				$searchUrl = lurl(trans('routes.v-search', $attr), $attr);
-				$searchUrl = qsurl($searchUrl, request()->except(['l', 'r', 'location']));
+				$searchUrl = qsurl($searchUrl, request()->except(['l', 'r', 'location']), null, false);
 			}
 			
 			if (request()->filled('r') && !request()->filled('l')) {
@@ -162,14 +164,14 @@ trait TitleTrait
 						$htmlTitle .= ' ' . t('in') . ' ';
 						
 						if (request()->filled('sc')) {
-							$searchUrl = qsurl($fullUrlNoParams, request()->except(['sc']));
+							$searchUrl = qsurl($fullUrlNoParams, request()->except(['sc']), null, false);
 						} else {
 							$attr = [
 								'countryCode' => config('country.icode'),
 								'catSlug'     => $this->cat->slug,
 							];
 							$searchUrl = lurl(trans('routes.v-search-cat', $attr), $attr);
-							$searchUrl = qsurl($searchUrl, request()->except(['sc']));
+							$searchUrl = qsurl($searchUrl, request()->except(['sc']), null, false);
 						}
 						
 						$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . $searchUrl . '">';
@@ -181,11 +183,11 @@ trait TitleTrait
 				$htmlTitle .= ' ' . t('in') . ' ';
 				
 				if (request()->filled('c')) {
-					$searchUrl = qsurl($fullUrlNoParams, request()->except(['c']));
+					$searchUrl = qsurl($fullUrlNoParams, request()->except(['c']), null, false);
 				} else {
 					$attr = ['countryCode' => config('country.icode')];
 					$searchUrl = lurl(trans('routes.v-search', $attr), $attr);
-					$searchUrl = qsurl($searchUrl, request()->except(['c']));
+					$searchUrl = qsurl($searchUrl, request()->except(['c']), null, false);
 				}
 				
 				$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . $searchUrl . '">';
@@ -208,14 +210,14 @@ trait TitleTrait
 		// Date
 		if (request()->filled('postedDate') && isset($this->dates) && isset($this->dates->{request()->get('postedDate')})) {
 			$htmlTitle .= t('last');
-			$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . qsurl($fullUrlNoParams, request()->except(['postedDate'])) . '">';
+			$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . qsurl($fullUrlNoParams, request()->except(['postedDate']), null, false) . '">';
 			$htmlTitle .= $this->dates->{request()->get('postedDate')};
 			$htmlTitle .= '</a>';
 		}
 		
 		// Condition
 		if (request()->filled('new') && isset($this->conditions) && isset($this->conditions->{request()->get('new')})) {
-			$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . qsurl($fullUrlNoParams, request()->except(['new'])) . '">';
+			$htmlTitle .= '<a rel="nofollow" class="jobs-s-tag" href="' . qsurl($fullUrlNoParams, request()->except(['new']), null, false) . '">';
 			$htmlTitle .= $this->conditions->{request()->get('new')};
 			$htmlTitle .= '</a>';
 		}
@@ -303,7 +305,7 @@ trait TitleTrait
 		}
 		
 		// Sort by Position
-		$bcTab = array_values(array_sort($bcTab, function ($value) {
+		$bcTab = array_values(Arr::sort($bcTab, function ($value) {
 			return $value['position'];
 		}));
 		

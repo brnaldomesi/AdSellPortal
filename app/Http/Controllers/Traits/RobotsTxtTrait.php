@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -40,12 +40,14 @@ trait RobotsTxtTrait
 			$robotsTxt .= 'Allow: /' . "\n";
 			$robotsTxt .= "\n";
 			$robotsTxt .= 'User-agent: *' . "\n";
-			$robotsTxt .= 'Disallow: /admin/' . "\n";
+			$robotsTxt .= 'Disallow: /' . admin_uri() . '/' . "\n";
 			$robotsTxt .= 'Disallow: /ajax/' . "\n";
 			$robotsTxt .= 'Disallow: /assets/' . "\n";
 			$robotsTxt .= 'Disallow: /css/' . "\n";
 			$robotsTxt .= 'Disallow: /js/' . "\n";
 			$robotsTxt .= 'Disallow: /vendor/' . "\n";
+			$robotsTxt .= 'Disallow: /main.php' . "\n";
+			$robotsTxt .= 'Disallow: /mix-manifest.json' . "\n";
 			$robotsTxt .= "\n";
 			
 			// Add a Sitemap Index for each Country

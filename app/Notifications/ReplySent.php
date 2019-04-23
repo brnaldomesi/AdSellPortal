@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Str;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
@@ -87,7 +88,7 @@ class ReplySent extends Notification implements ShouldQueue
 		return trans('sms.reply_form_content', [
 			'appName' => config('app.name'),
 			'subject' => $this->msg->subject,
-			'message' => str_limit(strip_tags($this->msg->message), 50),
+			'message' => Str::limit(strip_tags($this->msg->message), 50),
 		]);
 	}
 }

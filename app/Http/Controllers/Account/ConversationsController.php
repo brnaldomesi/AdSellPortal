@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -130,7 +130,7 @@ class ConversationsController extends AccountBaseController
 		}
 		
 		// Don't reply to deleted (or non exiting) users
-		if (config('settings.single.guests_can_post_ads') != 1 && config('settings.single.guests_can_contact_seller') != 1) {
+		if (config('settings.single.guests_can_post_ads') != 1 && config('settings.single.guests_can_contact_ads_authors') != 1) {
 			if (User::where('id', $toUserId)->count() <= 0) {
 				flash(t("This user no longer exists.") . ' ' . t("Maybe the user's account has been disabled or deleted."))->error();
 				return back();

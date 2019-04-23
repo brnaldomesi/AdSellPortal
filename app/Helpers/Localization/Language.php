@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use App\Models\Country as CountryModel;
 use App\Helpers\Localization\Helpers\Country as CountryHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use PulkitJalan\GeoIP\Facades\GeoIP;
 
 class Language
@@ -36,7 +37,7 @@ class Language
 		$this->defaultLocale = config('app.locale');
 		
 		// Cache Expiration Time
-		self::$cacheExpiration = config('settings.other.cache_expiration', self::$cacheExpiration);
+		self::$cacheExpiration = config('settings.optimization.cache_expiration', self::$cacheExpiration);
 	}
 	
 	/**
@@ -137,7 +138,7 @@ class Language
 	{
 		$lang = collect([]);
 		
-		if (config('larapen.core.detectBrowserLanguage')) {
+		if (config('settings.app.auto_detect_language') == '1') {
 			// Get browser language
 			$acceptLanguage = request()->server('HTTP_ACCEPT_LANGUAGE');
 			$acceptLanguageTab = explode(',', $acceptLanguage);
@@ -163,9 +164,9 @@ class Language
 			$langCode = $hrefLang = '';
 			if (!empty($langTab)) {
 				foreach ($langTab as $key => $value) {
-					if (!$country->isEmpty() and $country->has('lang')) {
-						if (!$country->get('lang')->isEmpty() and $country->get('lang')->has('abbr')) {
-							if (str_contains($value['code'], $country->get('lang')->get('abbr'))) {
+					if (!$country->isEmpty() && $country->has('lang')) {
+						if (!$country->get('lang')->isEmpty() && $country->get('lang')->has('abbr')) {
+							if (Str::contains($value['code'], $country->get('lang')->get('abbr'))) {
 								$langCode = substr($value['code'], 0, 2);
 								$hrefLang = $langCode;
 								break;
@@ -329,7 +330,7 @@ class Language
 		} else {
 			// GeoIP
 			$countryCode = self::getCountryCodeFromIP();
-			if (!$countryCode or trim($countryCode) == '') {
+			if (!$countryCode || trim($countryCode) == '') {
 				// Geolocalization has failed
 				return collect([]);
 			}
@@ -350,7 +351,7 @@ class Language
 			GeoIP::setIp($ipAddr);
 			$countryCode = GeoIP::getCountryCode();
 			
-			if (!is_string($countryCode) or strlen($countryCode) != 2) {
+			if (!is_string($countryCode) || strlen($countryCode) != 2) {
 				return false;
 			}
 		} catch (\Exception $e) {

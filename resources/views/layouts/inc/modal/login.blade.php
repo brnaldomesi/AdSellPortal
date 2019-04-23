@@ -26,18 +26,52 @@
 						</div>
 					@endif
 					
-					@if (config('settings.social_auth.social_login_activation'))
+					@if (
+						config('settings.social_auth.social_login_activation')
+						and (
+							(config('settings.social_auth.facebook_client_id') and config('settings.social_auth.facebook_client_secret'))
+							or (config('settings.social_auth.linkedin_client_id') and config('settings.social_auth.linkedin_client_secret'))
+							or (config('settings.social_auth.twitter_client_id') and config('settings.social_auth.twitter_client_secret'))
+							or (config('settings.social_auth.google_client_id') and config('settings.social_auth.google_client_secret'))
+							)
+						)
 						<div class="row mb-3 d-flex justify-content-center pl-2 pr-2">
+							@if (config('settings.social_auth.facebook_client_id') and config('settings.social_auth.facebook_client_secret'))
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
 								<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-fb">
-									<a href="{{ lurl('auth/facebook') }}" class="btn-fb"><i class="icon-facebook"></i> Facebook</a>
+									<a href="{{ lurl('auth/facebook') }}" class="btn-fb" title="{!! strip_tags(t('Login with Facebook')) !!}">
+										<i class="icon-facebook-rect"></i> Facebook
+									</a>
 								</div>
 							</div>
+							@endif
+							@if (config('settings.social_auth.linkedin_client_id') and config('settings.social_auth.linkedin_client_secret'))
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
+								<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-lkin">
+									<a href="{{ lurl('auth/linkedin') }}" class="btn-lkin" title="{!! strip_tags(t('Login with LinkedIn')) !!}">
+										<i class="icon-linkedin"></i> LinkedIn
+									</a>
+								</div>
+							</div>
+							@endif
+							@if (config('settings.social_auth.twitter_client_id') and config('settings.social_auth.twitter_client_secret'))
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
+								<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-tw">
+									<a href="{{ lurl('auth/twitter') }}" class="btn-tw" title="{!! strip_tags(t('Login with Twitter')) !!}">
+										<i class="icon-twitter-bird"></i> Twitter
+									</a>
+								</div>
+							</div>
+							@endif
+							@if (config('settings.social_auth.google_client_id') and config('settings.social_auth.google_client_secret'))
 							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
 								<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-danger">
-									<a href="{{ lurl('auth/google') }}" class="btn-danger"><i class="icon-googleplus-rect"></i> Google</a>
+									<a href="{{ lurl('auth/google') }}" class="btn-danger" title="{!! strip_tags(t('Login with Google')) !!}">
+										<i class="icon-googleplus-rect"></i> Google
+									</a>
 								</div>
 							</div>
+							@endif
 						</div>
 					@endif
 					
@@ -80,16 +114,7 @@
 						<div style=" clear:both"></div>
 					</div>
 					
-					@if (config('settings.security.recaptcha_activation'))
-						<!-- recaptcha -->
-						<?php $recaptchaError = (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>
-						<div class="form-group required">
-							<label class="control-label" for="g-recaptcha-response">{{ t('We do not like robots') }}</label>
-							<div>
-								{!! Recaptcha::render(['lang' => config('app.locale')]) !!}
-							</div>
-						</div>
-					@endif
+					@include('layouts.inc.tools.recaptcha', ['label' => true])
 					
 					<input type="hidden" name="quickLoginForm" value="1">
 				</div>

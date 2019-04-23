@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -34,7 +34,7 @@ class BackupController extends Controller
 	 */
 	public function __construct()
 	{
-		$this->middleware('demo')->except(['index']);
+		$this->middleware('demo.restriction')->except(['index']);
 	}
 	
 	public function index()

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,7 @@
 
 namespace Larapen\Admin\app\Models;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
@@ -312,7 +313,7 @@ trait Crud
             $attribute_value = (array) $this->{$attribute_name};
             foreach ($files_to_clear as $key => $filename) {
                 Storage::disk($disk)->delete($filename);
-                $attribute_value = array_where($attribute_value, function ($value, $key) use ($filename) {
+                $attribute_value = Arr::where($attribute_value, function ($value, $key) use ($filename) {
                     return $value != $filename;
                 });
             }

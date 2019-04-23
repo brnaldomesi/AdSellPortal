@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Str;
+
 class LoginRequest extends Request
 {
     /**
@@ -25,20 +27,18 @@ class LoginRequest extends Request
     public function rules()
     {
 		// If previous page is not the Login page...
-		if (!str_contains(url()->previous(), trans('routes.login'))) {
+		if (!Str::contains(url()->previous(), trans('routes.login'))) {
 			// Save the previous URL to retrieve it after success or failed login.
 			session()->put('url.intended', url()->previous());
 		}
 		
         $rules = [
-            'login'    => 'required',
-            'password' => 'required|min:5|max:50',
+            'login'    => ['required'],
+            'password' => ['required', 'min:5', 'max:60'],
         ];
     
-        // Recaptcha
-        if (config('settings.security.recaptcha_activation')) {
-            $rules['g-recaptcha-response'] = 'required';
-        }
+        // reCAPTCHA
+		$rules = $this->recaptchaRules($rules);
         
         return $rules;
     }

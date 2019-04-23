@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Exceptions;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Helpers\DBTool;
 use Exception;
 use Illuminate\Contracts\Container\Container;
@@ -24,10 +24,10 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Prologue\Alerts\Facades\Alert;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-
 
 class Handler extends ExceptionHandler
 {
@@ -129,7 +129,46 @@ class Handler extends ExceptionHandler
 		
 		// Show HTTP exceptions
 		if ($this->isHttpException($e)) {
+			// Check if the app is installed when page is not found (or when 404 page is called),
+			// to prevent any DB error when the app is not installed yet
+			if (method_exists($e, 'getStatusCode')) {
+				if ($e->getStatusCode() == 404) {
+					if (!appIsInstalled()) {
+						return redirect(getRawBaseUrl() . '/install');
+					}
+				}
+			}
+			
 			return $this->renderHttpException($e);
+		}
+		
+		// Show caching exception (APC or Redis)
+		if (
+			preg_match('#apc_#ui', $e->getMessage())
+			|| preg_match('#/predis/#i', $e->getFile())
+		) {
+			$msg = '';
+			$msg .= '<html><head>';
+			$msg .= '<title>Cache Driver Error</title>';
+			$msg .= '<meta name="robots" content="noindex,nofollow">';
+			$msg .= '<meta name="googlebot" content="noindex">';
+			$msg .= '</head><body>';
+			$msg .= '<pre>';
+			$msg .= '<h1>Cache Driver Error</h1>';
+			$msg .= '<br><strong>Error:</strong> ' . $e->getMessage() . '.';
+			$msg .= '<br><br><strong>Information: </strong>';
+			$msg .= '<ul>';
+			if (preg_match('#apc_#ui', $e->getMessage())) {
+				$msg .= '<li>It looks like that the <a href="http://php.net/manual/en/book.apc.php" target="_blank">APC extension</a> is not installed (or not properly installed) for PHP.</li>';
+			}
+			$msg .= '<li>Make sure you have properly installed the components related to the selected cache driver on your server.</li>';
+			$msg .= '<li>To get your website up and running again you have to change the cache driver in the /.env file with the "file" or "array" driver (example: CACHE_DRIVER=file).</li>';
+			$msg .= '</ul>';
+			$msg .= 'Happy Configuration!';
+			$msg .= '</pre>';
+			$msg .= '</body></html>';
+			echo $msg;
+			exit();
 		}
 		
 		// Show DB exceptions
@@ -144,9 +183,13 @@ class Handler extends ExceptionHandler
 			// Database errors
 			if (in_array($e->getCode(), $dbErrorCodes['mysql']) or in_array($e->getCode(), $dbErrorCodes['standardized'])) {
 				$msg = '';
-				$msg .= '<html><head><title>SQL Error</title></head><body>';
+				$msg .= '<html><head>';
+				$msg .= '<title>SQL Error</title>';
+				$msg .= '<meta name="robots" content="noindex,nofollow">';
+				$msg .= '<meta name="googlebot" content="noindex">';
+				$msg .= '</head><body>';
 				$msg .= '<pre>';
-				$msg .= '<h3>SQL Error</h3>';
+				$msg .= '<h1>SQL Error</h1>';
 				$msg .= '<br>Code error: ' . $e->getCode() . '.';
 				$msg .= '<br><br><blockquote>' . $e->getMessage() . '</blockquote>';
 				$msg .= '</pre>';
@@ -158,9 +201,13 @@ class Handler extends ExceptionHandler
 			// Tables and fields errors
 			if (in_array($e->getCode(), $tableErrorCodes['mysql']) or in_array($e->getCode(), $tableErrorCodes['standardized'])) {
 				$msg = '';
-				$msg .= '<html><head><title>Installation - LaraClassified</title></head><body>';
+				$msg .= '<html><head>';
+				$msg .= '<title>Installation</title>';
+				$msg .= '<meta name="robots" content="noindex,nofollow">';
+				$msg .= '<meta name="googlebot" content="noindex">';
+				$msg .= '</head><body>';
 				$msg .= '<pre>';
-				$msg .= '<h3>There were errors during the installation process</h3>';
+				$msg .= '<h1>There were errors during the installation process</h1>';
 				$msg .= 'Some tables in the database are absent.';
 				$msg .= '<br><br><blockquote>' . $e->getMessage() . '</blockquote>';
 				$msg .= '<br>1/ Perform the database installation manually with the sql files:';
@@ -186,7 +233,7 @@ class Handler extends ExceptionHandler
 			$message = t('Your session has expired. Please try again.');
 			flash($message)->error(); // front
 			Alert::error($message)->flash(); // admin
-			if (!str_contains(URL::previous(), 'CsrfToken')) {
+			if (!Str::contains(URL::previous(), 'CsrfToken')) {
 				return redirect(URL::previous() . '?error=CsrfToken')->withInput();
 			} else {
 				return redirect(URL::previous())->withInput();
@@ -197,7 +244,7 @@ class Handler extends ExceptionHandler
 		if ($e instanceof MethodNotAllowedHttpException) {
 			$message = "Opps! Seems you use a bad request method. Please try again.";
 			flash($message)->error();
-			if (!str_contains(URL::previous(), 'MethodNotAllowed')) {
+			if (!Str::contains(URL::previous(), 'MethodNotAllowed')) {
 				return redirect(URL::previous() . '?error=MethodNotAllowed');
 			} else {
 				return redirect(URL::previous())->withInput();
@@ -206,7 +253,7 @@ class Handler extends ExceptionHandler
 		
 		// Try to fix the cookies issue related the Laravel security release:
 		// https://laravel.com/docs/5.6/upgrade#upgrade-5.6.30
-		if (str_contains($e->getMessage(), 'unserialize()') && request()->get('exception') != 'unserialize') {
+		if (Str::contains($e->getMessage(), 'unserialize()') && request()->get('exception') != 'unserialize') {
 			// Unset cookies
 			unsetCookies();
 			
@@ -282,8 +329,8 @@ class Handler extends ExceptionHandler
 		if (
 			($e instanceof \PDOException) ||
 			$e->getCode() == 1045 ||
-			str_contains($e->getMessage(), 'SQLSTATE') ||
-			str_contains($e->getFile(), 'Database/Connectors/Connector.php')
+			Str::contains($e->getMessage(), 'SQLSTATE') ||
+			Str::contains($e->getFile(), 'Database/Connectors/Connector.php')
 		) {
 			return true;
 		}
@@ -321,7 +368,7 @@ class Handler extends ExceptionHandler
 				$query = DBTool::getPDOConnexion()->prepare($sql);
 				$query->execute();
 				$lang = $query->fetch();
-				$lang = Arr::fromObject($lang);
+				$lang = ArrayHelper::fromObject($lang);
 				
 				if (!empty($lang)) {
 					$this->app['config']->set('lang', $lang);

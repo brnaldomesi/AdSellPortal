@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -179,7 +179,7 @@ function getPostUrl($post)
 
     // Get URL
     $url = localUrl($post->country_code, $post->uri) . $preview;
-    $out = '<a href="' . $url . '" target="_blank">' . str_limit($post->title, 60) . '</a>' . $out;
+    $out = '<a href="' . $url . '" target="_blank">' . \Illuminate\Support\Str::limit($post->title, 60) . '</a>' . $out;
 
     return $out;
 }

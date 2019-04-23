@@ -1,6 +1,25 @@
 <?php
 try {
 	
+	/* DATABASE */
+	if (!\Schema::hasColumn('posts', 'archived_at')) {
+		\Schema::table('posts', function ($table) {
+			$table->timestamp('archived_at')->after('archived')->nullable();
+		});
+	}
+	if (!\Schema::hasColumn('posts', 'deletion_mail_sent_at')) {
+		\Schema::table('posts', function ($table) {
+			$table->timestamp('deletion_mail_sent_at')->after('archived_at')->nullable();
+		});
+	}
+	if (!\Schema::hasColumn('users', 'photo')) {
+		\Schema::table('users', function ($table) {
+			$table->string('photo', 255)->after('name')->nullable()->default(NULL);
+		});
+	}
+	
+	
+	/* FILES */
 	\File::deleteDirectory(app_path('Mail/'));
 	\File::deleteDirectory(base_path('resources/assets/'));
 	\File::deleteDirectory(base_path('resources/views/emails/'));

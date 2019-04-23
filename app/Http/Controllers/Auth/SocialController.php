@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -28,6 +28,7 @@ use App\Notifications\UserNotification;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialController extends FrontController
@@ -41,7 +42,7 @@ class SocialController extends FrontController
 	protected $redirectTo = 'account';
 	
 	// Supported Providers
-	private $network = ['facebook', 'google', 'twitter'];
+	private $network = ['facebook', 'linkedin', 'twitter', 'google'];
 	
 	/**
 	 * SocialController constructor.
@@ -51,7 +52,7 @@ class SocialController extends FrontController
 		parent::__construct();
 		
 		// Set default URLs
-		$isFromLoginPage = str_contains(url()->previous(), '/' . trans('routes.login'));
+		$isFromLoginPage = Str::contains(url()->previous(), '/' . trans('routes.login'));
 		$this->loginPath = $isFromLoginPage ? config('app.locale') . '/' . trans('routes.login') : url()->previous();
 		$this->redirectTo = $isFromLoginPage ? config('app.locale') . '/account' : url()->previous();
 	}
@@ -70,7 +71,7 @@ class SocialController extends FrontController
 		}
 		
 		// If previous page is not the Login page...
-		if (!str_contains(url()->previous(), trans('routes.login'))) {
+		if (!Str::contains(url()->previous(), trans('routes.login'))) {
 			// Save the previous URL to retrieve it after success or failed login.
 			session()->put('url.intended', url()->previous());
 		}
@@ -114,7 +115,7 @@ class SocialController extends FrontController
 			
 			// Email not found
 			if (!$userData || !filter_var($userData->getEmail(), FILTER_VALIDATE_EMAIL)) {
-				$message = t("Email address not found. You can't use your :provider account on our website.", ['provider' => ucfirst($provider)]);
+				$message = t("Email address not found. You can't use your :provider account on our website.", ['provider' => mb_ucfirst($provider)]);
 				flash($message)->error();
 				
 				return redirect($this->loginPath);
@@ -137,18 +138,22 @@ class SocialController extends FrontController
 		// DATA MAPPING
 		try {
 			$mapUser = [];
-			if ($provider == 'facebook') {
-				$mapUser['name'] = (isset($userData->user['name'])) ? $userData->user['name'] : '';
-				if ($mapUser['name'] == '') {
-					if (isset($userData->user['first_name']) && isset($userData->user['last_name'])) {
-						$mapUser['name'] = $userData->user['first_name'] . ' ' . $userData->user['last_name'];
-					}
+			
+			// Get User Name (First Name & Last Name)
+			$mapUser['name'] = (isset($userData->name) && is_string($userData->name)) ? $userData->name : '';
+			if ($mapUser['name'] == '') {
+				// facebook
+				if (isset($userData->user['first_name']) && isset($userData->user['last_name'])) {
+					$mapUser['name'] = $userData->user['first_name'] . ' ' . $userData->user['last_name'];
 				}
-			} else {
-				if ($provider == 'google') {
-					$mapUser = [
-						'name' => (isset($userData->name)) ? $userData->name : '',
-					];
+			}
+			if ($mapUser['name'] == '') {
+				// linkedin
+				$mapUser['name'] = (isset($userData->user['formattedName'])) ? $userData->user['formattedName'] : '';
+				if ($mapUser['name'] == '') {
+					if (isset($userData->user['firstName']) && isset($userData->user['lastName'])) {
+						$mapUser['name'] = $userData->user['firstName'] . ' ' . $userData->user['lastName'];
+					}
 				}
 			}
 			

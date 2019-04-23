@@ -78,7 +78,7 @@ return [
         Insert the following lines to your system contab. <br />
         Please note, below timings for running the cron jobs are the recommended, you can change it if you want.
     ',
-    'cron_jobs_comment' => 'You have to configure the Ads Cleaner command on your server crontab that to run each hour.',
+	'cron_jobs_comment' => 'You have to configure the Scheduler command on your server crontab that to run every minute.',
     'socket' => 'Unix socket (Optional) - Leave blank if your <a href="http://php.net/manual/en/ref.pdo-mysql.connection.php" target="_blank">server</a> doesn\'t have this option',
     'sparkpost' => 'Sparkpost',
     'sparkpost_secret' => 'Sparkpost secret',

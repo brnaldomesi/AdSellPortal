@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -241,7 +241,7 @@ function getDomain($url = null)
 			$itemsToKeep = $itemsToKeep - 1;
 		}
 		for ($i = 0; $i < $itemsToKeep; $i++) {
-			array_forget($tmp, $i);
+			\Illuminate\Support\Arr::forget($tmp, $i);
 		}
 		$domain = implode('.', $tmp);
 	} else {
@@ -279,9 +279,19 @@ function getSubDomainName()
 function qsurl($path = null, $inputArray = [], $secure = null, $localized = true)
 {
 	if ($localized) {
+		if (preg_match('#^http(s)?://#', $path)) {
+			$path = mb_parse_url($path, PHP_URL_PATH);
+		}
 		$url = lurl($path);
 	} else {
 		$url = app('url')->to($path, $secure);
+	}
+	
+	if (config('plugins.domainmapping.installed')) {
+		if (isset($inputArray['d'])) {
+			unset($inputArray['d']);
+		}
+		$inputArray = array_filter($inputArray);
 	}
 	
 	if (!empty($inputArray)) {
@@ -447,7 +457,7 @@ function isFromApi()
 	$isFromApi = false;
 	if (
 		request()->segment(1) == 'api'
-		&& str_contains(\Route::currentRouteAction(), plugin_namespace('apilc'))
+		&& \Illuminate\Support\Str::contains(\Route::currentRouteAction(), plugin_namespace('apilc'))
 	) {
 		// Check the API Plugin
 		$isFromApi = config('plugins.apilc.installed');
@@ -468,7 +478,7 @@ function isFromAdminPanel()
 	if (
 		request()->segment(1) == admin_uri() ||
 		request()->segment(1) == 'impersonate' ||
-		str_contains(\Route::currentRouteAction(), '\Admin\\')
+		\Illuminate\Support\Str::contains(\Route::currentRouteAction(), '\Admin\\')
 	) {
 		$isFromAdmin = true;
 	}
@@ -479,11 +489,12 @@ function isFromAdminPanel()
 /**
  * Check the demo website domain
  *
+ * @param null $url
  * @return bool
  */
-function isDemoDomain()
+function isDemoDomain($url = null)
 {
-	return getDomain() == config('larapen.core.demo.domain') || in_array(getHost(), (array)config('larapen.core.demo.hosts'));
+	return getDomain($url) == config('larapen.core.demo.domain') || in_array(getHost($url), (array)config('larapen.core.demo.hosts'));
 }
 
 /**
@@ -492,6 +503,13 @@ function isDemoDomain()
 function isDemo()
 {
 	if (isDemoDomain()) {
+		if (
+			\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\DetailsController@sendMessage') ||
+			\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\ReportController@sendReport') ||
+			\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'PageController@contactPost')
+		) {
+			return true;
+		}
 		if (auth()->check()) {
 			if (isFromAdminPanel()) {
 				if (auth()->user()->can(\App\Models\Permission::getStaffPermissions()) && auth()->user()->id == 1) {
@@ -504,16 +522,20 @@ function isDemo()
 					return false;
 				}
 				if (
-					!str_contains(\Route::currentRouteAction(), 'Controllers\HomeController') &&
-					!str_contains(\Route::currentRouteAction(), 'Post\CreateController') &&
-					!str_contains(\Route::currentRouteAction(), 'Post\EditController') &&
-					!str_contains(\Route::currentRouteAction(), 'Post\PhotoController') &&
-					!str_contains(\Route::currentRouteAction(), 'Post\PaymentController') &&
-					!str_contains(\Route::currentRouteAction(), 'Post\DetailsController') &&
-					!str_contains(\Route::currentRouteAction(), 'Post\ReportController') &&
-					!str_contains(\Route::currentRouteAction(), 'Ajax\PostController') &&
-					!str_contains(\Route::currentRouteAction(), 'Account\ConversationsController') &&
-					!str_contains(\Route::currentRouteAction(), 'Auth\LoginController')
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Controllers\HomeController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\CreateOrEdit\MultiSteps\CreateController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\CreateOrEdit\MultiSteps\EditController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\CreateOrEdit\MultiSteps\PhotoController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\CreateOrEdit\MultiSteps\PaymentController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\CreateOrEdit\SingleStep\CreateController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\CreateOrEdit\SingleStep\EditController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\DetailsController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Post\ReportController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Ajax\PostController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Account\CompanyController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Account\ConversationsController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Account\ResumeController') &&
+					!\Illuminate\Support\Str::contains(\Route::currentRouteAction(), 'Auth\LoginController')
 				) {
 					return true;
 				}
@@ -581,13 +603,100 @@ function getSegment($index, $default = null)
 	$segment = request()->segment($index, $default);
 	
 	// Checking with Default Language parameters
-	if (!ends_with(request()->url(), '.xml')) {
+	if (!isFromUrlAlwaysContainingCountryCode()) {
 		if (!currentLocaleShouldBeHiddenInUrl()) {
 			$segment = request()->segment(($index + 1), $default);
 		}
 	}
 	
 	return $segment;
+}
+
+/**
+ * Get the Country Code from URI Path
+ *
+ * @return bool
+ */
+function getCountryCodeFromPath()
+{
+	$countryCode = null;
+	
+	// With these URLs, the language code and the country code can be available in the segments
+	// (If the "Multi-countries URLs Optimization" is enabled)
+	if (isFromUrlThatCanContainCountryCode()) {
+		$countryCode = getSegment(1);
+	}
+	
+	// With these URLs, the language code and the country code are available in the segments
+	if (isFromUrlAlwaysContainingCountryCode()) {
+		$countryCode = getSegment(2);
+	}
+	
+	return $countryCode;
+}
+
+/**
+ * Check if user is coming from a URL that can contain the country code
+ * With these URLs, the language code and the country code can be available in the segments
+ * (If the "Multi-countries URLs Optimization" is enabled)
+ *
+ * @return bool
+ */
+function isFromUrlThatCanContainCountryCode()
+{
+	if (config('settings.seo.multi_countries_urls')) {
+		if (
+			\Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'SearchController')
+			|| \Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'CategoryController')
+			|| \Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'CityController')
+			|| \Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'UserController')
+			|| \Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'TagController')
+			|| \Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'CompanyController')
+			|| \Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'SitemapController')
+		) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+/**
+ * Check if called page can always have the country code
+ * With these URLs, the language code and the country code are available in the segments
+ *
+ * @return bool
+ */
+function isFromUrlAlwaysContainingCountryCode()
+{
+	if (
+		\Illuminate\Support\Str::endsWith(request()->url(), '.xml')
+		|| \Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'SitemapsController')
+	) {
+		return true;
+	}
+	
+	return false;
+}
+
+/**
+ * Get the current URL by language code
+ *
+ * @param $countryLangCode
+ * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+ */
+function getCurrentUrlByLanguage($countryLangCode)
+{
+	$currentUrl = url($countryLangCode);
+	
+	foreach(\Larapen\LaravelLocalization\Facades\LaravelLocalization::getSupportedLocales() as $localeCode => $properties) {
+		if (strtolower($localeCode) == strtolower($countryLangCode)) {
+			$currentUrl = \Larapen\LaravelLocalization\Facades\LaravelLocalization::getLocalizedURL($localeCode);
+			break;
+		}
+	}
+	
+	return $currentUrl;
 }
 
 /**
@@ -601,7 +710,7 @@ function fileIsUploaded($value)
 	$isUploaded = false;
 	
 	if (
-		(is_string($value) && starts_with($value, 'data:image'))
+		(is_string($value) && \Illuminate\Support\Str::startsWith($value, 'data:image'))
 		|| ($value instanceof \Illuminate\Http\UploadedFile)
 	) {
 		$isUploaded = true;
@@ -625,7 +734,7 @@ function getUploadedFileExtension($value)
 			$extension = $value->getClientOriginalExtension();
 		}
 	} else {
-		if (starts_with($value, 'data:image')) {
+		if (\Illuminate\Support\Str::startsWith($value, 'data:image')) {
 			$matches = [];
 			preg_match('#data:image/([^;]+);base64#', $value, $matches);
 			$extension = (isset($matches[1]) && !empty($matches[1])) ? $matches[1] : 'png';
@@ -726,7 +835,109 @@ function strCleanerLite($string)
 	$string = preg_replace('/[\'"]*(<|>)[\'"]*/us', '', $string);
 	$string = trim($string);
 	
+	/*
+	Remove non-breaking spaces
+	In HTML, the common non-breaking space, which is the same width as the ordinary space character, is encoded as &nbsp; or &#160;.
+	In Unicode, it is encoded as U+00A0.
+	https://en.wikipedia.org/wiki/Non-breaking_space
+	https://graphemica.com/00A0
+	*/
+	$string = preg_replace('~\x{00a0}~siu', '', $string);
+	
 	return $string;
+}
+
+/**
+ * Title cleaner
+ *
+ * @param $string
+ * @return mixed|string|string[]|null
+ * @todo: Code not tested. Test it!
+ */
+function titleCleaner($string)
+{
+	$string = strip_tags($string);
+	$string = html_entity_decode($string);
+	$string = str_replace('º', '', $string);
+	$string = str_replace('ª', '', $string);
+	
+	/*
+	Match a single character not present in the list below
+	[^\p{L}\p{M}\p{Z}\p{N}\p{Sc}\%\'\"!?¿¡-]
+	\p{L} matches any kind of letter from any language
+	\p{M} matches a character intended to be combined with another character (e.g. accents, umlauts, enclosing boxes, etc.)
+	\p{Z} matches any kind of whitespace or invisible separator
+	\p{N} matches any kind of numeric character in any script
+	\p{Sc} matches any currency sign
+	\% matches the character % literally (case sensitive)
+	\' matches the character ' literally (case sensitive)
+	\" matches the character " literally (case sensitive)
+	!?¿¡- matches a single character in the list !?¿¡- (case sensitive)
+	
+	Global pattern flags
+	g modifier: global. All matches (don't return after first match)
+	m modifier: multi line. Causes ^ and $ to match the begin/end of each line (not only begin/end of string)
+	*/
+	$string = preg_replace('/[^\p{L}\p{M}\p{Z}\p{N}\p{Sc}\%\'\"\!\?¿¡\-]/u', ' ', $string);
+	
+	$string = preg_replace('/[\'"]*(<|>)[\'"]*/us', '', $string);
+	$string = str_replace(' ', ' ', $string); // do NOT remove, first is NOT blank space.
+	$string = str_replace('️', ' ', $string); // do NOT remove, there is a ghost.
+	$string = preg_replace('/-{2,}/', '-', $string);
+	$string = preg_replace('/"{2,}/', '"', $string);
+	$string = preg_replace("/'{2,}/", "'", $string);
+	$string = preg_replace('/!{2,}/', '!', $string);
+	$string = preg_replace("/[\?]+/", "?", $string);
+	$string = preg_replace("/[%]+/", "%", $string);
+	$string = str_replace('- -', ' - ', $string);
+	$string = str_replace('! !', ' ! ', $string);
+	$string = str_replace('? ?', ' ? ', $string);
+	$string = rtrim($string, '-');
+	$string = ltrim($string, '-');
+	$string = trim(preg_replace('/\s+/', ' ', $string)); // strip blank spaces, tabs
+	$string = trim($string);
+	
+	/*
+	Remove non-breaking spaces
+	In HTML, the common non-breaking space, which is the same width as the ordinary space character, is encoded as &nbsp; or &#160;.
+	In Unicode, it is encoded as U+00A0.
+	https://en.wikipedia.org/wiki/Non-breaking_space
+	https://graphemica.com/00A0
+	*/
+	$string = preg_replace('~\x{00a0}~siu', '', $string);
+	
+	return $string;
+}
+
+/**
+ * Prevent problem with the #hastags when they are only numeric
+ *
+ * @param $string
+ * @return string|null
+ */
+function tagCleaner($string)
+{
+	$tags = [];
+	
+	$limit = (int)config('settings.single.tags_limit', 15);
+	
+	$i = 0;
+	$tmpTab = preg_split('#[:,;\s]+#ui', $string);
+	foreach ($tmpTab as $tag) {
+		// Remove all tags (simultaneously) staring and ending by a number
+		$tag = preg_replace('/\b\d+\b/ui', '', $tag);
+		$tag = mb_strtolower(trim($tag));
+		if ($tag != '') {
+			if (mb_strlen($tag) > 1) {
+				if ($i <= $limit) {
+					$tags[] = $tag;
+				}
+				$i++;
+			}
+		}
+	}
+	
+	return !empty($tags) ? substr(implode(',', $tags), 0, 255) : null;
 }
 
 /**
@@ -779,8 +990,8 @@ function extractEmailAddress($string)
  */
 function isAvailableLang($abbr)
 {
-	$cacheExpiration = (int)config('settings.other.cache_expiration', 60);
-	$lang = \Illuminate\Support\Facades\Cache::remember('language.' . $abbr, $cacheExpiration, function () use ($abbr) {
+	$cacheExpiration = (int)config('settings.optimization.cache_expiration', 60);
+	$lang = \Cache::remember('language.' . $abbr, $cacheExpiration, function () use ($abbr) {
 		$lang = \App\Models\Language::where('abbr', $abbr)->first();
 		
 		return $lang;
@@ -1054,25 +1265,28 @@ function mb_ucwords($string, $encoding = 'utf-8')
 }
 
 /**
- * parse_url() function for multibyte character encodings
+ * parse_url() function for multi-bytes character encodings
  *
  * @param $url
+ * @param int $component
  * @return mixed
  */
-function mb_parse_url($url)
+function mb_parse_url($url, $component = -1)
 {
-	$enc_url = preg_replace_callback('%[^:/@?&=#]+%usD', function ($matches) {
+	$encodedUrl = preg_replace_callback('%[^:/@?&=#]+%usD', function ($matches) {
 		return urlencode($matches[0]);
 	}, $url);
 	
-	$parts = parse_url($enc_url);
+	$parts = parse_url($encodedUrl, $component);
 	
 	if ($parts === false) {
 		throw new \InvalidArgumentException('Malformed URL: ' . $url);
 	}
 	
-	foreach ($parts as $name => $value) {
-		$parts[$name] = urldecode($value);
+	if (is_array($parts) && count($parts) > 0) {
+		foreach ($parts as $name => $value) {
+			$parts[$name] = urldecode($value);
+		}
 	}
 	
 	return $parts;
@@ -1279,9 +1493,9 @@ function getUrlPageByType($type, $locale = null)
 		$locale = config('app.locale');
 	}
 	
-	$cacheExpiration = (int)config('settings.other.cache_expiration', 60);
+	$cacheExpiration = (int)config('settings.optimization.cache_expiration', 60);
 	$cacheId = 'page.' . $locale . '.type.' . $type;
-	$page = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($type, $locale) {
+	$page = \Cache::remember($cacheId, $cacheExpiration, function () use ($type, $locale) {
 		$page = \App\Models\Page::type($type)->transIn($locale)->first();
 		
 		return $page;
@@ -1363,7 +1577,7 @@ function jsonToArray($string)
 	}
 	
 	if (is_object($string)) {
-		return \App\Helpers\Arr::fromObject($string);
+		return \App\Helpers\ArrayHelper::fromObject($string);
 	}
 	
 	if (isValidJson($string)) {
@@ -1526,7 +1740,7 @@ function exifExtIsEnabled()
 function resize($pathFromDb, $type = 'big')
 {
 	// Check default picture
-	if (str_contains($pathFromDb, config('larapen.core.picture.default'))) {
+	if (\Illuminate\Support\Str::contains($pathFromDb, config('larapen.core.picture.default'))) {
 		return \Storage::url($pathFromDb) . getPictureVersion();
 	}
 	
@@ -1629,9 +1843,9 @@ function is_png($bufferImg, $recursive = true)
 	$f = finfo_open();
 	$result = finfo_buffer($f, $bufferImg, FILEINFO_MIME_TYPE);
 	
-	if (!str_contains($result, 'image') && $recursive) {
+	if (!\Illuminate\Support\Str::contains($result, 'image') && $recursive) {
 		// Plain Text
-		return str_contains($bufferImg, 'image/png');
+		return \Illuminate\Support\Str::contains($bufferImg, 'image/png');
 	}
 	
 	return $result == 'image/png';
@@ -1705,14 +1919,14 @@ function setPhoneSign($phone, $provider = null)
 {
 	if ($provider == 'nexmo') {
 		// Nexmo doesn't support the sign '+'
-		if (starts_with($phone, '+')) {
+		if (\Illuminate\Support\Str::startsWith($phone, '+')) {
 			$phone = str_replace('+', '', $phone);
 		}
 	}
 	
 	if ($provider == 'twilio') {
 		// Twilio requires the sign '+'
-		if (!starts_with($phone, '+')) {
+		if (!\Illuminate\Support\Str::startsWith($phone, '+')) {
 			$phone = '+' . $phone;
 		}
 	}
@@ -1824,7 +2038,7 @@ function getMetaTag($tag, $page)
 	// Get the Page's MetaTag
 	$metaTag = null;
 	try {
-		$cacheExpiration = (int)config('settings.other.cache_expiration', 60);
+		$cacheExpiration = (int)config('settings.optimization.cache_expiration', 60);
 		$cacheId = 'metaTag.' . $languageCode . '.' . $page;
 		$metaTag = \Cache::remember($cacheId, $cacheExpiration, function () use ($languageCode, $page) {
 			$metaTag = \App\Models\MetaTag::transIn($languageCode)->where('page', $page)->first();
@@ -1954,15 +2168,111 @@ function unitOfLength($countryCode = null)
 }
 
 /**
+ * Check if the app is installed
+ *
+ * @return bool
+ */
+function appIsInstalled()
+{
+	// Check if the '.env' file exists
+	if (!file_exists(base_path('.env'))) {
+		return false;
+	}
+	
+	// Check if the 'storage/installed' file exists
+	if (!file_exists(storage_path('installed'))) {
+		return false;
+	}
+	
+	// Check Installation Setup
+	$properly = true;
+	try {
+		// Check if all database tables exists
+		$namespace = 'App\\Models\\';
+		$modelsPath = app_path('Models');
+		$modelFiles = array_filter(glob($modelsPath . '/' . '*.php'), 'is_file');
+		
+		if (count($modelFiles) > 0) {
+			foreach ($modelFiles as $filePath) {
+				$filename = last(explode('/', $filePath));
+				$modelname = head(explode('.', $filename));
+				
+				if (
+					!\Illuminate\Support\Str::contains(strtolower($filename), '.php')
+					|| \Illuminate\Support\Str::contains(strtolower($modelname), 'base')
+				) {
+					continue;
+				}
+				
+				eval('$model = new ' . $namespace . $modelname . '();');
+				if (!\Illuminate\Support\Facades\Schema::hasTable($model->getTable())) {
+					$properly = false;
+				}
+			}
+		}
+		
+		// Check Settings table
+		if (\App\Models\Setting::count() <= 0) {
+			$properly = false;
+		}
+		// Check TimeZone table
+		if (\App\Models\TimeZone::count() <= 0) {
+			$properly = false;
+		}
+	} catch (\PDOException $e) {
+		$properly = false;
+	} catch (\Exception $e) {
+		$properly = false;
+	}
+	
+	return $properly;
+}
+
+/**
+ * Check if an update is available
+ *
+ * @return bool
+ */
+function updateIsAvailable()
+{
+	// Check if the '.env' file exists
+	if (!file_exists(base_path('.env'))) {
+		return false;
+	}
+	
+	$updateIsAvailable = false;
+	
+	// Get eventual new version value & the current (installed) version value
+	$lastVersionInt = strToInt(config('app.version'));
+	$currentVersionInt = strToInt(getCurrentVersion());
+	
+	// Check the update
+	if ($lastVersionInt > $currentVersionInt) {
+		$updateIsAvailable = true;
+	}
+	
+	return $updateIsAvailable;
+}
+
+/**
  * Get the script possible URL base
  *
  * @return mixed
  */
 function getRawBaseUrl()
 {
+	// Get the Laravel's App public path name
+	$laravelPublicPath = trim(public_path(), '/');
+	$laravelPublicPathLabel = last(explode('/', $laravelPublicPath));
+	
 	// Get Server Variables
 	$httpHost = (trim(request()->server('HTTP_HOST')) != '') ? request()->server('HTTP_HOST') : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '');
 	$requestUri = (trim(request()->server('REQUEST_URI')) != '') ? request()->server('REQUEST_URI') : (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
+	
+	// Clear the Server Variables
+	$httpHost = trim($httpHost, '/');
+	$requestUri = trim($requestUri, '/');
+	$requestUri = (mb_substr($requestUri, 0, strlen($laravelPublicPathLabel)) === $laravelPublicPathLabel) ? '/' . $laravelPublicPathLabel : '';
 	
 	// Get the Current URL
 	$currentUrl = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https://' : 'http://') . $httpHost . strtok($requestUri, '?');
@@ -1996,7 +2306,7 @@ function getCurrentVersion()
 		$tmp = explode('.', $currentVersion);
 		if (count($tmp) > 1) {
 			if (count($tmp) >= 3) {
-				$tmp = array_only($tmp, [0, 1]);
+				$tmp = \Illuminate\Support\Arr::only($tmp, [0, 1]);
 			}
 			$currentVersion = implode('.', $tmp);
 		}
@@ -2175,6 +2485,148 @@ function unsetCookies()
 				setcookie($name, '', time() - 1000);
 				setcookie($name, '', time() - 1000, '/');
 			}
+		}
+	}
+}
+
+/**
+ * Get random password
+ *
+ * @param $length
+ * @return bool|string
+ */
+function getRandomPassword($length)
+{
+	$allowedCharacters = 'abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&#!$%^&#';
+	$random = str_shuffle($allowedCharacters);
+	$password = substr($random, 0, $length);
+	
+	if (is_bool($password) || empty($password)) {
+		$password = \Illuminate\Support\Str::random($length);
+	}
+	
+	return $password;
+}
+
+if (! function_exists('ietfLangTag')) {
+	/**
+	 * IETF language tag(s)
+	 * Example: en-US, pt-BR, fr-CA, ... (Usage of "-" instead of "_")
+	 *
+	 * @param null $locale
+	 * @return mixed
+	 */
+	function ietfLangTag($locale = null)
+	{
+		if (empty($locale)) {
+			$locale = config('app.locale');
+		}
+		
+		return str_replace('_', '-', $locale);
+	}
+}
+
+if (! function_exists('head')) {
+	/**
+	 * Get the first element of an array. Useful for method chaining.
+	 *
+	 * @param  array  $array
+	 * @return mixed
+	 */
+	function head($array)
+	{
+		return reset($array);
+	}
+}
+
+if (! function_exists('last')) {
+	/**
+	 * Get the last element from an array.
+	 *
+	 * @param  array  $array
+	 * @return mixed
+	 */
+	function last($array)
+	{
+		return end($array);
+	}
+}
+
+if (! function_exists('class_basename')) {
+	/**
+	 * Get the class "basename" of the given object / class.
+	 *
+	 * @param  string|object  $class
+	 * @return string
+	 */
+	function class_basename($class)
+	{
+		$class = is_object($class) ? get_class($class) : $class;
+		
+		return basename(str_replace('\\', '/', $class));
+	}
+}
+
+/**
+ * @param bool $httpError
+ * @return bool|\Illuminate\Contracts\Routing\UrlGenerator|mixed|string|null
+ */
+function addPostURL($httpError = false)
+{
+	if (!$httpError) {
+		$url = (config('settings.single.publication_form_type') == '2')
+			? lurl('create')
+			: lurl('posts/create');
+	} else {
+		$url = (config('settings.single.publication_form_type') == '2')
+			? url(config('app.locale') . '/create')
+			: url(config('app.locale') . '/posts/create');
+	}
+	
+	return $url;
+}
+
+/**
+ * @param $postId
+ * @return bool|\Illuminate\Contracts\Routing\UrlGenerator|mixed|string|null
+ */
+function editPostURL($postId)
+{
+	$url = (config('settings.single.publication_form_type') == '2')
+		? lurl('edit/' . $postId)
+		: lurl('posts/' . $postId . '/edit');
+	
+	return $url;
+}
+
+if (! function_exists('userBrowser')) {
+	/**
+	 * Check if the user browser is the given value.
+	 * The given value can be:
+	 * 'Firefox', 'Chrome', 'Safari', 'Opera', 'MSIE', 'Trident', 'Edge'
+	 *
+	 * Usage: userBrowser('Chrome') or userBrowser() == 'Chrome'
+	 *
+	 * @param null $browser
+	 * @return bool|mixed|null
+	 */
+	function userBrowser($browser = null)
+	{
+		if (!empty($browser)) {
+			return (strpos(request()->server('HTTP_USER_AGENT'), $browser) !== false);
+		} else {
+			$browsers = ['Firefox', 'Chrome', 'Safari', 'Opera', 'MSIE', 'Trident', 'Edge'];
+			$agent = request()->server('HTTP_USER_AGENT');
+			
+			$userBrowser = null;
+			foreach ($browsers as $browser) {
+				if (strpos($agent, $browser) !== false) {
+					$userBrowser = $browser;
+					break;
+				}
+			}
+			
+			return $userBrowser;
 		}
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -16,7 +16,7 @@
 namespace App\Http\Controllers\Post;
 
 use App\Events\PostWasVisited;
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Helpers\DBTool;
 use App\Http\Controllers\Post\Traits\CustomFieldTrait;
 use App\Http\Requests\SendMessageRequest;
@@ -32,6 +32,7 @@ use App\Models\Scopes\ReviewedScope;
 use App\Notifications\SellerContacted;
 use Creativeorange\Gravatar\Facades\Gravatar;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Jenssegers\Date\Date;
 use Larapen\TextToImage\Facades\TextToImage;
 use Illuminate\Support\Facades\Event;
@@ -235,7 +236,7 @@ class DetailsController extends FrontController
 		
 		// SEO
 		$title = $post->title . ', ' . $post->city->name;
-		$description = str_limit(str_strip(strip_tags($post->description)), 200);
+		$description = Str::limit(str_strip(strip_tags($post->description)), 200);
 		
 		// Meta Tags
 		MetaTag::set('title', $title);
@@ -261,11 +262,13 @@ class DetailsController extends FrontController
 		}
 		view()->share('og', $this->og);
 		
+		/*
 		// Expiration Info
 		$today = Date::now(config('timezone.id'));
 		if ($today->gt($post->created_at->addMonths($this->expireTime))) {
 			flash(t("Warning! This ad has expired. The product or service is not more available (may be)"))->error();
 		}
+		*/
 		
 		// Reviews Plugin Data
 		if (config('plugins.reviews.installed')) {
@@ -322,7 +325,9 @@ class DetailsController extends FrontController
 		
 		// Send a message to publisher
 		try {
-			$post->notify(new SellerContacted($post, $message));
+			if (!isDemo()) {
+				$post->notify(new SellerContacted($post, $message));
+			}
 			
 			$msg = t("Your message has sent successfully to :contact_name.", ['contact_name' => $post->contact_name]);
 			flash($msg)->success();
@@ -416,7 +421,7 @@ class DetailsController extends FrontController
 				'link'  => qsurl(trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(request()->except('c'), ['c' => $cat->tid])),
 				'posts' => $posts,
 			];
-			$featured = Arr::toObject($featured);
+			$featured = ArrayHelper::toObject($featured);
 		}
 		
 		return $featured;
@@ -491,7 +496,7 @@ class DetailsController extends FrontController
 					'link'  => qsurl(trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(request()->except(['l', 'location']), ['l' => $city->id])),
 					'posts' => $posts,
 				];
-				$featured = Arr::toObject($featured);
+				$featured = ArrayHelper::toObject($featured);
 			}
 		}
 		

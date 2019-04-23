@@ -50,16 +50,22 @@ return [
         'redirect'      => env('APP_URL') . '/auth/facebook/callback',
     ],
 
+	'linkedin' => [
+		'client_id'     => null,
+		'client_secret' => null,
+		'redirect'      => env('APP_URL') . '/auth/linkedin/callback',
+	],
+
+	'twitter' => [
+		'client_id'       => null,
+		'client_secret'   => null,
+		'redirect'        => env('APP_URL') . '/auth/twitter/callback',
+	],
+
     'google' => [
         'client_id'     => null,
         'client_secret' => null,
         'redirect'      => env('APP_URL') . '/auth/google/callback',
-    ],
-
-    'twitter' => [
-        'client_id'       => null,
-        'client_secret'   => null,
-        'redirect'        => env('APP_URL') . '/auth/twitter/callback',
     ],
 
     'googlemaps' => [

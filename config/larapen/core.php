@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -145,15 +145,6 @@ return [
         'path'    => public_path('images/maps') . '/',
         'urlBase' => 'images/maps/',
     ],
-
-    /*
-     |-----------------------------------------------------------------------------------------------
-     | Set as default language the browser language (Unused for now)
-     |-----------------------------------------------------------------------------------------------
-     |
-     */
-
-    'detectBrowserLanguage' => false,
 
     /*
      |-----------------------------------------------------------------------------------------------

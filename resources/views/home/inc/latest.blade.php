@@ -1,6 +1,6 @@
 <?php
 if (!isset($cacheExpiration)) {
-    $cacheExpiration = (int)config('settings.other.cache_expiration');
+    $cacheExpiration = (int)config('settings.optimization.cache_expiration');
 }
 if (config('settings.listing.display_mode') == '.compact-view') {
 	$colDescBox = 'col-sm-9';
@@ -118,7 +118,7 @@ if (config('settings.listing.display_mode') == '.compact-view') {
 								<div class="ads-details">
 									<h5 class="add-title">
 										<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
-										<a href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} </a>
+										<a href="{{ lurl($post->uri, $attr) }}">{{ \Illuminate\Support\Str::limit($post->title, 70) }} </a>
 									</h5>
 									
 									<span class="info-row">
@@ -129,12 +129,12 @@ if (config('settings.listing.display_mode') == '.compact-view') {
 										@if (isset($liveCatParentId) and isset($liveCatName))
 											<span class="category">
 												<i class="icon-folder-circled"></i>&nbsp;
-												<a href="{!! qsurl(config('app.locale').'/'.trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(Request::except('c'), ['c'=>$liveCatParentId])) !!}" class="info-link">{{ $liveCatName }}</a>
+												<a href="{!! qsurl(config('app.locale').'/'.trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(Request::except('c'), ['c'=>$liveCatParentId]), null, false) !!}" class="info-link">{{ $liveCatName }}</a>
 											</span>
 										@endif
 										<span class="item-location">
 											<i class="icon-location-2"></i>&nbsp;
-										<a href="{!! qsurl(config('app.locale').'/'.trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(Request::except(['l', 'location']), ['l'=>$post->city_id])) !!}" class="info-link">{{ $city->name }}</a> {{ (isset($post->distance)) ? '- ' . round(lengthPrecision($post->distance), 2) . unitOfLength() : '' }}
+										<a href="{!! qsurl(config('app.locale').'/'.trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(Request::except(['l', 'location']), ['l'=>$post->city_id]), null, false) !!}" class="info-link">{{ $city->name }}</a> {{ (isset($post->distance)) ? '- ' . round(lengthPrecision($post->distance), 2) . unitOfLength() : '' }}
 										</span>
 									</span>
 								</div>

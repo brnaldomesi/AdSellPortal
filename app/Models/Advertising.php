@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -16,6 +16,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\ActiveScope;
+use Illuminate\Support\Str;
 use Larapen\Admin\app\Models\Crud;
 
 class Advertising extends BaseModel
@@ -97,7 +98,7 @@ class Advertising extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 	public function getTrackingCodeLargeAttribute($value)
@@ -124,7 +125,7 @@ class Advertising extends BaseModel
 	private function checkAndTransformCode($value)
 	{
 		// If the code is from Google Adsense
-		if (str_contains($value, 'adsbygoogle.js')) {
+		if (Str::contains($value, 'adsbygoogle.js')) {
 			$patten = '/class="adsbygoogle"/ui';
 			$replace = 'class="adsbygoogle ads-slot-responsive"';
 			$value = preg_replace($patten, $replace, $value);

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -18,6 +18,7 @@ namespace App\Http\Controllers\Search;
 use App\Helpers\Search;
 use App\Models\Category;
 use App\Models\CategoryField;
+use Illuminate\Support\Str;
 use Torann\LaravelMetaTags\Facades\MetaTag;
 
 class CategoryController extends BaseController
@@ -99,9 +100,9 @@ class CategoryController extends BaseController
         // SEO
         $title = $this->getTitle();
         if (isset($catDescription) && !empty($catDescription)) {
-            $description = str_limit($catDescription, 200);
+            $description = Str::limit($catDescription, 200);
         } else {
-            $description = str_limit(t('Free ads :category in :location', [
+            $description = Str::limit(t('Free ads :category in :location', [
                     'category' => $catName,
                     'location' => config('country.name')
                 ]) . '. ' . t('Looking for a product or service') . ' - ' . config('country.name'), 200);

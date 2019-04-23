@@ -92,24 +92,33 @@ return [
 	'url'                   => 'The :attribute format is invalid.',
 	
 	
-	// Blacklist - Whitelist
-	'whitelist_email'       => 'This email address is blacklisted.',
-	'whitelist_domain'      => 'The domain of your email address is blacklisted.',
-	'whitelist_word'        => 'The :attribute contains a banned words or phrases.',
-	'whitelist_word_title'  => 'The :attribute contains a banned words or phrases.',
+	// Packages Rules
+	'recaptcha'    => 'The :attribute field is not correct.',
+	'phone'        => 'The :attribute field contains an invalid number.',
+	'dumbpwd'      => 'This password is just too common. Please try another!',
+	'phone_number' => 'Your phone number is not valid.',
 	
 	
 	// Custom Rules
-	'mb_between'            => 'The :attribute must be between :min and :max characters.',
-	'recaptcha'             => 'The :attribute field is not correct.',
-	'phone'                 => 'The :attribute field contains an invalid number.',
-	'dumbpwd'               => 'This password is just too common. Please try another!',
-	'phone_number'          => 'Your phone number is not valid.',
-	'valid_username'        => 'The :attribute field must be an alphanumeric string.',
-	'allowed_username'      => 'The :attribute is not allowed.',
-	'language_check_locale' => 'The :attribute field is not valid.',
-	'country_check_locale'  => 'The :attribute field is not valid.',
-	'check_currencies'      => 'The :attribute field is not valid.',
+	'required_package_id'                     => 'You have to select a premium ad option to continue.',
+	'required_payment_method_id'              => 'You have to select a payment method to continue.',
+	'blacklist_email_rule'                    => 'This email address is blacklisted.',
+	'blacklist_domain_rule'                   => 'The domain of your email address is blacklisted.',
+	'blacklist_ip_rule'                       => 'The :attribute must be a valid IP address.',
+	'blacklist_word_rule'                     => 'The :attribute contains a banned words or phrases.',
+	'blacklist_title_rule'                    => 'The :attribute contains a banned words or phrases.',
+	'between_rule'                            => 'The :attribute must be between :min and :max characters.',
+	'username_is_valid_rule'                  => 'The :attribute field must be an alphanumeric string.',
+	'username_is_allowed_rule'                => 'The :attribute is not allowed.',
+	'locale_of_language_rule'                 => 'The :attribute field is not valid.',
+	'locale_of_country_rule'                  => 'The :attribute field is not valid.',
+	'currencies_codes_are_valid_rule'         => 'The :attribute field is not valid.',
+	'custom_field_unique_rule'                => 'The :field_1 have this :field_2 assigned already.',
+	'custom_field_unique_rule_field'          => 'The :field_1 is already assign to this :field_2.',
+	'custom_field_unique_children_rule'       => 'A child :field_1 of the :field_1 have this :field_2 assigned already.',
+	'custom_field_unique_children_rule_field' => 'The :field_1 is already assign to one :field_2 of this :field_2.',
+	'custom_field_unique_parent_rule'         => 'The parent :field_1 of the :field_1 have this :field_2 assigned already.',
+	'custom_field_unique_parent_rule_field'   => 'The :field_1 is already assign to the parent :field_2 of this :field_2.',
 	
 	
 	/*

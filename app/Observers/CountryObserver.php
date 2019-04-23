@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -23,6 +23,7 @@ use App\Models\SubAdmin2;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Prologue\Alerts\Facades\Alert;
 
 class CountryObserver
@@ -48,7 +49,7 @@ class CountryObserver
 		// Remove background_image files (if exists)
 		if (!empty($country->background_image)) {
 			$filename = str_replace('uploads/', '', $country->background_image);
-			if (!str_contains($filename, config('larapen.core.picture.default'))) {
+			if (!Str::contains($filename, config('larapen.core.picture.default'))) {
 				Storage::delete($filename);
 			}
 		}

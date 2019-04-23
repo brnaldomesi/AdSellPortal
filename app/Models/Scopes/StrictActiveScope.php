@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class StrictActiveScope implements Scope
 {
@@ -36,9 +37,9 @@ class StrictActiveScope implements Scope
 		// - Admin\PaymentController
 		// - Admin\AjaxController
 		if (
-			str_contains(Route::currentRouteAction(), 'Admin\PaymentController')
-			|| str_contains(Route::currentRouteAction(), 'Admin\AjaxController')
-			|| str_contains(Route::currentRouteAction(), 'Admin\InlineRequestController')
+			Str::contains(Route::currentRouteAction(), 'Admin\PaymentController')
+			|| Str::contains(Route::currentRouteAction(), 'Admin\AjaxController')
+			|| Str::contains(Route::currentRouteAction(), 'Admin\InlineRequestController')
 		) {
 			return $builder;
 		}

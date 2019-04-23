@@ -12,5 +12,5 @@
 @endif
 
 <pre style="font-size: 16px;background:#f5f5f5"># {{ trans('messages.cron_jobs_comment') }}
-0 * * * * {!! (isset(explode(" ", exec("whereis php"))[1]) ? explode(" ", exec("whereis php"))[1] : "<span class='text-danger'>{PHP_BIN_PATH}</span>") !!} -q {{ base_path() }}/artisan ads:clean 2&gt;&amp;1
+* * * * * {!! (isset(explode(" ", exec("whereis php"))[1]) ? explode(" ", exec("whereis php"))[1] : "<span class='text-danger'>{PHP_BIN_PATH}</span>") !!} -q {{ base_path() }}/artisan schedule:run >> /dev/null 2>&amp;1
 </pre>

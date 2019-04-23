@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -101,7 +101,7 @@
 												@endif
 												<br>
 												<strong>{{ t('Subject') }}:</strong>&nbsp;{{ $conversation->subject }}<br>
-												<strong>{{ t('Started by') }}:</strong>&nbsp;{{ str_limit($conversation->from_name, 50) }}
+												<strong>{{ t('Started by') }}:</strong>&nbsp;{{ \Illuminate\Support\Str::limit($conversation->from_name, 50) }}
 												{!! (!empty($conversation->filename) and \Storage::exists($conversation->filename)) ? ' <i class="icon-attach-2"></i> ' : '' !!}&nbsp;|&nbsp;
 												<a href="{{ lurl('account/conversations/' . $conversation->id . '/messages') }}">
 													{{ t('Click here to read the messages') }}

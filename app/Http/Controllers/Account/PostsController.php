@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Helpers\Search;
 use App\Http\Controllers\Search\Traits\PreSearchTrait;
 use App\Models\Post;
@@ -24,10 +24,12 @@ use App\Models\SavedPost;
 use App\Models\SavedSearch;
 use App\Models\Scopes\ReviewedScope;
 use App\Models\Scopes\VerifiedScope;
+use App\Notifications\PostArchived;
 use App\Notifications\PostDeleted;
 use App\Notifications\PostRepublished;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Jenssegers\Date\Date;
 use Torann\LaravelMetaTags\Facades\MetaTag;
 
@@ -71,33 +73,89 @@ class PostsController extends AccountBaseController
 	}
 	
 	/**
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 * @param null $postId
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
 	 */
-	public function getMyPosts()
+	public function getMyPosts($postId = null)
 	{
+		$pagePath = 'my-posts';
+		
+		// If "offline" button is clicked
+		if (Str::contains(url()->current(), $pagePath . '/' . $postId . '/offline')) {
+			$post = null;
+			if (is_numeric($postId) && $postId > 0) {
+				$post = Post::where('user_id', auth()->user()->id)->where('id', $postId)->first();
+				if (empty($post)) {
+					abort(404, t('Post not found'));
+				}
+				
+				if ($post->archived != 1) {
+					$post->archived = 1;
+					$post->archived_at = Date::now();
+					$post->archived_manually = 1;
+					$post->save();
+					
+					if ($post->archived == 1) {
+						$archivedPostsExpiration = config('settings.listing.manually_archived_posts_expiration', 180);
+						
+						$message = t('offline_putting_message', [
+							'postId'  => $postId,
+							'dateDel' => $post->archived_at
+								->addDays($archivedPostsExpiration)
+								->formatLocalized(config('settings.app.default_date_format'))
+						]);
+						
+						flash($message)->success();
+						
+						// Send Confirmation Email or SMS
+						if (config('settings.mail.confirmation') == 1) {
+							try {
+								$post->notify(new PostArchived($post, $archivedPostsExpiration));
+							} catch (\Exception $e) {
+								flash($e->getMessage())->error();
+							}
+						}
+					} else {
+						flash(t("The putting offline has failed. Please try again."))->error();
+					}
+				} else {
+					flash(t("The ad is already offline."))->error();
+				}
+			} else {
+				flash(t("The putting offline has failed. Please try again."))->error();
+			}
+			
+			return back();
+		}
+		
 		$data = [];
 		$data['posts'] = $this->myPosts->paginate($this->perPage);
-		$data['type'] = 'my-posts';
 		
 		// Meta Tags
 		MetaTag::set('title', t('My ads'));
 		MetaTag::set('description', t('My ads on :app_name', ['app_name' => config('settings.app.app_name')]));
 		
+		view()->share('pagePath', $pagePath);
+		
 		return view('account.posts', $data);
 	}
 	
 	/**
-	 * @param $pagePath
 	 * @param null $postId
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
 	 */
-	public function getArchivedPosts($pagePath, $postId = null)
+	public function getArchivedPosts($postId = null)
 	{
-		// If repost
-		if (str_contains(url()->current(), $pagePath . '/' . $postId . '/repost')) {
+		$pagePath = 'archived';
+		
+		// If "repost" button is clicked
+		if (Str::contains(url()->current(), $pagePath . '/' . $postId . '/repost')) {
 			$post = null;
 			if (is_numeric($postId) && $postId > 0) {
-				$post = Post::findOrFail($postId);
+				$post = Post::where('user_id', auth()->user()->id)->where('id', $postId)->first();
+				if (empty($post)) {
+					abort(404, t('Post not found'));
+				}
 				
 				$attr = ['slug' => slugify($post->title), 'id' => $post->id];
 				$preview = !isVerifiedPost($post) ? '?preview=1' : '';
@@ -107,7 +165,10 @@ class PostsController extends AccountBaseController
 					$post->archived = 0;
 					$post->archived_at = null;
 					$post->deletion_mail_sent_at = null;
-					$post->created_at = Date::now();
+					if ($post->archived_manually != 1) {
+						$post->created_at = Date::now();
+						$post->archived_manually = 0;
+					}
 					$post->save();
 					
 					if ($post->archived == 0) {
@@ -263,9 +324,12 @@ class PostsController extends AccountBaseController
 			$nb = SavedSearch::destroy($ids);
 		} else {
 			foreach ($ids as $item) {
-				$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])->find($item);
+				$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
+					->where('user_id', auth()->user()->id)
+					->where('id', $item)
+					->first();
 				if (!empty($post)) {
-					$tmpPost = Arr::toObject($post->toArray());
+					$tmpPost = ArrayHelper::toObject($post->toArray());
 					
 					// Delete Entry
 					$nb = $post->delete();

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -17,18 +17,18 @@ namespace App\Http\Requests\Admin;
 
 class FieldRequest extends Request
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'name'        => 'required|min:2|max:255',
-            'type'        => 'required',
-            'max'         => 'not_in:0',
-            'default'     => 'max:255',
-        ];
-    }
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
+		return [
+			'name'    => ['required', 'min:2', 'max:255'],
+			'type'    => ['required'],
+			'max'     => ['not_in:0'],
+			'default' => ['max:255'],
+		];
+	}
 }

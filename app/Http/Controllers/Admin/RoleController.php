@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -30,7 +30,7 @@ class RoleController extends PanelController
 	{
 		parent::__construct();
 		
-		$this->middleware('demo')->only(['store', 'update', 'destroy']);
+		$this->middleware('demo.restriction')->only(['store', 'update', 'destroy']);
 	}
 	
 	public function setup()
@@ -80,7 +80,7 @@ class RoleController extends PanelController
 		}
 		
 		$this->xPanel->addField([
-			'label'     => ucfirst(trans('admin::messages.permission_plural')),
+			'label'     => mb_ucfirst(trans('admin::messages.permission_plural')),
 			'type'      => 'checklist',
 			'name'      => 'permissions',
 			'entity'    => 'permissions',

@@ -25,20 +25,7 @@
                 @endif
             </div>
     
-            @if (config('settings.security.recaptcha_activation'))
-                <!-- g-recaptcha-response -->
-                <div class="form-group required <?php echo (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>">
-                    <div class="no-label">
-                        {!! Recaptcha::render(['lang' => config('app.locale')]) !!}
-                    </div>
-	
-					@if ($errors->has('g-recaptcha-response'))
-						<span class="help-block">
-                        	<strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                    	</span>
-					@endif
-                </div>
-            @endif
+            @include('layouts.inc.tools.recaptcha')
             
             <div class="row">
                 <!-- /.col -->

@@ -57,6 +57,14 @@
 	
 	<!-- DASHBOARD LIST CONTENT - dashboard_styles stack -->
 	@stack('dashboard_styles')
+	
+	<style>
+		/* Bootstrap tooltip need to be in single line */
+		.tooltip-inner {
+			white-space: nowrap;
+			max-width: none;
+		}
+	</style>
 @endsection
 
 @section('after_scripts')
