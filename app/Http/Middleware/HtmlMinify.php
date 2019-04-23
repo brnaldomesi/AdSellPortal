@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -29,7 +29,7 @@ class HtmlMinify
 		$response = $next($request);
 		
 		// Don't minify the HTML if the option is not activated
-		if (config('settings.other.minify_html_activation') == 0) {
+		if (config('settings.optimization.minify_html_activation') == 0) {
 			return $response;
 		}
 		

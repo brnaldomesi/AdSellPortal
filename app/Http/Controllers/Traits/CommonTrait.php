@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers\Traits;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Jackiedo\DotenvEditor\Facades\DotenvEditor;
@@ -45,7 +45,7 @@ trait CommonTrait
 		$plugins = plugin_installed_list();
 		$plugins = collect($plugins)->map(function ($item, $key) {
 			if (is_object($item)) {
-				$item = Arr::fromObject($item);
+				$item = ArrayHelper::fromObject($item);
 			}
 			if (isset($item['item_id']) && !empty($item['item_id'])) {
 				$item['installed'] = plugin_check_purchase_code($item);

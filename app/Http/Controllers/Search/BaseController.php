@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers\Search;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Helpers\DBTool;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\Search\Traits\TitleTrait;
@@ -140,7 +140,7 @@ class BaseController extends FrontController
             view()->share('cities', $cities);
 
             // Get Date Ranges
-            $dates = Arr::toObject([
+            $dates = ArrayHelper::toObject([
                 '2'  => '24 ' . t('hours'),
                 '4'  => '3 ' . t('days'),
                 '8'  => '7 ' . t('days'),

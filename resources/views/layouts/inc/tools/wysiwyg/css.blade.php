@@ -1,6 +1,9 @@
 {{-- Simditor --}}
 @if (config('settings.single.simditor_wysiwyg'))
     <link media="all" rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/simditor/styles/simditor.css') }}" />
+    @if (config('lang.direction') == 'rtl')
+        <link media="all" rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/simditor/styles/simditor-rtl.css') }}" />
+    @endif
 @endif
 
 {{-- CKEditor --}}

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -28,7 +28,11 @@ class Authenticate extends Middleware
 	protected function redirectTo($request)
 	{
 		if (! $request->expectsJson()) {
-			return route('login');
+			if (isFromAdminPanel()) {
+				return route('login');
+			} else {
+				return route(trans('routes.login'));
+			}
 		}
 	}
 }

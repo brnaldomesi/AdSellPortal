@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -20,6 +20,7 @@ use App\Models\CategoryField;
 use App\Models\Post;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CategoryObserver extends TranslatedModelObserver
 {
@@ -52,7 +53,7 @@ class CategoryObserver extends TranslatedModelObserver
         // Don't delete the default pictures
         $defaultPicture = 'app/default/categories/fa-folder-' . config('settings.style.app_skin', 'skin-default') . '.png';
 		$defaultSkinPicture = 'app/categories/' . config('settings.style.app_skin', 'skin-default') . '/';
-        if (!str_contains($category->picture, $defaultPicture) && !str_contains($category->picture, $defaultSkinPicture)) {
+        if (!Str::contains($category->picture, $defaultPicture) && !Str::contains($category->picture, $defaultSkinPicture)) {
             // Delete the category picture
             Storage::delete($category->picture);
         }

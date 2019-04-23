@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -28,6 +28,7 @@ use App\Models\TimeZone;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting;
+use Illuminate\Support\Str;
 use PulkitJalan\GeoIP\Facades\GeoIP;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 
@@ -73,8 +74,8 @@ class Country
 		$this->defaultUrl = url(config('larapen.localization.default_uri'));
 		$this->defaultPage = url(config('app.locale') . '/' . trans('routes.' . config('larapen.localization.countries_list_uri')));
 		
-		// Cache and Cookies Expires
-		self::$cacheExpiration = config('settings.other.cache_expiration', self::$cacheExpiration);
+		// Cache & Cookies Expiration Time
+		self::$cacheExpiration = config('settings.optimization.cache_expiration', self::$cacheExpiration);
 		self::$cookieExpiration = config('settings.other.cookie_expiration');
 		
 		// Init. Country Infos
@@ -176,7 +177,7 @@ class Country
 				'robots.txt',
 				'feed',
 			]) ||
-			ends_with($this->request->url(), '.xml')
+			Str::endsWith($this->request->url(), '.xml')
 		) {
 			return false;
 		}
@@ -204,9 +205,9 @@ class Country
 				]) &&
 				!request()->filled('iam') &&
 				getSegment(1) !== null &&
-				!str_contains(Route::currentRouteAction(), 'Search\\') &&
-				!str_contains(Route::currentRouteAction(), 'SitemapController') &&
-				!str_contains(Route::currentRouteAction(), 'PasswordController')
+				!Str::contains(Route::currentRouteAction(), 'Search\\') &&
+				!Str::contains(Route::currentRouteAction(), 'SitemapController') &&
+				!Str::contains(Route::currentRouteAction(), 'PasswordController')
 			) {
 				$msg = 'Login for faster access to the best deals. Click here if you don\'t have an account.';
 				$this->siteCountryInfo = t($msg, [
@@ -336,31 +337,31 @@ class Country
 	 */
 	public function getCountryFromPost()
 	{
+		$country = collect([]);
+		
 		// Check if the Post Details controller is called
-		if (!str_contains(Route::currentRouteAction(), 'Post\DetailsController')) {
-			return collect([]);
+		if (Str::contains(Route::currentRouteAction(), 'Post\DetailsController')) {
+			// Get and Check the Controller's Method Parameters
+			$parameters = request()->route()->parameters();
+			
+			// Return empty collection if the Post ID not found
+			if (!isset($parameters['id']) || empty($parameters['id'])) {
+				return collect([]);
+			}
+			
+			// Get the Post
+			$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])->where('id', $parameters['id'])->first();
+			if (empty($post)) {
+				return collect([]);
+			}
+			
+			// Get the Post's Country Info (If available)
+			if ($this->isAvailableCountry($post->country_code)) {
+				$country = self::getCountryInfo($post->country_code);
+			}
 		}
 		
-		// Get and Check the Controller's Method Parameters
-		$parameters = request()->route()->parameters();
-		
-		// Return empty collection if the Post ID not found
-		if (!isset($parameters['id']) || empty($parameters['id'])) {
-			return collect([]);
-		}
-		
-		// Get the Post
-		$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])->where('id', $parameters['id'])->first();
-		if (empty($post)) {
-			return collect([]);
-		}
-		
-		// Get the Post's Country Info (If available)
-		if ($this->isAvailableCountry($post->country_code)) {
-			return self::getCountryInfo($post->country_code);
-		}
-		
-		return collect([]);
+		return $country;
 	}
 	
 	/**
@@ -421,18 +422,22 @@ class Country
 	}
 	
 	/**
-	 * Get Country from Query String
+	 * Get Country from URI Path
 	 *
 	 * @return \Illuminate\Support\Collection
 	 */
 	public function getCountryFromURIPath()
 	{
-		$countryCode = getSegment(1);
-		if ($this->isAvailableCountry($countryCode)) {
-			return self::getCountryInfo($countryCode);
+		$country = collect([]);
+		
+		$countryCode = getCountryCodeFromPath();
+		if (!empty($countryCode)) {
+			if ($this->isAvailableCountry($countryCode)) {
+				$country = self::getCountryInfo($countryCode);
+			}
 		}
 		
-		return collect([]);
+		return $country;
 	}
 	
 	/**
@@ -478,7 +483,7 @@ class Country
 		$crawler = new CrawlerDetect();
 		if ($crawler->isCrawler()) {
 			// Don't set the default country for homepage
-			if (!str_contains(Route::currentRouteAction(), 'HomeController')) {
+			if (!Str::contains(Route::currentRouteAction(), 'HomeController')) {
 				$countryCode = config('settings.geo_location.default_country_code');
 				if ($this->isAvailableCountry($countryCode)) {
 					return self::getCountryInfo($countryCode);
@@ -664,7 +669,7 @@ class Country
 				$found = false;
 				foreach ($countryLanguageCodes as $isoLang) {
 					foreach ($availableLanguages as $language) {
-						if (starts_with(strtolower($isoLang), strtolower($language->abbr))) {
+						if (Str::startsWith(strtolower($isoLang), strtolower($language->abbr))) {
 							$langCode = $language->abbr;
 							$hrefLang = $isoLang;
 							$found = true;

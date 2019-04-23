@@ -34,14 +34,14 @@
 							</span>
 							</a>
 						</li>
-					<!--	<li>
+						<li>
 							<a{!! ($pagePath=='favourite') ? ' class="active"' : '' !!} href="{{ lurl('account/favourite') }}">
 							<i class="icon-heart"></i> {{ t('Favourite ads') }}&nbsp;
 							<span class="badge badge-pill">
 								{{ isset($countFavouritePosts) ? \App\Helpers\Number::short($countFavouritePosts) : 0 }}
 							</span>
 							</a>
-						</li> 
+						</li>
 						<li>
 							<a{!! ($pagePath=='saved-search') ? ' class="active"' : '' !!} href="{{ lurl('account/saved-search') }}">
 							<i class="icon-star-circled"></i> {{ t('Saved searches') }}&nbsp;
@@ -57,7 +57,7 @@
 								{{ isset($countPendingPosts) ? \App\Helpers\Number::short($countPendingPosts) : 0 }}
 							</span>
 							</a>
-						</li>  -->
+						</li>
 						<li>
 							<a{!! ($pagePath=='archived') ? ' class="active"' : '' !!} href="{{ lurl('account/archived') }}">
 							<i class="icon-folder-close"></i> {{ t('Archived ads') }}&nbsp;

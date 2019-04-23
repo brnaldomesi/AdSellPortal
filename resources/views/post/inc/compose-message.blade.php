@@ -134,16 +134,7 @@
 						<input type="hidden" name="parentCatType" value="{{ $parentCat->type }}">
 					@endif
 					
-					@if (config('settings.security.recaptcha_activation'))
-						<!-- recaptcha -->
-						<?php $recaptchaError = (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>
-						<div class="form-group required">
-							<label class="control-label" for="g-recaptcha-response">{{ t('We do not like robots') }}</label>
-							<div>
-								{!! Recaptcha::render(['lang' => config('app.locale')]) !!}
-							</div>
-						</div>
-					@endif
+					@include('layouts.inc.tools.recaptcha', ['label' => true])
 					
 					<input type="hidden" name="country_code" value="{{ config('country.code') }}">
 					<input type="hidden" name="post_id" value="{{ $post->id }}">
@@ -178,8 +169,8 @@
 	<script src="{{ url('assets/plugins/bootstrap-fileinput/js/plugins/sortable.min.js') }}" type="text/javascript"></script>
 	<script src="{{ url('assets/plugins/bootstrap-fileinput/js/fileinput.min.js') }}" type="text/javascript"></script>
 	<script src="{{ url('assets/plugins/bootstrap-fileinput/themes/fa/theme.js') }}" type="text/javascript"></script>
-	@if (file_exists(public_path() . '/assets/plugins/bootstrap-fileinput/js/locales/'.config('app.locale').'.js'))
-		<script src="{{ url('assets/plugins/bootstrap-fileinput/js/locales/'.config('app.locale').'.js') }}" type="text/javascript"></script>
+	@if (file_exists(public_path() . '/assets/plugins/bootstrap-fileinput/js/locales/'.ietfLangTag(config('app.locale')).'.js'))
+		<script src="{{ url('assets/plugins/bootstrap-fileinput/js/locales/'.ietfLangTag(config('app.locale')).'.js') }}" type="text/javascript"></script>
 	@endif
 
 	<script>

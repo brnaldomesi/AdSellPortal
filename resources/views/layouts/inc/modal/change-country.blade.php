@@ -27,7 +27,7 @@
 								<li>
 									<img src="{{ url('images/blank.gif') . getPictureVersion() }}" class="flag flag-{{ ($country->get('icode')=='uk') ? 'gb' : $country->get('icode') }}" style="margin-bottom: 4px; margin-right: 5px;">
 									<a href="{{ localUrl($country, '', true) }}" class="tooltip-test" title="{{ $country->get('name') }}">
-										{{ str_limit($country->get('name'), 28) }}
+										{{ \Illuminate\Support\Str::limit($country->get('name'), 28) }}
 									</a>
 								</li>
 								@endforeach

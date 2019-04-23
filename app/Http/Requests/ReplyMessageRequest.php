@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -16,6 +16,8 @@
 namespace App\Http\Requests;
 
 
+use App\Rules\BetweenRule;
+
 class ReplyMessageRequest extends Request
 {
     /**
@@ -26,7 +28,7 @@ class ReplyMessageRequest extends Request
     public function rules()
     {
         $rules = [
-			'message' => 'required|mb_between:20,500',
+			'message' => ['required', new BetweenRule(20, 500)],
         ];
         
         return $rules;

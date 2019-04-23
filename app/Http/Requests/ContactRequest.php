@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,33 +15,39 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BetweenRule;
+use App\Rules\BlacklistDomainRule;
+use App\Rules\BlacklistEmailRule;
+
 class ContactRequest extends Request
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        $rules = [
-            'first_name'           => 'required|mb_between:2,100',
-            'last_name'            => 'required|mb_between:2,100',
-            'email'                => 'required|email|whitelist_email|whitelist_domain',
-            'message'              => 'required|mb_between:5,500',
-            'g-recaptcha-response' => (config('settings.security.recaptcha_activation')) ? 'required' : '',
-        ];
-        
-        return $rules;
-    }
-    
-    /**
-     * @return array
-     */
-    public function messages()
-    {
-        $messages = [];
-        
-        return $messages;
-    }
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
+		$rules = [
+			'first_name' => ['required', new BetweenRule(2, 100)],
+			'last_name'  => ['required', new BetweenRule(2, 100)],
+			'email'      => ['required', 'email', new BlacklistEmailRule(), new BlacklistDomainRule()],
+			'message'    => ['required', new BetweenRule(5, 500)],
+		];
+		
+		// reCAPTCHA
+		$rules = $this->recaptchaRules($rules);
+		
+		return $rules;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function messages()
+	{
+		$messages = [];
+		
+		return $messages;
+	}
 }

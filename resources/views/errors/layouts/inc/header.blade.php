@@ -93,7 +93,7 @@ if (getSegment(1) != trans('routes.countries')) {
 							@endif
 						</li>
 						<li class="nav-item dropdown no-arrow">
-							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" data-target="#userMenuDropdown">
+							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 								<i class="icon-user fa hidden-sm"></i>
                                 <span>{{ auth()->user()->name }}</span>
 								<i class="icon-down-open-big fa hidden-sm"></i>
@@ -150,12 +150,12 @@ if (getSegment(1) != trans('routes.countries')) {
 									<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 								</a>
 							@else
-								<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ url(config('app.locale') . '/posts/create') }}">
+								<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ addPostURL(true) }}">
 									<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 								</a>
 							@endif
 						@else
-							<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ url(config('app.locale') . '/posts/create') }}">
+							<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ addPostURL(true) }}">
 								<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 							</a>
 						@endif
@@ -165,7 +165,7 @@ if (getSegment(1) != trans('routes.countries')) {
                         @if (count(LaravelLocalization::getSupportedLocales()) > 1)
                             <!-- Language selector -->
 							<li class="dropdown lang-menu nav-item">
-								<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" data-target="#langMenuDropdown">
+								<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
 									<span class="lang-title">{{ strtoupper(config('app.locale')) }}</span>
                                 </button>
 								<ul id="langMenuDropdown" class="dropdown-menu dropdown-menu-right user-menu shadow-sm" role="menu">

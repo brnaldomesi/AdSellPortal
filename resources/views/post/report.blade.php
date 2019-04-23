@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -83,22 +83,13 @@
 									<textarea id="message" name="message" class="form-control{{ $messageError }}" rows="10">{{ old('message') }}</textarea>
 								</div>
 								
-								@if (config('settings.security.recaptcha_activation'))
-									<!-- recaptcha -->
-									<?php $recaptchaError = (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>
-									<div class="form-group required">
-										<label class="control-label{{ $recaptchaError }}" for="g-recaptcha-response">{{ t('We do not like robots') }}</label>
-										<div>
-											{!! Recaptcha::render(['lang' => config('app.locale')]) !!}
-										</div>
-									</div>
-								@endif
+								@include('layouts.inc.tools.recaptcha', ['label' => true])
 			
 								<input type="hidden" name="post_id" value="{{ $post->id }}">
 								<input type="hidden" name="abuseForm" value="1">
 								
 								<div class="form-group">
-									<a href="{{ URL::previous() }}" class="btn btn-default btn-lg">{{ t('Back') }}</a>
+									<a href="{{ rawurldecode(URL::previous()) }}" class="btn btn-default btn-lg">{{ t('Back') }}</a>
 									<button type="submit" class="btn btn-primary btn-lg">{{ t('Send Report') }}</button>
 								</div>
 							</fieldset>

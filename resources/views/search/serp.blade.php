@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -12,7 +12,7 @@
  * Please read the full License from here - http://codecanyon.net/licenses/standard
 --}}
 <?php
-	$fullUrl = url(request()->getRequestUri());
+	$fullUrl = rawurldecode(url(request()->getRequestUri()));
 	$tmpExplode = explode('?', $fullUrl);
 	$fullUrlNoParams = current($tmpExplode);
 ?>
@@ -67,14 +67,14 @@
                                 }
                                 ?>
 								<li {!! $liClass !!}>
-									<a href="{!! qsurl($fullUrlNoParams, request()->except(['page', 'type'])) !!}" role="tab" data-toggle="tab" class="nav-link">
+									<a href="{!! qsurl($fullUrlNoParams, request()->except(['page', 'type']), null, false) !!}" role="tab" data-toggle="tab" class="nav-link">
 										{{ t('All Ads') }} <span class="badge badge-pill {!! $spanClass !!}">{{ $count->get('all') }}</span>
 									</a>
 								</li>
                                 @if (!empty($postTypes))
                                     @foreach ($postTypes as $postType)
                                         <?php
-                                            $postTypeUrl = qsurl($fullUrlNoParams, array_merge(request()->except(['page']), ['type' => $postType->tid]));
+                                            $postTypeUrl = qsurl($fullUrlNoParams, array_merge(request()->except(['page']), ['type' => $postType->tid]), null, false);
                                             $postTypeCount = ($count->has($postType->tid)) ? $count->get($postType->tid) : 0;
                                         ?>
                                         @if (request()->filled('type') && request()->get('type') == $postType->tid)
@@ -102,27 +102,27 @@
 							
 							<div class="tab-filter">
 								<select id="orderBy" title="sort by" class="niceselecter select-sort-by" data-style="btn-select" data-width="auto">
-									<option value="{!! qsurl($fullUrlNoParams, request()->except(['orderBy', 'distance'])) !!}">{{ t('Sort by') }}</option>
+									<option value="{!! qsurl($fullUrlNoParams, request()->except(['orderBy', 'distance']), null, false) !!}">{{ t('Sort by') }}</option>
 									<option{{ (request()->get('orderBy')=='priceAsc') ? ' selected="selected"' : '' }}
-											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceAsc'])) !!}">
+											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceAsc']), null, false) !!}">
 										{{ t('Price : Low to High') }}
 									</option>
 									<option{{ (request()->get('orderBy')=='priceDesc') ? ' selected="selected"' : '' }}
-											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceDesc'])) !!}">
+											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceDesc']), null, false) !!}">
 										{{ t('Price : High to Low') }}
 									</option>
 									<option{{ (request()->get('orderBy')=='relevance') ? ' selected="selected"' : '' }}
-											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'relevance'])) !!}">
+											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'relevance']), null, false) !!}">
 										{{ t('Relevance') }}
 									</option>
 									<option{{ (request()->get('orderBy')=='date') ? ' selected="selected"' : '' }}
-											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'date'])) !!}">
+											value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'date']), null, false) !!}">
 										{{ t('Date') }}
 									</option>
 									@if (isset($isCitySearch) and $isCitySearch and \App\Helpers\DBTool::checkIfMySQLFunctionExists(config('larapen.core.distanceCalculationFormula')))
 										@for($iDist = 0; $iDist <= config('settings.listing.search_distance_max', 500); $iDist += config('settings.listing.search_distance_interval', 50))
 											<option{{ (request()->get('distance', config('settings.listing.search_distance_default', 100))==$iDist) ? ' selected="selected"' : '' }}
-													value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('distance'), ['distance' => $iDist])) !!}">
+													value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('distance'), ['distance' => $iDist]), null, false) !!}">
 												{{ t('Around :distance :unit', ['distance' => $iDist, 'unit' => unitOfLength()]) }}
 											</option>
 										@endfor
@@ -151,47 +151,49 @@
 							<div style="clear:both"></div>
 						</div>
 						
-						<!-- Mobile Filter bar -->
+						<!-- Mobile Filter Bar -->
 						<div class="mobile-filter-bar col-xl-12">
 							<ul class="list-unstyled list-inline no-margin no-padding">
+								@if (config('settings.listing.left_sidebar'))
 								<li class="filter-toggle">
 									<a class="">
 										<i class="icon-th-list"></i> {{ t('Filters') }}
 									</a>
 								</li>
+								@endif
 								<li>
 									<div class="dropdown">
 										<a data-toggle="dropdown" class="dropdown-toggle">{{ t('Sort by') }}</a>
 										<ul class="dropdown-menu">
 											<li>
-												<a href="{!! qsurl($fullUrlNoParams, request()->except(['orderBy', 'distance'])) !!}" rel="nofollow">
+												<a href="{!! qsurl($fullUrlNoParams, request()->except(['orderBy', 'distance']), null, false) !!}" rel="nofollow">
 													{{ t('Sort by') }}
 												</a>
 											</li>
 											<li>
-												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceAsc'])) !!}" rel="nofollow">
+												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceAsc']), null, false) !!}" rel="nofollow">
 													{{ t('Price : Low to High') }}
 												</a>
 											</li>
 											<li>
-												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceDesc'])) !!}" rel="nofollow">
+												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'priceDesc']), null, false) !!}" rel="nofollow">
 													{{ t('Price : High to Low') }}
 												</a>
 											</li>
 											<li>
-												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'relevance'])) !!}" rel="nofollow">
+												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'relevance']), null, false) !!}" rel="nofollow">
 													{{ t('Relevance') }}
 												</a>
 											</li>
 											<li>
-												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'date'])) !!}" rel="nofollow">
+												<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'date']), null, false) !!}" rel="nofollow">
 													{{ t('Date') }}
 												</a>
 											</li>
 											@if (isset($isCitySearch) and $isCitySearch and \App\Helpers\DBTool::checkIfMySQLFunctionExists(config('larapen.core.distanceCalculationFormula')))
 												@for($iDist = 0; $iDist <= config('settings.listing.search_distance_max', 500); $iDist += config('settings.listing.search_distance_interval', 50))
 													<li>
-														<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('distance'), ['distance' => $iDist])) !!}" rel="nofollow">
+														<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('distance'), ['distance' => $iDist]), null, false) !!}" rel="nofollow">
 															{{ t('Around :distance :unit', ['distance' => $iDist, 'unit' => unitOfLength()]) }}
 														</a>
 													</li>
@@ -211,7 +213,7 @@
 
 						<div class="tab-box save-search-bar text-center">
 							@if (request()->filled('q') and request()->get('q') != '' and $count->get('all') > 0)
-								<a name="{!! qsurl($fullUrlNoParams, request()->except(['_token', 'location'])) !!}" id="saveSearch"
+								<a name="{!! qsurl($fullUrlNoParams, request()->except(['_token', 'location']), null, false) !!}" id="saveSearch"
 								   count="{{ $count->get('all') }}">
 									<i class="icon-star-empty"></i> {{ t('Save Search') }}
 								</a>
@@ -221,7 +223,7 @@
 						</div>
 					</div>
 					
-					<nav class="pagination-bar mb-5" aria-label="">
+					<nav class="pagination-bar mb-5 pagination-sm" aria-label="">
 						{!! $paginator->appends(request()->query())->render() !!}
 					</nav>
 
@@ -231,7 +233,7 @@
 						@if (!auth()->check() and config('settings.single.guests_can_post_ads') != '1')
 							<a href="#quickLogin" class="btn btn-border btn-post btn-add-listing" data-toggle="modal">{{ t('Start Now!') }}</a>
 						@else
-							<a href="{{ lurl('posts/create') }}" class="btn btn-border btn-post btn-add-listing">{{ t('Start Now!') }}</a>
+							<a href="{{ addPostURL() }}" class="btn btn-border btn-post btn-add-listing">{{ t('Start Now!') }}</a>
 						@endif
 					</div>
 

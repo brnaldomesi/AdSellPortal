@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -415,18 +415,20 @@ class DBTool
 	NO SQL DETERMINISTIC
 	COMMENT "Returns the distance in degrees on the Earth between two known points of latitude and longitude. To get km, multiply by 6371, and miles by 3959"
 BEGIN
-	DECLARE r FLOAT unsigned DEFAULT 6371;
-	DECLARE lonDiff FLOAT unsigned;
-	DECLARE a FLOAT unsigned;
-	DECLARE c FLOAT unsigned;
+	DECLARE R FLOAT UNSIGNED DEFAULT 6371;
+	DECLARE lonDelta FLOAT UNSIGNED;
+	DECLARE a FLOAT UNSIGNED;
+	DECLARE c FLOAT UNSIGNED;
+	DECLARE d FLOAT UNSIGNED;
  
-	SET lonDiff = RADIANS(lon2 - lon1);
 	SET lat1 = RADIANS(lat1);
 	SET lat2 = RADIANS(lat2);
+	SET lonDelta = lon2 - lon1;
 	
-	SET c = ACOS((COS(lat1) * COS(lat2) * COS(lonDiff)) + (SIN(lat1) * SIN(lat2)));
+	SET c = ACOS((COS(lat1) * COS(lat2) * COS(lonDelta)) + (SIN(lat1) * SIN(lat2)));
+	SET d = R * c;
  
-	RETURN (r * c);
+	RETURN FLOOR(d);
 END;';
 			
 			\DB::statement($sql);
@@ -448,26 +450,44 @@ END;';
 	 * giving great-circle distances between two points on a sphere from their longitudes and latitudes.
 	 *
 	 * FORMULA
-	 * distance = r * 2 * ASIN(SQRT(a))
-	 *
-	 * WHERE
-	 * 1) r is the radius of the Earth (6371 kilometers, 3959 miles)
-	 * 2) a = POW(SIN(latDiff / 2), 2) + COS(lat1) * COS(lat2) * POW(SIN(LonDiff / 2), 2)
-	 * 3) All the latitude & longitude values are already in radians
-	 *
-	 * NOTE
-	 * The Geonames lat & lon data are in Decimal Degrees (wgs84)
-	 * Decimal Degrees to Radians = RADIANS(DecimalDegrees) or DecimalDegrees * Pi/180
+	 * 3959 * acos(cos(radians('.$lat.')) * cos(radians(a.lat)) * cos(radians(a.lon) - radians('.$lon.')) + sin(radians('.$lat.')) * sin(radians(a.lat)))) as distance
 	 *
 	 * SOURCES
-	 * https://en.wikipedia.org/wiki/Haversine_formula
-	 * https://rosettacode.org/wiki/Haversine_formula
+	 * http://www.movable-type.co.uk/scripts/latlong.html
+	 * https://developers.google.com/maps/solutions/store-locator/clothing-store-locator#findnearsql
 	 *
 	 * USAGE
 	 * haversine(lat1, lon1, lat2, lon2) as distance
 	 *
+	 * TOOLS
+	 * http://www.onlineconversion.com/map_greatcircle_distance.htm
+	 *
 	 * @return bool
 	 */
+	/*
+	Haversine Formula
+	=================
+	a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
+	c = 2 ⋅ atan2( √a, √(1−a) )
+	d = R ⋅ c
+	where	φ (Phi) is latitude, λ (Lambda) is longitude, R is earth's radius (mean radius = 6,371km);
+	Note that angles need to be in radians to pass to trig functions!
+	
+	JavaScript
+	==========
+	var R = 6371e3; // metres
+	var φ1 = lat1.toRadians();
+	var φ2 = lat2.toRadians();
+	var Δφ = (lat2-lat1).toRadians();
+	var Δλ = (lon2-lon1).toRadians();
+	
+	var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+			Math.cos(φ1) * Math.cos(φ2) *
+			Math.sin(Δλ/2) * Math.sin(Δλ/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	
+	var d = R * c;
+	*/
 	public static function createMySQLHaversineFunction()
 	{
 		try {
@@ -486,21 +506,101 @@ END;';
 	NO SQL DETERMINISTIC
 	COMMENT "Returns the distance in degrees on the Earth between two known points of latitude and longitude. To get km, multiply by 6371, and miles by 3959"
 BEGIN
-	DECLARE r FLOAT unsigned DEFAULT 6371;
-	DECLARE latDiff FLOAT unsigned;
-	DECLARE lonDiff FLOAT unsigned;
-	DECLARE a FLOAT unsigned;
-	DECLARE c FLOAT unsigned;
- 
-	SET latDiff = RADIANS(lat2 - lat1);
-	SET lonDiff = RADIANS(lon2 - lon1);
+	DECLARE R FLOAT UNSIGNED DEFAULT 6371;
+	DECLARE latDelta FLOAT UNSIGNED;
+	DECLARE lonDelta FLOAT UNSIGNED;
+	DECLARE a FLOAT UNSIGNED;
+	DECLARE c FLOAT UNSIGNED;
+	DECLARE d FLOAT UNSIGNED;
+	
 	SET lat1 = RADIANS(lat1);
 	SET lat2 = RADIANS(lat2);
- 
-	SET a = POW(SIN(latDiff / 2), 2) + COS(lat1) * COS(lat2) * POW(SIN(lonDiff / 2), 2);
+	SET latDelta = lat2 - lat1;
+	SET lonDelta = lon2 - lon1;
+	
+	SET a = SIN(latDelta/2) * SIN(latDelta/2) + COS(lat1) * COS(lat2) * SIN(lonDelta/2) * SIN(lonDelta/2);
+	SET c = 2 * ATAN2(SQRT(a), SQRT(1-a));
+	SET d = R * c;
+	
+	RETURN FLOOR(d);
+END;';
+			
+			\DB::statement($sql);
+			
+			return true;
+			
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+	
+	/**
+	 * Create the MySQL Haversine function (Old version)
+	 *
+	 * @todo: I don't recommend it for now.
+	 *
+	 * DEFINITION
+	 * The haversine formula is an equation important in navigation,
+	 * giving great-circle distances between two points on a sphere from their longitudes and latitudes.
+	 *
+	 * FORMULA
+	 * distance = r * 2 * ASIN(SQRT(a))
+	 *
+	 * WHERE
+	 * 1) r is the radius of the Earth (6371 kilometers, 3959 miles)
+	 * 2) a = POW(SIN(latDelta / 2), 2) + COS(lat1) * COS(lat2) * POW(SIN(LonDelta / 2), 2)
+	 * 3) All the latitude & longitude values are already in radians
+	 *
+	 * NOTE
+	 * The Geonames lat & lon data are in Decimal Degrees (wgs84)
+	 * Decimal Degrees to Radians = RADIANS(DecimalDegrees) or DecimalDegrees * Pi/180
+	 * POWER()/POW() function is only available from MySQL Version: 5.6
+	 *
+	 * SOURCES
+	 * https://en.wikipedia.org/wiki/Haversine_formula
+	 * https://rosettacode.org/wiki/Haversine_formula
+	 * https://blog.dreamfactory.com/creating-a-geofence-api-using-the-haversine-formula-php-and-dreamfactorys-scripted-api-services/
+	 *
+	 * USAGE
+	 * haversine(lat1, lon1, lat2, lon2) as distance
+	 *
+	 * @return bool
+	 */
+	public static function createMySQLHaversineFunctionOld()
+	{
+		try {
+			
+			// Drop the function, If exists
+			$sql = 'DROP FUNCTION IF EXISTS haversine;';
+			\DB::statement($sql);
+			
+			// Create the function
+			// Remove " DELIMITER $$ " (also $$ DELIMITER ; at the end)
+			// I think DELIMITER is no longer required with PHP PDO
+			$sql = 'CREATE FUNCTION haversine (
+		lat1 FLOAT, lon1 FLOAT,
+		lat2 FLOAT, lon2 FLOAT
+	) RETURNS FLOAT
+	NO SQL DETERMINISTIC
+	COMMENT "Returns the distance in degrees on the Earth between two known points of latitude and longitude. To get km, multiply by 6371, and miles by 3959"
+BEGIN
+	DECLARE R FLOAT UNSIGNED DEFAULT 6371;
+	DECLARE latDelta FLOAT UNSIGNED;
+	DECLARE lonDelta FLOAT UNSIGNED;
+	DECLARE a FLOAT UNSIGNED;
+	DECLARE c FLOAT UNSIGNED;
+	DECLARE d FLOAT UNSIGNED;
+	
+	SET lat1 = RADIANS(lat1);
+	SET lat2 = RADIANS(lat2);
+	SET latDelta = lat2 - lat1;
+	SET lonDelta = lon2 - lon1;
+	
+	SET a = POW(SIN(latDelta / 2), 2) + COS(lat1) * COS(lat2) * POW(SIN(lonDelta / 2), 2);
 	SET c = 2 * ASIN(SQRT(a));
- 
-	RETURN (r * c);
+	SET d = R * c;
+	
+	RETURN FLOOR(d);
 END;';
 			
 			\DB::statement($sql);

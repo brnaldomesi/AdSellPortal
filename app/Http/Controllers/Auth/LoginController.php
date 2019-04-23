@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -23,6 +23,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Torann\LaravelMetaTags\Facades\MetaTag;
 
 class LoginController extends FrontController
@@ -59,7 +60,7 @@ class LoginController extends FrontController
         $this->middleware('guest')->except(['except' => 'logout']);
 	
 		// Set default URLs
-		$isFromLoginPage = str_contains(url()->previous(), '/' . trans('routes.login'));
+		$isFromLoginPage = Str::contains(url()->previous(), '/' . trans('routes.login'));
 		$this->loginPath = $isFromLoginPage ? config('app.locale') . '/' . trans('routes.login') : url()->previous();
 		$this->redirectTo = $isFromLoginPage ? config('app.locale') . '/account' : url()->previous();
 		// $this->redirectAfterLogout = config('app.locale') . '/' . trans('routes.login');

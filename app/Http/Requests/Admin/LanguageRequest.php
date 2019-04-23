@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\BetweenRule;
+use App\Rules\LocaleOfLanguageRule;
+
 class LanguageRequest extends Request
 {
 	/**
@@ -25,10 +28,10 @@ class LanguageRequest extends Request
 	public function rules()
 	{
 		return [
-			'abbr'   => 'required|min:2|max:10',
-			'name'   => 'required|mb_between:2,255',
-			'native' => 'required|mb_between:2,255',
-			'locale' => 'required|min:2|max:20|language_check_locale:' . $this->abbr,
+			'abbr'   => ['required', 'min:2', 'max:10'],
+			'name'   => ['required', new BetweenRule(2, 255)],
+			'native' => ['required', new BetweenRule(2, 255)],
+			'locale' => ['required', 'min:2', 'max:20', new LocaleOfLanguageRule($this->abbr)],
 		];
 	}
 	
@@ -45,7 +48,7 @@ class LanguageRequest extends Request
 		$abbr = $this->abbr;
 		
 		$input = [];
-		$input['name'] = (isset($languages[$abbr])) ? $languages[$abbr] : ucfirst($abbr);
+		$input['name'] = (isset($languages[$abbr])) ? $languages[$abbr] : mb_ucfirst($abbr);
 		if (!isset($this->native) || empty($this->native)) {
 			$input['native'] = $input['name'];
 		}

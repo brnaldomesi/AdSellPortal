@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -35,7 +35,7 @@ class HomeSectionController extends PanelController
 	{
 		parent::__construct();
 		
-		$this->middleware('demo')->only(['reset']);
+		$this->middleware('demo.restriction')->only(['reset']);
 	}
 	
 	public function setup()

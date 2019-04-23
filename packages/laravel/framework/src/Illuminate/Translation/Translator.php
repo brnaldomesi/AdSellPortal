@@ -2,7 +2,7 @@
 
 namespace LarapenIlluminate\Translation;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use Illuminate\Contracts\Translation\Loader;
 
 class Translator extends \Illuminate\Translation\Translator
@@ -38,7 +38,7 @@ class Translator extends \Illuminate\Translation\Translator
 			 * 2. Or replace the explode('.', KEY) line in Array::set() by a regex to split the KEY by dot.
 			 *    NOTE: The dot will require character in left & right: (eg. 'foo.bar' instead of 'foo. bar' or 'foo.')
 			 */
-			Arr::set($this->loaded, "$namespace.$group.$locale.$item", $value, 4);
+			ArrayHelper::setWithLimit($this->loaded, "$namespace.$group.$locale.$item", $value, 4);
 		}
 	}
 }

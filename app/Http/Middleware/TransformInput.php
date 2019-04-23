@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -96,6 +96,11 @@ class TransformInput
 			if ($loginField == 'phone') {
 				$input['login'] = phoneFormatInt($request->input('login'), $request->input('country_code', session('country_code')));
 			}
+		}
+		
+		// tags
+		if ($request->filled('tags')) {
+			$input['tags'] = tagCleaner($request->input('tags'));
 		}
 		
 		$request->replace($input);

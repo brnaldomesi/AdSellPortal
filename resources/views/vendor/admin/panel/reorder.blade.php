@@ -29,7 +29,7 @@
 
             // show the tree element
             echo '<li id="list_'.$entry->getKey().'">';
-            if (str_contains($xPanel->reorder_label, '.')) {
+            if (\Illuminate\Support\Str::contains($xPanel->reorder_label, '.')) {
                 $tmp = explode('.', $xPanel->reorder_label);
                 $relation = head($tmp);
                 $reorder_label = last($tmp);

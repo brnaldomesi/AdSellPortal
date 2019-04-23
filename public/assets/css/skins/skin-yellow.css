@@ -1,5 +1,5 @@
 /*
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -253,7 +253,9 @@
 .skin-yellow .btn-info,
 .skin-yellow .btn-default,
 .skin-yellow .btn-border,
-.skin-yellow .btn-fb {
+.skin-yellow .btn-fb,
+.skin-yellow .btn-tw,
+.skin-yellow .btn-lkin {
 	color: #fff;
 }
 .skin-yellow .btn-add-listing {
@@ -304,7 +306,9 @@
 .skin-yellow .tw_button:hover,
 .skin-yellow .btn-tw:hover,
 .skin-yellow .lin_button:hover,
-.skin-yellow .btn-lin:hover {
+.skin-yellow .btn-lin:hover,
+.skin-yellow .lkin_button:hover,
+.skin-yellow .btn-lkin:hover {
 	color: #fff;
 }
 .skin-yellow .footer ul li a {

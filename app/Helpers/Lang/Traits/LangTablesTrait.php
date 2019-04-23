@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -16,6 +16,7 @@
 namespace App\Helpers\Lang\Traits;
 
 use App\Models\Language;
+use Illuminate\Support\Str;
 use Jackiedo\DotenvEditor\Facades\DotenvEditor;
 
 trait LangTablesTrait
@@ -27,7 +28,7 @@ trait LangTablesTrait
 	 */
 	private $translatedModels = [
 		'PostType'   => [
-			['name' => 'Post', 'key' => 'post_type_id']
+			['name' => 'Post', 'key' => 'post_type_id'],
 		],
 		'Category' => [
 			['name' => 'Category', 'key' => 'parent_id'],
@@ -35,10 +36,10 @@ trait LangTablesTrait
 			['name' => 'CategoryField', 'key' => 'category_id'],
 		],
 		'Gender'   => [
-			['name' => 'User', 'key' => 'gender_id']
+			['name' => 'User', 'key' => 'gender_id'],
 		],
 		'Package'  => [
-			['name' => 'Payment', 'key' => 'package_id']
+			['name' => 'Payment', 'key' => 'package_id'],
 		],
 		'ReportType',
 		'Page',
@@ -49,7 +50,7 @@ trait LangTablesTrait
 			['name' => 'PostValue', 'key' => 'field_id'],
 		],
 		'FieldOption'  => [
-			['name' => 'PostValue', 'key' => 'option_id']
+			['name' => 'PostValue', 'key' => 'option_id'],
 		],
 	];
 	
@@ -96,7 +97,7 @@ trait LangTablesTrait
 			}
 			
 			// Get model full name (with the namespace)
-			if (str_contains($name, '\\')) {
+			if (Str::contains($name, '\\')) {
 				$model = $name;
 			} else {
 				$model = $this->namespace . $name;
@@ -138,7 +139,7 @@ trait LangTablesTrait
 			}
 			
 			// Get model full name (with the namespace)
-			if (str_contains($name, '\\')) {
+			if (Str::contains($name, '\\')) {
 				$model = $name;
 			} else {
 				$model = $this->namespace . $name;
@@ -201,7 +202,7 @@ trait LangTablesTrait
 			}
 			
 			// Get model full name (with the namespace)
-			if (str_contains($name, '\\')) {
+			if (Str::contains($name, '\\')) {
 				$model = $name;
 			} else {
 				$model = $this->namespace . $name;

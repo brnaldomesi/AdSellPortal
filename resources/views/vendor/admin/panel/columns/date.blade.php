@@ -7,7 +7,7 @@
 		$dateColumnValue = \Date::parse($entry->{$column['name']});
 	}
 	
-	if (str_contains(config('larapen.admin.default_date_format'), '%')) {
+	if (\Illuminate\Support\Str::contains(config('larapen.admin.default_date_format'), '%')) {
 		$dateColumnValue = $dateColumnValue->formatLocalized(config('larapen.admin.default_date_format'));
 	} else {
 		$dateColumnValue = $dateColumnValue->format(config('larapen.admin.default_date_format'));

@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -19,7 +19,7 @@ $phone = TextToImage::make($post->phone, config('larapen.core.textToImage'));
 $phoneLink = 'tel:' . $post->phone;
 $phoneLinkAttr = '';
 if (!auth()->check()) {
-	if (config('settings.single.guests_can_contact_seller') != '1') {
+	if (config('settings.single.guests_can_contact_ads_authors') != '1') {
 		$phone = t('Click to see');
 		$phoneLink = '#quickLogin';
 		$phoneLinkAttr = 'data-toggle="modal"';
@@ -29,7 +29,7 @@ if (!auth()->check()) {
 // Contact Seller URL
 $contactSellerURL = '#contactUser';
 if (!auth()->check()) {
-	if (config('settings.single.guests_can_contact_seller') != '1') {
+	if (config('settings.single.guests_can_contact_ads_authors') != '1') {
 		$contactSellerURL = '#quickLogin';
 	}
 }
@@ -93,12 +93,12 @@ if (!auth()->check()) {
 									</a>
 								</li>
 							@endif
-							<li class="breadcrumb-item active" aria-current="page">{{ str_limit($post->title, 70) }}</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ \Illuminate\Support\Str::limit($post->title, 70) }}</li>
 						</ol>
 					</nav>
 					
 					<div class="pull-right backtolist">
-						<a href="{{ URL::previous() }}"><i class="fa fa-angle-double-left"></i> {{ t('Back to Results') }}</a>
+						<a href="{{ rawurldecode(URL::previous()) }}"><i class="fa fa-angle-double-left"></i> {{ t('Back to Results') }}</a>
 					</div>
 				
 				</div>
@@ -125,7 +125,7 @@ if (!auth()->check()) {
                             @endif
 						</h2>
 						<span class="info-row">
-							<span class="date"><i class=" icon-clock"> </i> {{ $post->created_at_ta }} </span> -&nbsp;
+							<span class="date"><i class="icon-clock"> </i> {{ $post->created_at_ta }} </span> -&nbsp;
 							<span class="category">{{ (!empty($post->category->parent)) ? $post->category->parent->name : $post->category->name }}</span> -&nbsp;
 							<span class="item-location"><i class="fas fa-map-marker-alt"></i> {{ $post->city->name }} </span> -&nbsp;
 							<span class="category">
@@ -134,7 +134,8 @@ if (!auth()->check()) {
 							</span>
 						</span>
 						
-						<div class="ads-image">
+						<div class="posts-image">
+							<?php $titleSlug = \Illuminate\Support\Str::slug($post->title); ?>
 							@if (!in_array($post->category->type, ['not-salable']))
 								<h1 class="pricetag">
 									@if ($post->price > 0)
@@ -147,7 +148,7 @@ if (!auth()->check()) {
 							@if (count($post->pictures) > 0)
 								<ul class="bxslider">
 									@foreach($post->pictures as $key => $image)
-										<li><img src="{{ resize($image->filename, 'big') }}" alt="img"></li>
+										<li><img src="{{ resize($image->filename, 'big') }}" alt="{{ $titleSlug . '-big-' . $key }}"></li>
 									@endforeach
 								</ul>
 								<div class="product-view-thumb-wrapper">
@@ -155,7 +156,7 @@ if (!auth()->check()) {
 									@foreach($post->pictures as $key => $image)
 										<li>
 											<a class="thumb-item-link" data-slide-index="{{ $key }}" href="">
-												<img src="{{ resize($image->filename, 'small') }}" alt="img">
+												<img src="{{ resize($image->filename, 'small') }}" alt="{{ $titleSlug . '-small-' . $key }}">
 											</a>
 										</li>
 									@endforeach
@@ -176,7 +177,7 @@ if (!auth()->check()) {
 								</div>
 							@endif
 						</div>
-						<!--ads-image-->
+						<!--posts-image-->
 						
 						
 						@if (config('plugins.reviews.installed'))
@@ -239,7 +240,7 @@ if (!auth()->check()) {
 																	{!! \App\Helpers\Number::money(' --') !!}
 																@endif
 																@if ($post->negotiable == 1)
-																	<small class="label label-success"> {{ t('Negotiable') }}</small>
+																	<small class="label badge-success"> {{ t('Negotiable') }}</small>
 																@endif
 															</span>
 														</div>
@@ -260,7 +261,7 @@ if (!auth()->check()) {
 										
 											<!-- Tags -->
 											@if (!empty($post->tags))
-												<?php $tags = explode(',', $post->tags); ?>
+												<?php $tags = array_map('trim', explode(',', $post->tags)); ?>
 												@if (!empty($tags))
 													<div class="row">
 														<div class="tags col-12">
@@ -278,7 +279,7 @@ if (!auth()->check()) {
 											
 											<!-- Actions -->
 											<div class="row detail-line-action text-center">
-													<div class="col-md-4 col-sm-4 col-xs-4">
+													<div class="col-4">
 													@if (auth()->check())
 														@if (auth()->user()->id == $post->user_id)
 															<a href="{{ lurl('posts/' . $post->id . '/edit') }}">
@@ -303,7 +304,7 @@ if (!auth()->check()) {
 														@endif
 													@endif
 													</div>
-													<div class="col-md-4 col-sm-4 col-xs-4">
+													<div class="col-4">
 														<a class="make-favorite" id="{{ $post->id }}" href="javascript:void(0)">
 															@if (auth()->check())
 																@if (\App\Models\SavedPost::where('user_id', auth()->user()->id)->where('post_id', $post->id)->count() > 0)
@@ -316,7 +317,7 @@ if (!auth()->check()) {
 															@endif
 														</a>
 													</div>
-													<div class="col-md-4 col-sm-4 col-xs-4">
+													<div class="col-4">
 														<a href="{{ lurl('posts/' . $post->id . '/report') }}">
 															<i class="fa icon-info-circled-alt tooltipHere" data-toggle="tooltip" data-original-title="{{ t('Report abuse') }}"></i>
 														</a>
@@ -339,7 +340,7 @@ if (!auth()->check()) {
 							<div class="content-footer text-left">
 								@if (auth()->check())
 									@if (auth()->user()->id == $post->user_id)
-										<a class="btn btn-default" href="{{ lurl('posts/' . $post->id . '/edit') }}"><i class="fa fa-pencil-square-o"></i> {{ t('Edit') }}</a>
+										<a class="btn btn-default" href="{{ editPostURL($post->id) }}"><i class="fa fa-pencil-square-o"></i> {{ t('Edit') }}</a>
 									@else
 										@if ($post->email != '')
 											<a class="btn btn-default" data-toggle="modal" href="{{ $contactSellerURL }}"><i class="icon-mail-2"></i> {{ t('Send a message') }} </a>
@@ -436,22 +437,18 @@ if (!auth()->check()) {
 								<div class="ev-action" {!! $evActionStyle !!}>
 									@if (auth()->check())
 										@if (auth()->user()->id == $post->user_id)
-											<a href="{{ lurl('posts/' . $post->id . '/edit') }}" class="btn btn-default btn-block">
-												<i class="icon-pencil-squared"></i> {{ t('Update the Details') }}
+											<a href="{{ editPostURL($post->id) }}" class="btn btn-default btn-block">
+												<i class="fa fa-pencil-square-o"></i> {{ t('Update the Details') }}
 											</a>
-											<a href="{{ lurl('posts/' . $post->id . '/photos') }}" class="btn btn-default btn-block">
-												<i class="icon-camera-1"></i> {{ t('Update Photos') }}
-											</a>
-											<a href="{{ lurl('posts/' . $post->id . '/payment') }}" class="btn btn-default btn-block">
-												<i class="icon-plus"></i> Additional Services
-											</a>
-											<a href="#" class="btn btn-default btn-block">
-												<i class="icon-bank"></i> Fast Sell
-											</a>
-											@if (isset($countPackages) and isset($countPaymentMethods) and $countPackages > 0 and $countPaymentMethods > 0)
-												<a href="{{ lurl('posts/' . $post->id . '/payment') }}" class="btn btn-success btn-block">
-													<i class="icon-ok-circled2"></i> {{ t('Make It Premium') }}
+											@if (config('settings.single.publication_form_type') == '1')
+												<a href="{{ lurl('posts/' . $post->id . '/photos') }}" class="btn btn-default btn-block">
+													<i class="icon-camera-1"></i> {{ t('Update Photos') }}
 												</a>
+												@if (isset($countPackages) and isset($countPaymentMethods) and $countPackages > 0 and $countPaymentMethods > 0)
+													<a href="{{ lurl('posts/' . $post->id . '/payment') }}" class="btn btn-success btn-block">
+														<i class="icon-ok-circled2"></i> {{ t('Make It Premium') }}
+													</a>
+												@endif
 											@endif
 										@else
 											@if ($post->email != '')
@@ -500,7 +497,6 @@ if (!auth()->check()) {
 							@include('layouts.inc.social.horizontal')
 						@endif
 						
-					<!-- XLABS
 						<div class="card sidebar-card">
 							<div class="card-header">{{ t('Safety Tips for Buyers') }}</div>
 							<div class="card-content">
@@ -511,7 +507,7 @@ if (!auth()->check()) {
 										<li> {{ t('Pay only after collecting the item') }} </li>
 									</ul>
                                     <?php $tipsLinkAttributes = getUrlPageByType('tips'); ?>
-                                    @if (!str_contains($tipsLinkAttributes, 'href="#"') and !str_contains($tipsLinkAttributes, 'href=""'))
+                                    @if (!\Illuminate\Support\Str::contains($tipsLinkAttributes, 'href="#"') and !\Illuminate\Support\Str::contains($tipsLinkAttributes, 'href=""'))
 									<p>
 										<a class="pull-right" {!! $tipsLinkAttributes !!}>
                                             {{ t('Know more') }}
@@ -521,7 +517,7 @@ if (!auth()->check()) {
                                     @endif
 								</div>
 							</div>
-						</div> -->
+						</div>
 					</aside>
 				</div>
 			</div>
@@ -538,7 +534,7 @@ if (!auth()->check()) {
 @endsection
 
 @section('modal_message')
-	@if (auth()->check() or config('settings.single.guests_can_contact_seller')=='1')
+	@if (auth()->check() or config('settings.single.guests_can_contact_ads_authors')=='1')
 		@include('post.inc.compose-message')
 	@endif
 @endsection
@@ -574,43 +570,28 @@ if (!auth()->check()) {
         };
 		
 		$(document).ready(function () {
-			/* Slider */
-			var $mainImgSlider = $('.bxslider').bxSlider({
+			/* bxSlider - Main Images */
+			$('.bxslider').bxSlider({
 				speed: 1000,
 				pagerCustom: '#bx-pager',
-				adaptiveHeight: true
+				adaptiveHeight: true,
+				onSlideAfter: function ($slideElement, oldIndex, newIndex) {
+					@if (!userBrowser('Chrome'))
+						$('#bx-pager li:not(.bx-clone)').eq(newIndex).find('a.thumb-item-link').addClass('active');
+					@endif
+				}
 			});
 			
-			/* Initiates responsive slide */
-			var settings = function () {
-				var mobileSettings = {
-					slideWidth: 80,
-					minSlides: 2,
-					maxSlides: 5,
-					slideMargin: 5,
-					adaptiveHeight: true,
-					pager: false
-				};
-				var pcSettings = {
-					slideWidth: 100,
-					minSlides: 3,
-					maxSlides: 6,
-					pager: false,
-					slideMargin: 10,
-					adaptiveHeight: true
-				};
-				return ($(window).width() < 768) ? mobileSettings : pcSettings;
-			};
-			
-			var thumbSlider;
-			
-			function tourLandingScript() {
-				thumbSlider.reloadSlider(settings());
-			}
-			
-			thumbSlider = $('.product-view-thumb').bxSlider(settings());
-			$(window).resize(tourLandingScript);
-			
+			/* bxSlider - Thumbnails */
+			@if (userBrowser('Chrome'))
+				$('#bx-pager').addClass('m-3');
+				$('#bx-pager .thumb-item-link').unwrap();
+			@else
+				var thumbSlider = $('.product-view-thumb').bxSlider(bxSliderSettings());
+				$(window).on('resize', function() {
+					thumbSlider.reloadSlider(bxSliderSettings());
+				});
+			@endif
 			
 			@if (config('settings.single.show_post_on_googlemap'))
 				/* Google Maps */
@@ -632,6 +613,43 @@ if (!auth()->check()) {
             if (lastTab) {
                 $('[href="' + lastTab + '"]').tab('show');
             }
-		})
+		});
+		
+		/* bxSlider - Initiates Responsive Carousel */
+		function bxSliderSettings()
+		{
+			var smSettings = {
+				slideWidth: 65,
+				minSlides: 1,
+				maxSlides: 4,
+				slideMargin: 5,
+				adaptiveHeight: true,
+				pager: false
+			};
+			var mdSettings = {
+				slideWidth: 100,
+				minSlides: 1,
+				maxSlides: 4,
+				slideMargin: 5,
+				adaptiveHeight: true,
+				pager: false
+			};
+			var lgSettings = {
+				slideWidth: 100,
+				minSlides: 3,
+				maxSlides: 6,
+				pager: false,
+				slideMargin: 10,
+				adaptiveHeight: true
+			};
+			
+			if ($(window).width() <= 640) {
+				return smSettings;
+			} else if ($(window).width() > 640 && $(window).width() < 768) {
+				return mdSettings;
+			} else {
+				return lgSettings;
+			}
+		}
 	</script>
 @endsection

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -56,7 +56,7 @@ class FrontController extends Controller
 		
 		// Check the 'Domain Mapping' plugin
 		if (config('plugins.domainmapping.installed')) {
-			$this->middleware(['domainVerification']);
+			$this->middleware(['domain.verification']);
 		}
 	}
 }

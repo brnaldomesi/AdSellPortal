@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -14,6 +14,8 @@
  */
 
 namespace App\Helpers;
+
+use Illuminate\Support\Str;
 
 class Number
 {
@@ -207,8 +209,8 @@ class Number
 		}
 		
 		$separators = [];
-		$separators['thousand'] = (starts_with($locale, 'fr')) ? ' ' : ',';
-		$separators['decimal'] = (starts_with($locale, 'fr')) ? ',' : '.';
+		$separators['thousand'] = (Str::startsWith($locale, 'fr')) ? ' ' : ',';
+		$separators['decimal'] = (Str::startsWith($locale, 'fr')) ? ',' : '.';
 		
 		return $separators;
 	}

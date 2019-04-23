@@ -1,9 +1,10 @@
 <?php
 // Default Map's values
 $loc = [
-	'show'       => false,
-	'itemsCols'  => 3,
-	'showButton' => false,
+	'show'       		=> false,
+	'itemsCols'  		=> 3,
+	'showButton' 		=> false,
+	'countCitiesPosts' 	=> false,
 ];
 $map = ['show' => false];
 
@@ -23,6 +24,10 @@ if (isset($citiesOptions)) {
 		if (isset($citiesOptions['show_map']) and $citiesOptions['show_map'] == '1') {
 			$map['show'] = true;
 		}
+	}
+	
+	if (isset($citiesOptions['count_cities_posts']) and $citiesOptions['count_cities_posts'] == '1') {
+		$loc['countCitiesPosts'] = true;
 	}
 }
 ?>
@@ -97,6 +102,9 @@ if (isset($citiesOptions)) {
 														<a href="{{ lurl(trans('routes.v-search-city', $attr), $attr) }}">
 															{{ $city->name }}
 														</a>
+														@if ($loc['countCitiesPosts'])
+															&nbsp;({{ $city->posts->count() }})
+														@endif
 													@endif
 												</li>
 											@endforeach
@@ -111,7 +119,7 @@ if (isset($citiesOptions)) {
 										<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 									</a>
 								@else
-									<a class="btn btn-lg btn-add-listing pl-4 pr-4" href="{{ lurl('posts/create') }}" style="text-transform: none;">
+									<a class="btn btn-lg btn-add-listing pl-4 pr-4" href="{{ addPostURL() }}" style="text-transform: none;">
 										<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 									</a>
 								@endif

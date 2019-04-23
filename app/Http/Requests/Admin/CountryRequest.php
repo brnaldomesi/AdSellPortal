@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,8 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\CurrenciesCodesAreValidRule;
+
 class CountryRequest extends Request
 {
 	/**
@@ -25,17 +27,17 @@ class CountryRequest extends Request
 	public function rules()
 	{
 		$rules = [
-			'code'           => 'required|min:2|max:2',
-			'name'           => 'required|min:2|max:255',
-			'asciiname'      => 'required',
-			'continent_code' => 'required',
-			'currency_code'  => 'required',
-			'phone'          => 'required',
-			'languages'      => 'required',
+			'code'           => ['required', 'min:2', 'max:2'],
+			'name'           => ['required', 'min:2', 'max:255'],
+			'asciiname'      => ['required'],
+			'continent_code' => ['required'],
+			'currency_code'  => ['required'],
+			'phone'          => ['required'],
+			'languages'      => ['required'],
 		];
 		
 		if ($this->filled('currencies')) {
-			$rules['currencies'] = 'check_currencies';
+			$rules['currencies'] = [new CurrenciesCodesAreValidRule()];
 		}
 		
 		return $rules;

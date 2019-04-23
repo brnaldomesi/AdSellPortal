@@ -255,4 +255,8 @@
     'YE' => 'Yémen',
     'ZM' => 'Zambie',
     'ZW' => 'Zimbabwe',
+	'BQ' => 'Bonaire, Sint Eustatius et Saba',
+	'CW' => 'Curacao',
+	'SS' => 'Soudan du Sud',
+	'SX' => 'Sint Maarten',
 );

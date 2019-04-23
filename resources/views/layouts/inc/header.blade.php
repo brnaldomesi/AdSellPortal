@@ -3,7 +3,7 @@
 $queryString = (request()->getQueryString() ? ('?' . request()->getQueryString()) : '');
 
 // Get the Default Language
-$cacheExpiration = (isset($cacheExpiration)) ? $cacheExpiration : config('settings.other.cache_expiration', 60);
+$cacheExpiration = (isset($cacheExpiration)) ? $cacheExpiration : config('settings.optimization.cache_expiration', 60);
 $defaultLang = Cache::remember('language.default', $cacheExpiration, function () {
     $defaultLang = \App\Models\Language::where('default', 1)->first();
     return $defaultLang;
@@ -111,7 +111,7 @@ if (getSegment(1) != trans('routes.countries')) {
 							@endif
 						</li>
 						<li class="nav-item dropdown no-arrow">
-							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" data-target="#userMenuDropdown">
+							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 								<i class="icon-user fa hidden-sm"></i>
 								<span>{{ auth()->user()->name }}</span>
 								<span class="badge badge-pill badge-important count-conversations-with-new-messages hidden-sm">0</span>
@@ -124,9 +124,9 @@ if (getSegment(1) != trans('routes.countries')) {
 									</a>
 								</li>
 								<li class="dropdown-item"><a href="{{ lurl('account/my-posts') }}"><i class="icon-th-thumb"></i> {{ t('My ads') }} </a></li>
-				<!-- XLABS				<li class="dropdown-item"><a href="{{ lurl('account/favourite') }}"><i class="icon-heart"></i> {{ t('Favourite ads') }} </a></li>
+								<li class="dropdown-item"><a href="{{ lurl('account/favourite') }}"><i class="icon-heart"></i> {{ t('Favourite ads') }} </a></li>
 								<li class="dropdown-item"><a href="{{ lurl('account/saved-search') }}"><i class="icon-star-circled"></i> {{ t('Saved searches') }} </a></li>
-								<li class="dropdown-item"><a href="{{ lurl('account/pending-approval') }}"><i class="icon-hourglass"></i> {{ t('Pending approval') }} </a></li> -->
+								<li class="dropdown-item"><a href="{{ lurl('account/pending-approval') }}"><i class="icon-hourglass"></i> {{ t('Pending approval') }} </a></li>
 								<li class="dropdown-item"><a href="{{ lurl('account/archived') }}"><i class="icon-folder-close"></i> {{ t('Archived ads') }}</a></li>
 								<li class="dropdown-item">
 									<a href="{{ lurl('account/conversations') }}">
@@ -150,12 +150,12 @@ if (getSegment(1) != trans('routes.countries')) {
 									<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 								</a>
 							@else
-								<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ lurl('posts/create') }}">
+								<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ addPostURL() }}">
 									<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 								</a>
 							@endif
 						@else
-							<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ lurl('posts/create') }}">
+							<a class="btn btn-block btn-border btn-post btn-add-listing" href="{{ addPostURL() }}">
 								<i class="fa fa-plus-circle"></i> {{ t('Add Listing') }}
 							</a>
 						@endif

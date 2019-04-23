@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -43,22 +43,48 @@
 						</div>
 					</div>
 				@endif
-
-				@if (config('settings.social_auth.social_login_activation'))
+				
+				@if (
+					config('settings.social_auth.social_login_activation')
+					and (
+						(config('settings.social_auth.facebook_client_id') and config('settings.social_auth.facebook_client_secret'))
+						or (config('settings.social_auth.linkedin_client_id') and config('settings.social_auth.linkedin_client_secret'))
+						or (config('settings.social_auth.twitter_client_id') and config('settings.social_auth.twitter_client_secret'))
+						or (config('settings.social_auth.google_client_id') and config('settings.social_auth.google_client_secret'))
+						)
+					)
 					<div class="col-xl-12">
 						<div class="row d-flex justify-content-center">
 							<div class="col-8">
 								<div class="row mb-3 d-flex justify-content-center pl-3 pr-3">
+									@if (config('settings.social_auth.facebook_client_id') and config('settings.social_auth.facebook_client_secret'))
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
 										<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-fb">
-											<a href="{{ lurl('auth/facebook') }}" class="btn-fb"><i class="icon-facebook"></i> {!! t('Connect with Facebook') !!}</a>
+											<a href="{{ lurl('auth/facebook') }}" class="btn-fb"><i class="icon-facebook-rect"></i> {!! t('Login with Facebook') !!}</a>
 										</div>
 									</div>
+									@endif
+									@if (config('settings.social_auth.linkedin_client_id') and config('settings.social_auth.linkedin_client_secret'))
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
+										<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-lkin">
+											<a href="{{ lurl('auth/linkedin') }}" class="btn-lkin"><i class="icon-linkedin"></i> {!! t('Login with LinkedIn') !!}</a>
+										</div>
+									</div>
+									@endif
+									@if (config('settings.social_auth.twitter_client_id') and config('settings.social_auth.twitter_client_secret'))
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
+										<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-tw">
+											<a href="{{ lurl('auth/twitter') }}" class="btn-tw"><i class="icon-twitter-bird"></i> {!! t('Login with Twitter') !!}</a>
+										</div>
+									</div>
+									@endif
+									@if (config('settings.social_auth.google_client_id') and config('settings.social_auth.google_client_secret'))
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1 pl-1 pr-1">
 										<div class="col-xl-12 col-md-12 col-sm-12 col-xs-12 btn btn-lg btn-danger">
-											<a href="{{ lurl('auth/google') }}" class="btn-danger"><i class="icon-googleplus-rect"></i> {!! t('Connect with Google') !!}</a>
+											<a href="{{ lurl('auth/google') }}" class="btn-danger"><i class="icon-googleplus-rect"></i> {!! t('Login with Google') !!}</a>
 										</div>
 									</div>
+									@endif
 								</div>
 							</div>
 						</div>
@@ -101,15 +127,7 @@
 									</div>
 								</div>
 								
-								@if (config('settings.security.recaptcha_activation'))
-									<!-- recaptcha -->
-									<?php $recaptchaError = (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>
-									<div class="form-group required">
-										<div class="no-label">
-											{!! Recaptcha::render(['lang' => config('app.locale')]) !!}
-										</div>
-									</div>
-								@endif
+								@include('layouts.inc.tools.recaptcha', ['noLabel' => true])
 								
 								<!-- Submit -->
 								<div class="form-group">

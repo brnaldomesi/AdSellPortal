@@ -5254,7 +5254,7 @@ hr.thin {
 	padding: 5px;
 }
 
-.ads-image {
+.posts-image {
 	display: block;
 	width: 100%;
 	height: auto;
@@ -5330,7 +5330,7 @@ hr.thin {
 		width: 64px;
 	}
 	
-	.ads-image .bx-wrapper {
+	.posts-image .bx-wrapper {
 		margin-bottom: 10px;
 	}
 }
@@ -5666,7 +5666,7 @@ h1.trtri span {
 	right: 0;
 }
 
-.ads-image .bx-wrapper {
+.posts-image .bx-wrapper {
 	/*rtl:ignore*/
 	direction: ltr;
 	margin-bottom: 20px;
@@ -5674,7 +5674,7 @@ h1.trtri span {
 	box-shadow: none;
 }
 
-.ads-image .bx-wrapper .bx-viewport {
+.posts-image .bx-wrapper .bx-viewport {
 	border: 0 none;
 	box-shadow: none;
 	right: 0;

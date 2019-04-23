@@ -29,7 +29,7 @@ if (isset($searchFormOptions)) {
 	if (isset($searchFormOptions['title_' . config('app.locale')]) and !empty($searchFormOptions['title_' . config('app.locale')])) {
 		$sForm['title'] = $searchFormOptions['title_' . config('app.locale')];
 		$sForm['title'] = str_replace(['{app_name}', '{country}'], [config('app.name'), config('country.name')], $sForm['title']);
-		if (str_contains($sForm['title'], '{count_ads}')) {
+		if (\Illuminate\Support\Str::contains($sForm['title'], '{count_ads}')) {
 			try {
 				$countPosts = \App\Models\Post::currentCountry()->unarchived()->count();
 			} catch (\Exception $e) {
@@ -37,7 +37,7 @@ if (isset($searchFormOptions)) {
 			}
 			$sForm['title'] = str_replace('{count_ads}', $countPosts, $sForm['title']);
 		}
-		if (str_contains($sForm['title'], '{count_users}')) {
+		if (\Illuminate\Support\Str::contains($sForm['title'], '{count_users}')) {
 			try {
 				$countUsers = \App\Models\User::count();
 			} catch (\Exception $e) {
@@ -49,7 +49,7 @@ if (isset($searchFormOptions)) {
 	if (isset($searchFormOptions['sub_title_' . config('app.locale')]) and !empty($searchFormOptions['sub_title_' . config('app.locale')])) {
 		$sForm['subTitle'] = $searchFormOptions['sub_title_' . config('app.locale')];
 		$sForm['subTitle'] = str_replace(['{app_name}', '{country}'], [config('app.name'), config('country.name')], $sForm['subTitle']);
-		if (str_contains($sForm['subTitle'], '{count_ads}')) {
+		if (\Illuminate\Support\Str::contains($sForm['subTitle'], '{count_ads}')) {
 			try {
 				$countPosts = \App\Models\Post::currentCountry()->unarchived()->count();
 			} catch (\Exception $e) {
@@ -57,7 +57,7 @@ if (isset($searchFormOptions)) {
 			}
 			$sForm['subTitle'] = str_replace('{count_ads}', $countPosts, $sForm['subTitle']);
 		}
-		if (str_contains($sForm['subTitle'], '{count_users}')) {
+		if (\Illuminate\Support\Str::contains($sForm['subTitle'], '{count_users}')) {
 			try {
 				$countUsers = \App\Models\User::count();
 			} catch (\Exception $e) {

@@ -6,7 +6,8 @@ if (
 	or
 	(
 		/* Security for Admin Users */
-		str_contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'UserController') && (isset($entry) && $entry->can(\App\Models\Permission::getStaffPermissions()))
+		\Illuminate\Support\Str::contains(\Illuminate\Support\Facades\Route::currentRouteAction(), 'UserController')
+		&& (isset($entry) && $entry->can(\App\Models\Permission::getStaffPermissions()))
 	)
 ) {
 	$disabled = 'disabled="disabled"';

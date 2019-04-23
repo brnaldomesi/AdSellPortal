@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -18,6 +18,7 @@ namespace App\Models;
 use App\Models\Scopes\ActiveScope;
 use App\Models\Scopes\CompatibleApiScope;
 use App\Observer\PaymentMethodObserver;
+use Illuminate\Support\Str;
 use Larapen\Admin\app\Models\Crud;
 
 class PaymentMethod extends BaseModel
@@ -105,7 +106,7 @@ class PaymentMethod extends BaseModel
     {
         $out = strtoupper(trans('admin::messages.All'));
         if (isset($this->countries) && !empty($this->countries)) {
-            $countriesCropped = str_limit($this->countries, 50, ' [...]');
+            $countriesCropped = Str::limit($this->countries, 50, ' [...]');
             $out = '<div title="' . $this->countries . '">' . $countriesCropped . '</div>';
         }
         
@@ -134,7 +135,7 @@ class PaymentMethod extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 	public function getDescriptionAttribute($value)

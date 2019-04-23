@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use App\Observer\CategoryObserver;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Larapen\Admin\app\Models\Crud;
 use Prologue\Alerts\Facades\Alert;
@@ -174,7 +175,20 @@ class Category extends BaseModel
 	*/
 	public function posts()
 	{
-		return $this->hasManyThrough(Post::class, Category::class, 'parent_id', 'category_id');
+		if (isFromAdminPanel()) {
+			return $this->hasManyThrough(Post::class, Category::class, 'parent_id', 'category_id');
+		} else {
+			return $this->hasManyThrough(Post::class, Category::class, 'parent_id', 'category_id')->where('country_code', config('country.code'));
+		}
+	}
+	
+	public function childrenPosts()
+	{
+		if (isFromAdminPanel()) {
+			return $this->hasMany(Post::class, 'category_id');
+		} else {
+			return $this->hasMany(Post::class, 'category_id')->where('country_code', config('country.code'));
+		}
 	}
 	
 	public function children()
@@ -200,7 +214,7 @@ class Category extends BaseModel
 	
 	/*
 	|--------------------------------------------------------------------------
-	| ACCESORS
+	| ACCESSORS
 	|--------------------------------------------------------------------------
 	*/
 	// The slug is created automatically from the "title" field if no slug exists.
@@ -265,7 +279,7 @@ class Category extends BaseModel
 		} else {
 			// If the Category contains a skinnable icon,
 			// Change it by the selected skin icon.
-			if (str_contains($value, 'app/categories/skin-')) {
+			if (Str::contains($value, 'app/categories/skin-')) {
 				$pattern = '/app\/categories\/skin-[^\/]+\//iu';
 				$replacement = 'app/categories/' . $skin . '/';
 				$value = preg_replace($pattern, $replacement, $value);
@@ -274,7 +288,7 @@ class Category extends BaseModel
 			// (Optional)
 			// If the Category contains a skinnable defalt icon,
 			// Change it by the selected skin default icon.
-			if (str_contains($value, 'app/default/categories/fa-folder-')) {
+			if (Str::contains($value, 'app/default/categories/fa-folder-')) {
 				$pattern = '/app\/default\/categories\/fa-folder-[^\.]+\./iu';
 				$replacement = 'app/default/categories/fa-folder-' . $skin . '.';
 				$value = preg_replace($pattern, $replacement, $value);
@@ -300,7 +314,7 @@ class Category extends BaseModel
 			// Don't delete the default pictures
 			$defaultPicture = 'app/default/categories/fa-folder-' . $skin . '.png';
 			$defaultSkinPicture = 'app/categories/' . $skin . '/';
-			if (!str_contains($this->picture, $defaultPicture) && !str_contains($this->picture, $defaultSkinPicture)) {
+			if (!Str::contains($this->picture, $defaultPicture) && !Str::contains($this->picture, $defaultSkinPicture)) {
 				// delete the image from disk
 				Storage::delete($this->picture);
 			}
@@ -342,12 +356,12 @@ class Category extends BaseModel
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (str_contains($value, 'app/default/') || empty($value)) {
+				if (Str::contains($value, 'app/default/') || empty($value)) {
 					$value = null;
 				} else {
 					// Common path includes 'app/categories/custom/' and 'app/categories/skin-*/' paths
 					$commonPath = 'app/categories/';
-					if (!starts_with($value, $commonPath)) {
+					if (!Str::startsWith($value, $commonPath)) {
 						$value = $commonPath . last(explode($commonPath, $value));
 					}
 				}

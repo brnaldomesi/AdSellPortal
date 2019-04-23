@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -98,7 +98,7 @@ function load_plugin($name)
 			'provider'      => plugin_namespace($pluginData->name, ucfirst($pluginData->name) . 'ServiceProvider'),
 			'class'         => plugin_namespace($pluginData->name, ucfirst($pluginData->name)),
 		];
-		$plugin = \App\Helpers\Arr::toObject($plugin);
+		$plugin = \App\Helpers\ArrayHelper::toObject($plugin);
 		
 	} catch (\Exception $e) {
 		$plugin = null;
@@ -180,7 +180,7 @@ function plugin_exists($pluginFolderName, $path = null)
 function plugin_purchase_code_data($plugin, $purchaseCode)
 {
 	if (is_array($plugin)) {
-		$plugin = \App\Helpers\Arr::toObject($plugin);
+		$plugin = \App\Helpers\ArrayHelper::toObject($plugin);
 	}
 	
 	$apiUrl = config('larapen.core.purchaseCodeCheckerUrl') . $purchaseCode . '&item_id=' . $plugin->item_id;
@@ -210,7 +210,7 @@ function plugin_purchase_code_data($plugin, $purchaseCode)
 function plugin_check_purchase_code($plugin)
 {
 	if (is_array($plugin)) {
-		$plugin = \App\Helpers\Arr::toObject($plugin);
+		$plugin = \App\Helpers\ArrayHelper::toObject($plugin);
 	}
 	
 	$pluginFile = storage_path('framework/plugins/' . $plugin->name);
@@ -337,14 +337,14 @@ function plugin_setting_field_delete($attributes, $pluginAttrName)
 	$attributes = jsonToArray($attributes);
 	
 	// Get plugin's Setting field array
-	$pluginAttrArray = array_where($attributes, function ($value, $key) use ($pluginAttrName) {
+	$pluginAttrArray = \Illuminate\Support\Arr::where($attributes, function ($value, $key) use ($pluginAttrName) {
 		$isFound = isset($value['name']) && $value['name'] == $pluginAttrName;
 		
 		return $isFound;
 	});
 	
 	// Remove the plugin Setting field array
-	array_forget($attributes, array_keys($pluginAttrArray));
+	\Illuminate\Support\Arr::forget($attributes, array_keys($pluginAttrArray));
 	
 	$attributes = json_encode($attributes);
 	

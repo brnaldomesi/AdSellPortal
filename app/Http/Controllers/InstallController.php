@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -770,6 +770,7 @@ class InstallController extends Controller
 		$content .= 'IMAGE_DRIVER=gd' . "\n";
 		$content .= "\n";
 		$content .= 'CACHE_DRIVER=file' . "\n";
+		$content .= 'CACHE_PREFIX=lc_' . "\n";
 		$content .= 'QUEUE_CONNECTION=sync' . "\n";
 		$content .= 'SESSION_DRIVER=file' . "\n";
 		$content .= 'SESSION_LIFETIME=10080' . "\n";

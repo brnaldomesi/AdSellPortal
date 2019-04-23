@@ -6,7 +6,8 @@ if (
 	config('settings.social_link.twitter_url') ||
 	config('settings.social_link.google_plus_url') ||
 	config('settings.social_link.linkedin_url') ||
-	config('settings.social_link.pinterest_url')
+	config('settings.social_link.pinterest_url') ||
+	config('settings.social_link.instagram_url')
 ) {
 	$colClass1 = 'col-lg-3 col-md-3 col-sm-3 col-xs-6';
 	$colClass2 = 'col-lg-3 col-md-3 col-sm-3 col-xs-6';
@@ -97,7 +98,8 @@ if (
 						config('settings.social_link.twitter_url') or
 						config('settings.social_link.google_plus_url') or
 						config('settings.social_link.linkedin_url') or
-						config('settings.social_link.pinterest_url')
+						config('settings.social_link.pinterest_url') or
+						config('settings.social_link.instagram_url')
 						)
 						<div class="{{ $colClass4 }}">
 							<div class="footer-col row">
@@ -141,7 +143,8 @@ if (
 									config('settings.social_link.twitter_url') or
 									config('settings.social_link.google_plus_url') or
 									config('settings.social_link.linkedin_url') or
-									config('settings.social_link.pinterest_url')
+									config('settings.social_link.pinterest_url') or
+									config('settings.social_link.instagram_url')
 									)
 									<div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
 										<div class="{!! $footerSocialClass !!}">
@@ -158,6 +161,13 @@ if (
 													<li>
 														<a class="icon-color tw" title="" data-placement="top" data-toggle="tooltip" href="{{ config('settings.social_link.twitter_url') }}" data-original-title="Twitter">
 															<i class="fab fa-twitter"></i>
+														</a>
+													</li>
+												@endif
+												@if (config('settings.social_link.instagram_url'))
+													<li>
+														<a class="icon-color pin" title="" data-placement="top" data-toggle="tooltip" href="{{ config('settings.social_link.instagram_url') }}" data-original-title="Instagram">
+															<i class="icon-instagram-filled"></i>
 														</a>
 													</li>
 												@endif

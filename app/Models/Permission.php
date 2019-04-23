@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -19,6 +19,7 @@ use App\Helpers\DBTool;
 use App\Observer\PermissionObserver;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Larapen\Admin\app\Models\Crud;
 use Spatie\Permission\Models\Permission as OriginalPermission;
 
@@ -276,11 +277,11 @@ class Permission extends OriginalPermission
 				if (!empty($filePath) && file_exists($filePath)) {
 					$content = file_get_contents($filePath);
 					
-					if (str_contains($content, 'extends PanelController')) {
+					if (Str::contains($content, 'extends PanelController')) {
 						$allowAccess = [];
 						$denyAccess = [];
 						
-						if (str_contains($controllerActionPath, '\PermissionController')) {
+						if (Str::contains($controllerActionPath, '\PermissionController')) {
 							if (!config('larapen.admin.allow_permission_create')) {
 								$denyAccess[] = 'create';
 							}
@@ -290,7 +291,7 @@ class Permission extends OriginalPermission
 							if (!config('larapen.admin.allow_permission_delete')) {
 								$denyAccess[] = 'delete';
 							}
-						} else if (str_contains($controllerActionPath, '\RoleController')) {
+						} else if (Str::contains($controllerActionPath, '\RoleController')) {
 							if (!config('larapen.admin.allow_role_create')) {
 								$denyAccess[] = 'create';
 							}
@@ -350,7 +351,7 @@ class Permission extends OriginalPermission
 					}
 				}
 				
-				if (str_contains($controllerActionPath, '\ActionController')) {
+				if (Str::contains($controllerActionPath, '\ActionController')) {
 					$data['permission'] = strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $actionMethod));
 				} else {
 					$tmp = '';
@@ -394,7 +395,7 @@ class Permission extends OriginalPermission
 	
 	/*
 	|--------------------------------------------------------------------------
-	| ACCESORS
+	| ACCESSORS
 	|--------------------------------------------------------------------------
 	*/
 	

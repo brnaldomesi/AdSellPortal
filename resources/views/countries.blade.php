@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -53,7 +53,7 @@
 													   class="tooltipHere"
 													   data-toggle="tooltip"
 													   data-original-title="{!! $country->get('name') !!}"
-													>{{ str_limit($country->get('name'), 30) }}</a>
+													>{{ \Illuminate\Support\Str::limit($country->get('name'), 30) }}</a>
 												</li>
 											@endforeach
 										</ul>

@@ -23,7 +23,16 @@
 								<?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $cat->slug]; ?>
 								<a href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}">
 									<img src="{{ \Storage::url($cat->picture) . getPictureVersion() }}" class="img-fluid" alt="{{ $cat->name }}">
-									<h6> {{ $cat->name }} </h6>
+									<h6>
+										{{ $cat->name }}
+										@if (isset($categoriesOptions['count_categories_posts']) and $categoriesOptions['count_categories_posts'])
+											@if ($cat->children->count() > 0)
+												&nbsp;({{ $cat->posts->count() + $cat->childrenPosts->count() }})
+											@else
+												&nbsp;({{ $cat->childrenPosts->count() }})
+											@endif
+										@endif
+									</h6>
 								</a>
 							</div>
 						@endforeach
@@ -53,13 +62,24 @@
 														@endif
 														<?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $iCat->slug]; ?>
 														<a href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}">
-															{{ $iCat->name }} <span class="count"></span>
+															{{ $iCat->name }}
+															@if (isset($categoriesOptions['count_categories_posts']) and $categoriesOptions['count_categories_posts'])
+																@if ($iCat->children->count() > 0)
+																	&nbsp;({{ $iCat->posts->count() + $iCat->childrenPosts->count() }})
+																@else
+																	&nbsp;({{ $iCat->childrenPosts->count() }})
+																@endif
+															@endif
 														</a>
-														<span data-target=".cat-id-{{ $iCat->id . $randomId }}" data-toggle="collapse" class="btn-cat-collapsed collapsed">
+														<span class="btn-cat-collapsed collapsed"
+															  data-toggle="collapse"
+															  data-target=".cat-id-{{ $iCat->id . $randomId }}"
+															  aria-expanded="false"
+														>
 															<span class="icon-down-open-big"></span>
 														</span>
 													</h3>
-													<ul class="cat-collapse collapse in cat-id-{{ $iCat->id . $randomId }} long-list-home">
+													<ul class="cat-collapse collapse show cat-id-{{ $iCat->id . $randomId }} long-list-home">
 														@if (isset($subCategories) and $subCategories->has($iCat->tid))
 															@foreach ($subCategories->get($iCat->tid) as $iSubCat)
 																<li>
@@ -67,6 +87,9 @@
 																	<a href="{{ lurl(trans('routes.v-search-subCat', $attr), $attr) }}">
 																		{{ $iSubCat->name }}
 																	</a>
+																	@if (isset($categoriesOptions['count_categories_posts']) and $categoriesOptions['count_categories_posts'])
+																		&nbsp;({{ $iSubCat->childrenPosts->count() }})
+																	@endif
 																</li>
 															@endforeach
 														@endif
@@ -106,6 +129,13 @@
 													<a href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}">
 														{{ $cat->name }}
 													</a>
+													@if (isset($categoriesOptions['count_categories_posts']) and $categoriesOptions['count_categories_posts'])
+														@if ($cat->children->count() > 0)
+															&nbsp;({{ $cat->posts->count() + $cat->childrenPosts->count() }})
+														@else
+															&nbsp;({{ $cat->childrenPosts->count() }})
+														@endif
+													@endif
 												</li>
 											@endforeach
 										</ul>

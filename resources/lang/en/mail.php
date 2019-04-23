@@ -176,6 +176,17 @@ return [
 	'reply_form_title'               => ':subject',
 	'reply_form_content_1'           => 'Hello,',
 	'reply_form_content_2'           => '<strong>You have received a response from: :senderName. See the message below:</strong>',
+	
+	
+	// generated_password
+	'generated_password_title'            => 'Your password',
+	'generated_password_content_1'        => 'Hello :userName!',
+	'generated_password_content_2'        => 'You account has been created.',
+	'generated_password_verify_content_3' => 'Click the button below to verify your email address.',
+	'generated_password_verify_action'    => 'Verify email address',
+	'generated_password_content_4'        => 'Your password is: <strong>:randomPassword</strong>',
+	'generated_password_login_action'     => 'Login Now!',
+	'generated_password_content_6'        => 'You\'re receiving this email because you recently created a new :appName account or added a new email address. If this wasn\'t you, please ignore this email.',
 
 
 ];

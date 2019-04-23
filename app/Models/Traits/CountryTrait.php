@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -84,7 +84,7 @@ trait CountryTrait
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 

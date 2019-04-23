@@ -2,6 +2,8 @@
 
 namespace Larapen\Admin\PanelTraits;
 
+use Illuminate\Support\Arr;
+
 trait FakeFields
 {
     /**
@@ -41,7 +43,7 @@ trait FakeFields
                     $request[$fields[$k]['store_in']][$fields[$k]['name']] = $request[$fields[$k]['name']];
 
                     // remove the fake field
-                    array_pull($request, $fields[$k]['name']);
+					Arr::pull($request, $fields[$k]['name']);
 
                     if (! in_array($fields[$k]['store_in'], $fake_field_columns_to_encode, true)) {
                         array_push($fake_field_columns_to_encode, $fields[$k]['store_in']);
@@ -52,7 +54,7 @@ trait FakeFields
                     $request['extras'][$fields[$k]['name']] = $request[$fields[$k]['name']];
 
                     // remove the fake field
-                    array_pull($request, $fields[$k]['name']);
+					Arr::pull($request, $fields[$k]['name']);
 
                     if (! in_array('extras', $fake_field_columns_to_encode, true)) {
                         array_push($fake_field_columns_to_encode, 'extras');

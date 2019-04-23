@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -18,6 +18,7 @@ namespace App\Models;
 use App\Models\Scopes\ActiveScope;
 use App\Observer\HomeSectionObserver;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Larapen\Admin\app\Models\Crud;
 use Prologue\Alerts\Facades\Alert;
@@ -169,7 +170,7 @@ class HomeSection extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 	public function getValueAttribute($value)
@@ -318,7 +319,7 @@ class HomeSection extends BaseModel
 			// Delete the image from disk
 			if (isset($this->value) && isset($this->value[$attribute_name])) {
 				if (!empty($params['default'])) {
-					if (!str_contains($this->value[$attribute_name], $params['default'])) {
+					if (!Str::contains($this->value[$attribute_name], $params['default'])) {
 						Storage::delete($this->value[$attribute_name]);
 					}
 				} else {
@@ -375,10 +376,10 @@ class HomeSection extends BaseModel
 			} else {
 				// Retrieve current value without upload a new file.
 				if (!empty($params['default'])) {
-					if (str_contains($value[$attribute_name], $params['default'])) {
+					if (Str::contains($value[$attribute_name], $params['default'])) {
 						$value[$attribute_name] = null;
 					} else {
-						if (!starts_with($value[$attribute_name], $destination_path)) {
+						if (!Str::startsWith($value[$attribute_name], $destination_path)) {
 							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
 						}
 					}
@@ -386,7 +387,7 @@ class HomeSection extends BaseModel
 					if ($value[$attribute_name] == url('/')) {
 						$value[$attribute_name] = null;
 					} else {
-						if (!starts_with($value[$attribute_name], $destination_path)) {
+						if (!Str::startsWith($value[$attribute_name], $destination_path)) {
 							$value[$attribute_name] = $destination_path . last(explode($destination_path, $value[$attribute_name]));
 						}
 					}
@@ -458,9 +459,11 @@ class HomeSection extends BaseModel
 {"name":"text_color","label":"Text Color","type":"color_picker","colorpicker_options":{"customClass":"custom-class"},"attributes":{"placeholder":"#c7c5c1"},"wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"link_color","label":"Links Color","type":"color_picker","colorpicker_options":{"customClass":"custom-class"},"attributes":{"placeholder":"#c7c5c1"},"wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"link_color_hover","label":"Links Color (Hover)","type":"color_picker","colorpicker_options":{"customClass":"custom-class"},"attributes":{"placeholder":"#c7c5c1"},"wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"max_items","label":"Max Cities","attributes":{"placeholder":12},"hint":"Number of cities to display by default.","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"max_items","label":"max_cities_label","attributes":{"placeholder":12},"hint":"max_cities_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"items_cols","label":"Cities Columns","type":"select2_from_array","options":{"3":"3","2":"2","1":"1"},"hint":"This option is applied only when the map is displayed.","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"count_cities_posts","label":"count_cities_posts_label","type":"checkbox","hint":"count_cities_posts_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)"},"hint":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)","wrapperAttributes":{"class":"form-group col-md-6"}},
+
 {"name":"separator_4_1","type":"custom_html","value":"<h3>Country Map</h3>"},
 {"name":"show_map","label":"Show the Country Map","type":"checkbox"},
 {"name":"map_background_color","label":"Map\'s Background Color","type":"color_picker","colorpicker_options":{"customClass":"custom-class"},"attributes":{"placeholder":"transparent"},"hint":"Enter a RGB color code or the word \'transparent\'.","wrapperAttributes":{"class":"form-group col-md-6"}},
@@ -488,10 +491,12 @@ class HomeSection extends BaseModel
 		
 		
 		if ($this->method == 'getCategories') {
-			$value = '{"name":"type_of_display","label":"Type of display","type":"select2_from_array","options":{"c_normal_list":"Normal List","c_circle_list":"Circle List","c_check_list":"Check List","c_border_list":"Border List","c_picture_icon":"Picture as Icon","cc_normal_list":"Normal List (Categories + Children)","cc_normal_list_s":"Normal List Styled (Categories + Children)"},"allows_null":false},
-{"name":"show_icon","label":"Show the categories icons","type":"checkbox","hint":"NOTE: This will be applied for all of \"Types of display\", except \"Picture as Icon\".","wrapperAttributes":{"class":"form-group col-md-6","style":"margin-top: 20px;"}},
+			$value = '{"name":"type_of_display","label":"Type of display","type":"select2_from_array","options":{"c_normal_list":"Normal List","c_circle_list":"Circle List","c_check_list":"Check List","c_border_list":"Border List","c_picture_icon":"Picture as Icon","cc_normal_list":"Normal List (Categories + Children)","cc_normal_list_s":"Normal List Styled (Categories + Children)"},"allows_null":false,"wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"max_items","label":"max_categories_label","hint":"max_categories_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"show_icon","label":"Show the categories icons","type":"checkbox","hint":"NOTE: This will be applied for all of \"Types of display\", except \"Picture as Icon\".","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"count_categories_posts","label":"count_categories_posts_label","type":"checkbox","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"separator_clear_1","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
 {"name":"max_sub_cats","label":"Max subcategories displayed by default","hint":"NOTE: This will be applied for only the \"Categories + Children\" type of display.","wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"max_items","label":"Max Items","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)"},"hint":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"separator_last","type":"custom_html","value":"<hr>"},
 {"name":"active","label":"Active","type":"checkbox"}';

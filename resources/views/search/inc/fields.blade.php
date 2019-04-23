@@ -23,7 +23,7 @@
 			if (request()->filled('cf')) {
 				if (!$firstFieldFound) {
 					$clearTitle = t('Clear all the :category\'s filters', ['category' => $cat->name]);
-					$clearAll = '<a href="' . qsurl($fullUrlNoParams, request()->except(['page', 'cf'])) . '" title="' . $clearTitle . '">
+					$clearAll = '<a href="' . qsurl($fullUrlNoParams, request()->except(['page', 'cf']), null, false) . '" title="' . $clearTitle . '">
 									<span class="small" style="float: right;">' . t('Clear all') . '</span>
 								</a>';
 					$firstFieldFound = true;

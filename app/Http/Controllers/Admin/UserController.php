@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -24,6 +24,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Larapen\Admin\app\Http\Controllers\PanelController;
 
 class UserController extends PanelController
@@ -302,7 +303,7 @@ class UserController extends PanelController
 							'number_columns'   => 3, //can be 1,2,3,4,6
 						],
 						'secondary' => [
-							'label'          => ucfirst(trans('admin::messages.permission_singular')),
+							'label'          => mb_ucfirst(trans('admin::messages.permission_singular')),
 							'name'           => 'permissions', // the method that defines the relationship in your Model
 							'entity'         => 'permissions', // the method that defines the relationship in your Model
 							'entity_primary' => 'roles', // the method that defines the relationship in your Model
@@ -412,7 +413,7 @@ class UserController extends PanelController
 		// Prevent user's role removal
 		if (
 			auth()->user()->id == request()->segment(3)
-			|| str_contains(URL::previous(), admin_uri('account'))
+			|| Str::contains(URL::previous(), admin_uri('account'))
 		) {
 			$this->xPanel->disableSyncPivot();
 		}

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -20,7 +20,7 @@ namespace App\Http\Controllers\Admin;
  * $colorOptions = ['luminosity' => 'light'];
  */
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use App\Helpers\RandomColor;
 use App\Models\Post;
 use App\Models\Country;
@@ -150,7 +150,7 @@ class DashboardController extends PanelController
 			'title' => trans('admin::messages.Ads Stats'),
 			'data'  => $data,
 		];
-		$boxData = Arr::toObject($boxData);
+		$boxData = ArrayHelper::toObject($boxData);
 		
 		return $boxData;
 	}
@@ -196,7 +196,7 @@ class DashboardController extends PanelController
 			'title' => trans('admin::messages.Users Stats'),
 			'data'  => $data,
 		];
-		$boxData = Arr::toObject($boxData);
+		$boxData = ArrayHelper::toObject($boxData);
 		
 		return $boxData;
 	}
@@ -237,7 +237,7 @@ class DashboardController extends PanelController
 			'data'           => $data,
 			'countCountries' => $this->countCountries,
 		];
-		$boxData = Arr::toObject($boxData);
+		$boxData = ArrayHelper::toObject($boxData);
 		
 		return $boxData;
 	}
@@ -278,7 +278,7 @@ class DashboardController extends PanelController
 			'data'           => $data,
 			'countCountries' => $this->countCountries,
 		];
-		$boxData = Arr::toObject($boxData);
+		$boxData = ArrayHelper::toObject($boxData);
 		
 		return $boxData;
 	}

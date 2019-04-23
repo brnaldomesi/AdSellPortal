@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -23,6 +23,7 @@ use App\Observer\UserObserver;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Jenssegers\Date\Date;
 use Larapen\Admin\app\Models\Crud;
@@ -126,10 +127,10 @@ class User extends BaseUser
         // - User forgot its Password
         // - User changes its Email or Phone
         if (
-            !str_contains(Route::currentRouteAction(), 'Auth\ForgotPasswordController') &&
-            !str_contains(Route::currentRouteAction(), 'Auth\ResetPasswordController') &&
+            !Str::contains(Route::currentRouteAction(), 'Auth\ForgotPasswordController') &&
+            !Str::contains(Route::currentRouteAction(), 'Auth\ResetPasswordController') &&
             !session()->has('emailOrPhoneChanged') &&
-			!str_contains(Route::currentRouteAction(), 'Impersonate\Controllers\ImpersonateController')
+			!Str::contains(Route::currentRouteAction(), 'Impersonate\Controllers\ImpersonateController')
         ) {
             static::addGlobalScope(new VerifiedScope());
         }
@@ -326,7 +327,7 @@ class User extends BaseUser
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
     public function getCreatedAtAttribute($value)
@@ -388,18 +389,18 @@ class User extends BaseUser
 
     public function getEmailAttribute($value)
     {
-        if (
-			isDemo() &&
-			request()->segment(2) != 'password'
-        ) {
-            if (auth()->check()) {
-                if (auth()->user()->id != 1) {
-                    $value = hidePartOfEmail($value);
-                }
-            }
-
-            return $value;
-        }
+		if (isFromAdminPanel() || (!isFromAdminPanel() && in_array(request()->method(), ['GET']))) {
+			if (
+				isDemo() &&
+				request()->segment(2) != 'password'
+			) {
+				if (auth()->check()) {
+					if (auth()->user()->id != 1) {
+						$value = hidePartOfEmail($value);
+					}
+				}
+			}
+		}
 	
 		return $value;
     }
@@ -490,10 +491,10 @@ class User extends BaseUser
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (starts_with($value, config('larapen.core.picture.default'))) {
+				if (Str::startsWith($value, config('larapen.core.picture.default'))) {
 					$value = null;
 				} else {
-					if (!starts_with($value, 'avatars/')) {
+					if (!Str::startsWith($value, 'avatars/')) {
 						$value = $destination_path . last(explode($destination_path, $value));
 					}
 				}

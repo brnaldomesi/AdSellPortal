@@ -26,7 +26,7 @@
 							<td class="td-nowrap"><a href="{{ admin_url('users/' . $user->id . '/edit') }}">{{ $user->id }}</a></td>
 							<td>
 								<a href="{{ admin_url('users/' . $user->id . '/edit') }}">
-									{{ str_limit($user->name, 70) }}
+									{{ \Illuminate\Support\Str::limit($user->name, 70) }}
 								</a>
 							</td>
 							<td class="td-nowrap">{!! getCountryFlag($user) !!}</td>

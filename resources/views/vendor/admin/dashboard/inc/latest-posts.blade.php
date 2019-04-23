@@ -59,7 +59,9 @@
 	</div>
 	<!-- /.box-body -->
 	<div class="box-footer clearfix">
-		<a href="{{ url(config('app.locale') . '/posts/create') }}" target="_blank" class="btn btn-sm btn-primary btn-flat pull-left">{{ trans('admin::messages.Post New Ad') }}</a>
+		<a href="{{ url(config('app.locale') . '/posts/create') }}" target="_blank" class="btn btn-sm btn-primary btn-flat pull-left">
+			{{ trans('admin::messages.Post New Ad') }}
+		</a>
 		<a href="{{ admin_url('posts') }}" class="btn btn-sm btn-default btn-flat pull-right">{{ trans('admin::messages.View All Ads') }}</a>
 	</div>
 	<!-- /.box-footer -->

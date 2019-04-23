@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,7 +15,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\Arr;
+use App\Helpers\ArrayHelper;
 use Larapen\Admin\app\Http\Controllers\Controller;
 use Prologue\Alerts\Facades\Alert;
 
@@ -27,7 +27,7 @@ class PluginController extends Controller
 	{
 		parent::__construct();
 		
-		$this->middleware('demo')->except(['index']);
+		$this->middleware('demo.restriction')->except(['index']);
 		
 		$this->data['plugins'] = [];
 	}
@@ -40,7 +40,7 @@ class PluginController extends Controller
 		// Append the Plugin Options
 		$plugins = collect($plugins)->map(function ($item, $key) {
 			if (is_object($item)) {
-				$item = Arr::fromObject($item);
+				$item = ArrayHelper::fromObject($item);
 			}
 			
 			if (isset($item['item_id']) && !empty($item['item_id'])) {
@@ -50,7 +50,7 @@ class PluginController extends Controller
 			// Append the Options
 			$pluginClass = plugin_namespace($item['name'], ucfirst($item['name']));
 			$item['options'] = (method_exists($pluginClass, 'getOptions')) ? (array)call_user_func($pluginClass . '::getOptions') : null;
-			$item = Arr::toObject($item);
+			$item = ArrayHelper::toObject($item);
 			
 			return $item;
 		})->toArray();

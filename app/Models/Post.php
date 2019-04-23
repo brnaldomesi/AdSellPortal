@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -22,7 +22,6 @@ use App\Models\Scopes\ReviewedScope;
 use App\Models\Traits\CountryTrait;
 use App\Observer\PostObserver;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Request;
 use Jenssegers\Date\Date;
 use Larapen\Admin\app\Models\Crud;
 use Spatie\Feed\Feedable;
@@ -98,12 +97,6 @@ class Post extends BaseModel implements Feedable
 		'deletion_mail_sent_at',
 		'fb_profile',
 		'partner',
-        'street_name',
-        'house_number',
-        'orientational_number',
-        'town_district',
-        'town_name',
-        'zip_code',
 		'created_at',
 	];
 	
@@ -402,7 +395,7 @@ class Post extends BaseModel implements Feedable
 	
 	/*
 	|--------------------------------------------------------------------------
-	| ACCESORS
+	| ACCESSORS
 	|--------------------------------------------------------------------------
 	*/
 	public function getCreatedAtAttribute($value)
@@ -411,8 +404,8 @@ class Post extends BaseModel implements Feedable
 		if (config('timezone.id')) {
 			$value->timezone(config('timezone.id'));
 		}
-		//echo $value->format('l d F Y H:i:s').'<hr>'; exit();
-		//echo $value->formatLocalized('%A %d %B %Y %H:%M').'<hr>'; exit(); // Multi-language
+		// echo $value->format('l d F Y H:i:s').'<hr>'; exit();
+		// echo $value->formatLocalized('%A %d %B %Y %H:%M').'<hr>'; exit(); // Multi-language
 		
 		return $value;
 	}
@@ -474,20 +467,20 @@ class Post extends BaseModel implements Feedable
 	
 	public function getEmailAttribute($value)
 	{
-		if (
-			isDemo() &&
-			Request::segment(2) != 'password'
-		) {
-			if (auth()->check()) {
-				if (auth()->user()->id != 1) {
-					$value = hidePartOfEmail($value);
+		if (isFromAdminPanel() || (!isFromAdminPanel() && in_array(request()->method(), ['GET']))) {
+			if (
+				isDemo() &&
+				request()->segment(2) != 'password'
+			) {
+				if (auth()->check()) {
+					if (auth()->user()->id != 1) {
+						$value = hidePartOfEmail($value);
+					}
 				}
 			}
-			
-			return $value;
-		} else {
-			return $value;
 		}
+		
+		return $value;
 	}
 	
 	public function getPhoneAttribute($value)
@@ -514,12 +507,16 @@ class Post extends BaseModel implements Feedable
 	
 	public function getTitleAttribute($value)
 	{
-		return mb_ucfirst($value);
+		$value = mb_ucfirst($value);
+		
+		return $value;
 	}
 	
 	public function getContactNameAttribute($value)
 	{
-		return mb_ucwords($value);
+		$value = mb_ucwords($value);
+		
+		return $value;
 	}
 	
 	/*

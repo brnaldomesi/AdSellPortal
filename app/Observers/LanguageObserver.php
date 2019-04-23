@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -77,6 +77,12 @@ class LanguageObserver
 					return false;
 				}
 				
+			}
+		} else {
+			if ($language->default == 1 && $language->active != 1) {
+				Alert::warning(trans('admin::messages.You cannot disable the default language.'))->flash();
+				
+				return false;
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,10 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\CustomFieldUniqueRule;
+use App\Rules\CustomFieldUniqueChildrenRule;
+use App\Rules\CustomFieldUniqueParentRule;
+
 class CategoryFieldRequest extends Request
 {
     /**
@@ -25,20 +29,26 @@ class CategoryFieldRequest extends Request
     public function rules()
     {
         $rules = [];
-    
-        if ($this->segment(2) == 'category') {
-			$rules['field_id'] = 'required|not_in:0';
-			$rules['field_id'] .= '|unique_ccf:category_id,' . $this->category_id;
-			$rules['field_id'] .= '|unique_ccf_parent:category_id,' . $this->category_id;
-			$rules['field_id'] .= '|unique_ccf_children:category_id,' . $this->category_id;
-        }
-    
-        if ($this->segment(2) == 'field') {
-			$rules['category_id'] = 'required|not_in:0';
-			$rules['category_id'] .= '|unique_ccf:field_id,' . $this->field_id;
-			$rules['category_id'] .= '|unique_ccf_parent:field_id,' . $this->field_id;
-			$rules['category_id'] .= '|unique_ccf_children:field_id,' . $this->field_id;
-        }
+	
+		if ($this->segment(2) == 'categories') {
+			$rules['field_id'] = [
+				'required',
+				'not_in:0',
+				new CustomFieldUniqueRule(['category_id', $this->category_id]),
+				new CustomFieldUniqueParentRule(['category_id', $this->category_id]),
+				new CustomFieldUniqueChildrenRule(['category_id', $this->category_id]),
+			];
+		}
+	
+		if ($this->segment(2) == 'custom_fields') {
+			$rules['category_id'] = [
+				'required',
+				'not_in:0',
+				new CustomFieldUniqueRule(['field_id', $this->field_id]),
+				new CustomFieldUniqueParentRule(['field_id', $this->field_id]),
+				new CustomFieldUniqueChildrenRule(['field_id', $this->field_id]),
+			];
+		}
         
         return $rules;
     }
@@ -55,31 +65,33 @@ class CategoryFieldRequest extends Request
             'field_id.not_in'      => trans('admin::messages.The :field is required. And cannot be 0.', ['field' => trans('admin::messages.custom field')]),
         ];
 		
-		$messages['category_id.unique_ccf'] = trans('admin::messages.The :field_1 have this :field_2 assigned already.', [
+        /*
+		$messages['category_id.unique_ccf'] = trans('validation.custom_field_unique_rule', [
 			'field_1' => trans('admin::messages.category'),
 			'field_2' => trans('admin::messages.custom field'),
 		]);
-		$messages['category_id.unique_ccf_parent'] = trans('admin::messages.The parent :field_1 of the :field_1 have this :field_2 assigned already.', [
+		$messages['category_id.unique_ccf_parent'] = trans('validation.custom_field_unique_parent_rule', [
 			'field_1' => trans('admin::messages.category'),
 			'field_2' => trans('admin::messages.custom field'),
 		]);
-		$messages['category_id.unique_ccf_children'] = trans('admin::messages.A child :field_1 of the :field_1 have this :field_2 assigned already.', [
+		$messages['category_id.unique_ccf_children'] = trans('validation.custom_field_unique_children_rule', [
 			'field_1' => trans('admin::messages.category'),
 			'field_2' => trans('admin::messages.custom field'),
 		]);
 		
-		$messages['field_id.unique_ccf'] = trans('admin::messages.The :field_1 is already assign to this :field_2.', [
+		$messages['field_id.unique_ccf'] = trans('validation.custom_field_unique_rule_field', [
 			'field_1' => trans('admin::messages.custom field'),
 			'field_2' => trans('admin::messages.category'),
 		]);
-		$messages['field_id.unique_ccf_parent'] = trans('admin::messages.The :field_1 is already assign to the parent :field_2 of this :field_2.', [
+		$messages['field_id.unique_ccf_parent'] = trans('validation.custom_field_unique_parent_rule_field', [
 			'field_1' => trans('admin::messages.custom field'),
 			'field_2' => trans('admin::messages.category'),
 		]);
-		$messages['field_id.unique_ccf_children'] = trans('admin::messages.The :field_1 is already assign to one :field_2 of this :field_2.', [
+		$messages['field_id.unique_ccf_children'] = trans('validation.custom_field_unique_children_rule_field', [
 			'field_1' => trans('admin::messages.custom field'),
 			'field_2' => trans('admin::messages.category'),
 		]);
+        */
         
         return $messages;
     }

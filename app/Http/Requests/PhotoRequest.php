@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -31,7 +31,12 @@ class PhotoRequest extends Request
 			$files = $this->file('pictures');
 			foreach ($files as $key => $file) {
 				if (!empty($file)) {
-					$rules['pictures.' . $key] = 'required|image|mimes:' . getUploadFileTypes('image') . '|max:' . (int)config('settings.upload.max_file_size', 1000);
+					$rules['pictures.' . $key] = [
+						'required',
+						'image',
+						'mimes:' . getUploadFileTypes('image'),
+						'max:' . (int)config('settings.upload.max_file_size', 1000)
+					];
 				}
 			}
 		}

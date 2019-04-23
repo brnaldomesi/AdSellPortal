@@ -3,6 +3,7 @@
 namespace Larapen\Admin;
 
 
+use Illuminate\Support\Arr;
 use Larapen\Admin\PanelTraits\Access;
 use Larapen\Admin\PanelTraits\AutoFocus;
 use Larapen\Admin\PanelTraits\AutoSet;
@@ -253,7 +254,7 @@ class Panel
 	 */
 	public function getFirstOfItsTypeInArray($type, $array)
 	{
-		return array_first($array, function ($item) use ($type) {
+		return Arr::first($array, function ($item) use ($type) {
 			return $item['type'] == $type;
 		});
 	}

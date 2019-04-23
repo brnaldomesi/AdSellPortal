@@ -60,7 +60,7 @@
             @if( $xPanel->autoFocusOnFirstField )
             // Focus on first field
             @php
-                $focusField = array_first($fields, function($field){
+                $focusField = \Illuminate\Support\Arr::first($fields, function($field){
                     return isset($field['auto_focus']) && $field['auto_focus'] == true;
                 })
             @endphp

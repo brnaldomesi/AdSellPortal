@@ -59,3 +59,17 @@ if (isset($city) and !empty($city)) {
 		</div>
 	</div>
 </div>
+
+@section('after_scripts')
+	@parent
+	<script>
+		$(document).ready(function () {
+			$('#locSearch').on('change', function () {
+				if ($(this).val() == '') {
+					$('#lSearch').val('');
+					$('#rSearch').val('');
+				}
+			});
+		});
+	</script>
+@endsection

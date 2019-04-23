@@ -254,4 +254,8 @@
     'WF' => 'Wallis e Futuna',
     'ZM' => 'Zâmbia',
     'ZW' => 'Zimbábue',
+	'BQ' => 'Bonaire, Santo Eustáquio e Saba',
+	'CW' => 'Curaçao',
+	'SS' => 'Sudão do Sul',
+	'SX' => 'São Martinho',
 );

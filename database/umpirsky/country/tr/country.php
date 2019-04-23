@@ -254,4 +254,8 @@
     'GR' => 'Yunanistan',
     'ZM' => 'Zambiya',
     'ZW' => 'Zimbabve',
+	'BQ' => 'Bonaire, Sint Eustatius ve Saba',
+	'CW' => 'Curacao',
+	'SS' => 'Güney Sudan',
+	'SX' => 'Sint Maarten',
 );

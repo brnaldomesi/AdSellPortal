@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -134,7 +134,7 @@
 											<div>
 												<p>
 													<strong>
-                                                        <a href="{{ $postUrl }}" title="{{ $post->title }}">{{ str_limit($post->title, 40) }}</a>
+                                                        <a href="{{ $postUrl }}" title="{{ $post->title }}">{{ \Illuminate\Support\Str::limit($post->title, 40) }}</a>
                                                     </strong>
 													@if (in_array($pagePath, ['my-posts', 'archived', 'pending-approval']))
 														@if (isset($post->latestPayment) and !empty($post->latestPayment))
@@ -182,19 +182,21 @@
 											<div>
 												@if ($post->user_id==$user->id and $post->archived==0)
 													<p>
-                                                        <a class="btn btn-primary btn-sm" href="{{ lurl('posts/' . $post->id . '/edit') }}">
+                                                        <a class="btn btn-primary btn-sm" href="{{ editPostURL($post->id) }}">
                                                             <i class="fa fa-edit"></i> {{ t('Edit') }}
                                                         </a>
                                                     </p>
 												@endif
 												@if (isVerifiedPost($post) and $post->archived==0)
-													<!--<p>
-														<a class="btn btn-info btn-sm"> <i class="fa fa-mail-forward"></i> {{ t('Share') }} </a>
-													</p>-->
+													<p>
+														<a class="btn btn-warning btn-sm confirm-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/offline') }}">
+															<i class="icon-eye-off"></i> {{ t('Offline') }}
+														</a>
+													</p>
 												@endif
 												@if ($post->user_id==$user->id and $post->archived==1)
 													<p>
-                                                        <a class="btn btn-info btn-sm" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/repost') }}">
+                                                        <a class="btn btn-info btn-sm confirm-action" href="{{ lurl('account/'.$pagePath.'/'.$post->id.'/repost') }}">
                                                             <i class="fa fa-recycle"></i> {{ t('Repost') }}
                                                         </a>
                                                     </p>
@@ -225,6 +227,14 @@
 	</div>
 @endsection
 
+@section('after_styles')
+	<style>
+		.action-td p {
+			margin-bottom: 5px;
+		}
+	</style>
+@endsection
+
 @section('after_scripts')
 	<script src="{{ url('assets/js/footable.js?v=2-0-1') }}" type="text/javascript"></script>
 	<script src="{{ url('assets/js/footable.filter.js?v=2-0-1') }}" type="text/javascript"></script>
@@ -248,7 +258,7 @@
 				checkAll(this);
 			});
 			
-			$('a.delete-action, button.delete-action').click(function(e)
+			$('a.delete-action, button.delete-action, a.confirm-action').click(function(e)
 			{
 				e.preventDefault(); /* prevents the submit or reload */
 				var confirmation = confirm("{{ t('Are you sure you want to perform this action?') }}");

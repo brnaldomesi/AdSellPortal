@@ -255,4 +255,8 @@
     'DJ' => 'Yibuti',
     'ZM' => 'Zambia',
     'ZW' => 'Zimbabue',
+	'BQ' => 'Bonaire, San Eustaquio y Saba',
+	'CW' => 'Curazao',
+	'SS' => 'Sudán del Sur',
+	'SX' => 'San Martín',
 );

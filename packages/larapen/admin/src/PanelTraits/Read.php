@@ -2,6 +2,8 @@
 
 namespace Larapen\Admin\PanelTraits;
 
+use Illuminate\Support\Arr;
+
 trait Read
 {
 	/*
@@ -102,7 +104,7 @@ trait Read
 	public function hasUploadFields($form, $id = false)
 	{
 		$fields = $this->getFields($form, $id);
-		$upload_fields = array_where($fields, function ($value, $key) {
+		$upload_fields = Arr::where($fields, function ($value, $key) {
 			return isset($value['upload']) && $value['upload'] == true;
 		});
 		

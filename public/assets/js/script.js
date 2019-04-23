@@ -263,13 +263,18 @@ $(document).ready(function ()
 	/* Bootstrap Collapse + jQuery hideMaxListItem fix on mobile */
 	$('.btn-cat-collapsed').click(function () {
 		var targetSelector = $(this).data('target');
-		var isExpanded = $(targetSelector).attr("aria-expanded");
+		var isExpanded = $(this).attr('aria-expanded');
+		
+		/*
+		console.log(targetSelector);
+		console.log(isExpanded);
+		*/
 		
 		if (typeof isExpanded === 'undefined') {
 			return false;
 		}
 		
-		/* console.log(isExpanded); */
+		$(targetSelector).toggle('slow');
 		
 		if (isExpanded == 'true') {
 			$('.cat-list ' + targetSelector).next('.maxlist-more').hide();

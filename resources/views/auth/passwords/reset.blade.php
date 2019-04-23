@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -78,15 +78,7 @@
 									<input type="password" name="password_confirmation" placeholder="" class="form-control email{{ $passwordError }}">
 								</div>
 							
-								@if (config('settings.security.recaptcha_activation'))
-									<!-- recaptcha -->
-									<?php $recaptchaError = (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>
-									<div class="form-group required">
-										<div class="no-label">
-											{!! Recaptcha::render(['lang' => config('app.locale')]) !!}
-										</div>
-									</div>
-								@endif
+								@include('layouts.inc.tools.recaptcha', ['noLabel' => true])
 								
 								<!-- Submit -->
 								<div class="form-group">

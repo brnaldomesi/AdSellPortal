@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -103,7 +103,13 @@ class Message extends BaseModel
 	
 	public function routeNotificationForMail()
 	{
-		return $this->to_email;
+		// return $this->to_email;
+		
+		if (auth()->user()->email != $this->from_email) {
+			return $this->from_email;
+		} else {
+			return $this->to_email;
+		}
 	}
 	
 	public function routeNotificationForNexmo()
@@ -151,7 +157,7 @@ class Message extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
     public function getFilenameFromOldPath()

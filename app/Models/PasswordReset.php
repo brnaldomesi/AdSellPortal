@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -16,6 +16,7 @@
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Larapen\Admin\app\Models\Crud;
 
 class PasswordReset extends BaseModel
@@ -96,7 +97,7 @@ class PasswordReset extends BaseModel
     public function routeNotificationForTwilio()
     {
         $phone = phoneFormatInt($this->phone, config('country.code'));
-        if (!starts_with($phone, '+')) {
+        if (!Str::startsWith($phone, '+')) {
             $phone = '+' . $phone;
         }
         return $phone;
@@ -116,7 +117,7 @@ class PasswordReset extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
     

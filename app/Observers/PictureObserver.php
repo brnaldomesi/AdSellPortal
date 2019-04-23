@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -18,6 +18,7 @@ namespace App\Observer;
 use App\Models\Picture;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PictureObserver
 {
@@ -39,10 +40,10 @@ class PictureObserver
             if (!empty($files)) {
                 foreach($files as $file) {
                     // Don't delete the default picture
-                    if (str_contains($file, config('larapen.core.picture.default'))) {
+                    if (Str::contains($file, config('larapen.core.picture.default'))) {
                         continue;
                     }
-                    if (str_contains($file, $filename)) {
+                    if (Str::contains($file, $filename)) {
                         Storage::delete($file);
                     }
                 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BetweenRule;
+
 class ReportRequest extends Request
 {
 	/**
@@ -25,12 +27,14 @@ class ReportRequest extends Request
 	public function rules()
 	{
 		$rules = [
-			'report_type_id'       => 'required|not_in:0',
-			'email'                => 'required|email|max:100',
-			'message'              => 'required|mb_between:20,1000',
-			'post_id'              => 'required|numeric',
-			'g-recaptcha-response' => (config('settings.security.recaptcha_activation')) ? 'required' : '',
+			'report_type_id' => ['required', 'not_in:0'],
+			'email'          => ['required', 'email', 'max:100'],
+			'message'        => ['required', new BetweenRule(20, 1000)],
+			'post_id'        => ['required', 'numeric'],
 		];
+		
+		// reCAPTCHA
+		$rules = $this->recaptchaRules($rules);
 		
 		return $rules;
 	}

@@ -2,6 +2,8 @@
 
 namespace Larapen\Admin\PanelTraits;
 
+use Illuminate\Support\Arr;
+
 trait Fields
 {
     // ------------
@@ -70,16 +72,16 @@ trait Fields
     {
         switch (strtolower($form)) {
             case 'create':
-                array_forget($this->create_fields, $name);
+				Arr::forget($this->create_fields, $name);
                 break;
 
             case 'update':
-                array_forget($this->update_fields, $name);
+				Arr::forget($this->update_fields, $name);
                 break;
 
             default:
-                array_forget($this->create_fields, $name);
-                array_forget($this->update_fields, $name);
+				Arr::forget($this->create_fields, $name);
+				Arr::forget($this->update_fields, $name);
                 break;
         }
     }

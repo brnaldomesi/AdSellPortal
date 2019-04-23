@@ -2,6 +2,9 @@
 
 namespace Larapen\Admin\PanelTraits;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+
 trait Columns
 {
 	// ------------
@@ -77,7 +80,7 @@ trait Columns
 		
 		// make sure the column has a name
 		if (!array_key_exists('name', $column_with_details)) {
-			$column_with_details['name'] = 'anonymous_column_' . str_random(5);
+			$column_with_details['name'] = 'anonymous_column_' . Str::random(5);
 		}
 		
 		// check if the column exists in the database table
@@ -216,7 +219,7 @@ trait Columns
 	 */
 	public function removeColumn($column)
 	{
-		array_forget($this->columns, $column);
+		Arr::forget($this->columns, $column);
 	}
 	
 	/**

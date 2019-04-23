@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -64,6 +64,14 @@ trait VerifiedTrait
                                 $toolTip = 'data-toggle="tooltip" title="' . trans('admin::messages.Registered with :provider', ['provider' => 'Facebook']) . '"';
                                 $out .= ' &nbsp;<i class="admin-single-icon fa fa-facebook-square" style="color: #3b5998;" ' . $toolTip . '></i>';
                             }
+							if ($entity->provider == 'linkedin') {
+								$toolTip = 'data-toggle="tooltip" title="' . trans('admin::messages.Registered with :provider', ['provider' => 'LinkedIn']) . '"';
+								$out .= ' &nbsp;<i class="admin-single-icon fa fa-linkedin-square" style="color: #4682b4;" ' . $toolTip . '></i>';
+							}
+							if ($entity->provider == 'twitter') {
+								$toolTip = 'data-toggle="tooltip" title="' . trans('admin::messages.Registered with :provider', ['provider' => 'Twitter']) . '"';
+								$out .= ' &nbsp;<i class="admin-single-icon fa fa-twitter-square" style="color: #0099d4;" ' . $toolTip . '></i>';
+							}
                             if ($entity->provider == 'google') {
                                 $toolTip = 'data-toggle="tooltip" title="' . trans('admin::messages.Registered with :provider', ['provider' => 'Google']) . '"';
                                 $out .= ' &nbsp;<i class="admin-single-icon fa fa-google-plus-square" style="color: #d34836;" ' . $toolTip . '></i>';

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use App\Models\Scopes\VerifiedScope;
 use App\Models\Scopes\ActiveScope;
 use App\Observer\PictureObserver;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Larapen\Admin\app\Models\Crud;
 
@@ -148,7 +149,7 @@ class Picture extends BaseModel
 	
 	/*
 	|--------------------------------------------------------------------------
-	| ACCESORS
+	| ACCESSORS
 	|--------------------------------------------------------------------------
 	*/
 	public function getFilenameFromOldPath()
@@ -220,7 +221,7 @@ class Picture extends BaseModel
 		// If the image was erased
 		if (empty($value)) {
 			// delete the image from disk
-			if (!str_contains($this->{$attribute_name}, config('larapen.core.picture.default'))) {
+			if (!Str::contains($this->{$attribute_name}, config('larapen.core.picture.default'))) {
 				Storage::delete($this->{$attribute_name});
 			}
 			
@@ -282,10 +283,10 @@ class Picture extends BaseModel
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (starts_with($value, config('larapen.core.picture.default'))) {
+				if (Str::startsWith($value, config('larapen.core.picture.default'))) {
 					$value = null;
 				} else {
-					if (!starts_with($value, 'files/')) {
+					if (!Str::startsWith($value, 'files/')) {
 						$value = $destination_path . last(explode($destination_path, $value));
 					}
 				}

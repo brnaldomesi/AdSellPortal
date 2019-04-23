@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -15,6 +15,14 @@
 
 namespace App\Http\Requests;
 
+
+use App\Rules\BlacklistDomainRule;
+use App\Rules\BlacklistEmailRule;
+use App\Rules\UsernameIsAllowedRule;
+use App\Rules\UsernameIsValidRule;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Routing\Router;
+use Illuminate\Config\Repository;
 
 class UserRequest extends Request
 {
@@ -31,9 +39,12 @@ class UserRequest extends Request
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
+	 * @param \Illuminate\Routing\Router $router
+	 * @param \Illuminate\Filesystem\Filesystem $files
+	 * @param \Illuminate\Config\Repository $config
 	 * @return array
 	 */
-	public function rules()
+	public function rules(Router $router, Filesystem $files, Repository $config)
 	{
 		// Check if these fields has changed
 		$emailChanged = ($this->input('email') != auth()->user()->email);
@@ -42,11 +53,11 @@ class UserRequest extends Request
 		
 		// Validation Rules
 		$rules = [
-			'gender_id'    => 'required|not_in:0',
-			'name'         => 'required|max:100',
-			'phone'        => 'required|max:20',
-			'email'        => 'required|email|whitelist_email|whitelist_domain',
-			'username'     => 'valid_username|allowed_username|between:3,100',
+			'gender_id' => ['required', 'not_in:0'],
+			'name'      => ['required', 'max:100'],
+			'phone'     => ['required', 'max:20'],
+			'email'     => ['required', 'email', new BlacklistEmailRule(), new BlacklistDomainRule()],
+			'username'  => ['between:3,100', new UsernameIsValidRule(), new UsernameIsAllowedRule($router, $files, $config)],
 		];
 		
 		// Phone
@@ -56,21 +67,22 @@ class UserRequest extends Request
 				if ($countryCode == 'UK') {
 					$countryCode = 'GB';
 				}
-				$rules['phone'] = 'phone:' . $countryCode . '|' . $rules['phone'];
+				$rules['phone'][] = 'phone:' . $countryCode;
 			}
 		}
 		if ($phoneChanged) {
-			$rules['phone'] = 'unique:users,phone|' . $rules['phone'];
+			$rules['phone'][] = 'unique:users,phone';
 		}
 		
 		// Email
 		if ($emailChanged) {
-			$rules['email'] = 'unique:users,email|' . $rules['email'];
+			$rules['email'][] = 'unique:users,email';
 		}
 		
 		// Username
 		if ($usernameChanged) {
-			$rules['username'] = 'required|unique:users,username|' . $rules['username'];
+			$rules['username'][] = 'required';
+			$rules['username'][] = 'unique:users,username';
 		}
 		
 		return $rules;

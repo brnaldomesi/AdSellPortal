@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -31,7 +31,7 @@ class ActionController extends Controller
 	{
 		parent::__construct();
 		
-		$this->middleware('demo');
+		$this->middleware('demo.restriction');
 	}
 	
 	/**
@@ -105,7 +105,7 @@ class ActionController extends Controller
 		
 		// Run the Cron Job command manually
 		try {
-			$exitCode = Artisan::call('ads:clean');
+			$exitCode = Artisan::call('ads:clear');
 		} catch (\Exception $e) {
 			Alert::error($e->getMessage())->flash();
 			$errorFound = true;
@@ -113,7 +113,7 @@ class ActionController extends Controller
 		
 		// Check if error occurred
 		if (!$errorFound) {
-			$message = trans("admin::messages.The Cron Job command was successfully run.");
+			$message = trans("admin::messages.The Ads Clear command was successfully run.");
 			Alert::success($message)->flash();
 		}
 		

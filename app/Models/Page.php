@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use App\Observer\PageObserver;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Larapen\Admin\app\Models\Crud;
 use Prologue\Alerts\Facades\Alert;
@@ -159,7 +160,7 @@ class Page extends BaseModel
     
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
     // The slug is created automatically from the "name" field if no slug exists.
@@ -253,7 +254,7 @@ class Page extends BaseModel
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
 				// Retrieve current value without upload a new file.
-				if (!starts_with($value, $destination_path)) {
+				if (!Str::startsWith($value, $destination_path)) {
 					$value = $destination_path . last(explode($destination_path, $value));
 				}
 				$this->attributes[$attribute_name] = $value;

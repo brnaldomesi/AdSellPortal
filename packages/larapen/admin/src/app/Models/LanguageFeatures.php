@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,7 +21,7 @@ trait LanguageFeatures
 {
     public static function getActiveLanguagesArray()
     {
-        $cacheExpiration = config('settings.other.cache_expiration', 60);
+        $cacheExpiration = config('settings.optimization.cache_expiration', 60);
         $activeLanguages = Cache::remember('languages.active.array', $cacheExpiration, function () {
             $activeLanguages = self::where('active', 1)->get()->toArray();
             return $activeLanguages;

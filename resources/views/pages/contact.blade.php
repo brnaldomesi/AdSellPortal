@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -96,16 +96,8 @@
 											<textarea class="form-control{{ $messageError }}" id="message" name="message" placeholder="{{ t('Message') }}"
 													  rows="7">{{ old('message') }}</textarea>
 										</div>
-
-										<!-- Captcha -->
-										@if (config('settings.security.recaptcha_activation'))
-											<?php $recaptchaError = (isset($errors) and $errors->has('g-recaptcha-response')) ? ' is-invalid' : ''; ?>
-											<div class="form-group required">
-												<div>
-													{!! Recaptcha::render(['lang' => config('app.locale')]) !!}
-												</div>
-											</div>
-										@endif
+										
+										@include('layouts.inc.tools.recaptcha')
 
 										<div class="form-group">
 											<button type="submit" class="btn btn-primary btn-lg">{{ t('Submit') }}</button>

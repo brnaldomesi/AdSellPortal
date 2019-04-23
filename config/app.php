@@ -160,7 +160,6 @@ return [
 		// App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\ValidatorServiceProvider::class,
         App\Providers\PluginsServiceProvider::class,
 
         Larapen\TextToImage\TextToImageServiceProvider::class,
@@ -237,6 +236,6 @@ return [
     
     ],
     
-    'version' => '5.7',
+    'version' => '6.5',
 
 ];

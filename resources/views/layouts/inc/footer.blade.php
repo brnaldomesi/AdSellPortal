@@ -6,7 +6,8 @@ if (
 	config('settings.social_link.twitter_url') ||
 	config('settings.social_link.google_plus_url') ||
 	config('settings.social_link.linkedin_url') ||
-	config('settings.social_link.pinterest_url')
+	config('settings.social_link.pinterest_url') ||
+	config('settings.social_link.instagram_url')
 ) {
 	$colClass1 = 'col-lg-3 col-md-3 col-sm-3 col-xs-6';
 	$colClass2 = 'col-lg-3 col-md-3 col-sm-3 col-xs-6';
@@ -81,7 +82,7 @@ if (
 								@else
 									<li><a href="{{ lurl('account') }}"> {{ t('Personal Home') }} </a></li>
 									<li><a href="{{ lurl('account/my-posts') }}"> {{ t('My ads') }} </a></li>
-						
+									<li><a href="{{ lurl('account/favourite') }}"> {{ t('Favourite ads') }} </a></li>
 								@endif
 							</ul>
 						</div>
@@ -94,7 +95,8 @@ if (
 						config('settings.social_link.twitter_url') or
 						config('settings.social_link.google_plus_url') or
 						config('settings.social_link.linkedin_url') or
-						config('settings.social_link.pinterest_url')
+						config('settings.social_link.pinterest_url') or
+						config('settings.social_link.instagram_url')
 						)
 						<div class="{{ $colClass4 }}">
 							<div class="footer-col row">
@@ -138,7 +140,8 @@ if (
 									config('settings.social_link.twitter_url') or
 									config('settings.social_link.google_plus_url') or
 									config('settings.social_link.linkedin_url') or
-									config('settings.social_link.pinterest_url')
+									config('settings.social_link.pinterest_url') or
+									config('settings.social_link.instagram_url')
 									)
 									<div class="col-sm-12 col-xs-6 col-xxs-12 no-padding-lg">
 										<div class="{!! $footerSocialClass !!}">
@@ -157,6 +160,13 @@ if (
 														<i class="fab fa-twitter"></i>
 													</a>
 												</li>
+												@endif
+												@if (config('settings.social_link.instagram_url'))
+													<li>
+														<a class="icon-color pin" title="" data-placement="top" data-toggle="tooltip" href="{{ config('settings.social_link.instagram_url') }}" data-original-title="Instagram">
+															<i class="icon-instagram-filled"></i>
+														</a>
+													</li>
 												@endif
 												@if (config('settings.social_link.google_plus_url'))
 												<li>
@@ -207,18 +217,14 @@ if (
 					@endif
 					
 					<div class="copy-info text-center">
-						© {{ date('Y') }} {{ config('settings.app.app_name') }} 
+						© {{ date('Y') }} {{ config('settings.app.app_name') }}. {{ t('All Rights Reserved') }}.
 						@if (!config('settings.footer.hide_powered_by'))
 							@if (config('settings.footer.powered_by_info'))
-								{!! config('settings.footer.powered_by_info') !!}
+								{{ t('Powered by') }} {!! config('settings.footer.powered_by_info') !!}
 							@else
-						{{ t('All Rights Reserved') }} -		{{ t('Powered by') }} <a href="http://www.bedigit.com" title="BedigitCom">Bedigit</a>.
+								{{ t('Powered by') }} <a href="http://www.bedigit.com" title="BedigitCom">Bedigit</a>.
 							@endif
 						@endif
-					</div>
-					<div class="copy-info text-center">
-					<a href="https://xlabs.systems" alt="XLABS Automation systems">XLABS</a> Europe Limited is a company registered in England and Wales.
-					<br/>Registered number: 09428978 | VAT number: GB214046352.
 					</div>
 				</div>
 			

@@ -1,5 +1,5 @@
 {{--
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -62,7 +62,7 @@
 													@foreach ($col as $iCat)
 														
 														<?php
-														$randomId = '-' . substr(uniqid(rand(), true), 5, 5);
+															$randomId = '-' . substr(uniqid(rand(), true), 5, 5);
 														?>
 														
 														<div class="cat-list">
@@ -72,11 +72,17 @@
 																	<i class="{{ $iCat->icon_class ?? 'icon-ok' }}"></i>
 																	{{ $iCat->name }} <span class="count"></span>
 																</a>
-																<span data-target=".cat-id-{{ $iCat->id . $randomId }}" data-toggle="collapse" class="btn-cat-collapsed collapsed">
-																	<span class="icon-down-open-big"></span>
-																</span>
+																@if (isset($subCats) and $subCats->has($iCat->tid))
+																	<span class="btn-cat-collapsed collapsed"
+																		  data-toggle="collapse"
+																		  data-target=".cat-id-{{ $iCat->id . $randomId }}"
+																		  aria-expanded="false"
+																	>
+																		<span class="icon-down-open-big"></span>
+																	</span>
+																@endif
 															</h3>
-															<ul class="cat-collapse collapse in cat-id-{{ $iCat->id . $randomId }} long-list-home">
+															<ul class="cat-collapse collapse show cat-id-{{ $iCat->id . $randomId }} long-list-home">
 																@if (isset($subCats) and $subCats->has($iCat->tid))
 																	@foreach ($subCats->get($iCat->tid) as $iSubCat)
 																		<li>

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -25,7 +25,7 @@ class FieldOptionRequest extends Request
     public function rules()
     {
         return [
-            'value' => 'required|max:255',
+            'value' => ['required', 'max:255'],
         ];
     }
 }

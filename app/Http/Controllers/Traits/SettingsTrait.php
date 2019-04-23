@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use ChrisKonnertz\OpenGraph\OpenGraph;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Jackiedo\DotenvEditor\Facades\DotenvEditor;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use App\Helpers\Localization\Country as CountryLocalization;
@@ -46,7 +47,7 @@ trait SettingsTrait
 	public function applyFrontSettings()
 	{
 		// Cache Expiration Time
-		$this->cacheExpiration = (int)config('settings.other.cache_expiration');
+		$this->cacheExpiration = (int)config('settings.optimization.cache_expiration');
 		view()->share('cacheExpiration', $this->cacheExpiration);
 		
 		// Ads photos number
@@ -56,6 +57,7 @@ trait SettingsTrait
 		}
 		view()->share('picturesLimit', $picturesLimit);
 		
+		/*
 		// Default language for Bots
 		$crawler = new CrawlerDetect();
 		if ($crawler->isCrawler()) {
@@ -66,6 +68,7 @@ trait SettingsTrait
 			}
 			app()->setLocale(config('lang.abbr'));
 		}
+		*/
 		
 		// Set Date Locale
 		Date::setLocale(config('lang.abbr', 'en'));
@@ -101,7 +104,7 @@ trait SettingsTrait
 		$this->og = new OpenGraph();
 		$locale = !empty(config('lang.locale')) ? config('lang.locale') : 'en_US';
 		try {
-			$this->og->siteName(config('settings.app.app_name'))->locale($locale)->type('website')->url(url()->current());
+			$this->og->siteName(config('settings.app.app_name'))->locale($locale)->type('website')->url(rawurldecode(url()->current()));
 		} catch (\Exception $e) {};
 		view()->share('og', $this->og);
 		
@@ -115,7 +118,7 @@ trait SettingsTrait
 		config(['app.skin' => getFrontSkin(request()->input('skin'))]);
 		
 		// Reset session Post view counter
-		if (!str_contains(Route::currentRouteAction(), 'Post\DetailsController')) {
+		if (!Str::contains(Route::currentRouteAction(), 'Post\DetailsController')) {
 			if (session()->has('postIsVisited')) {
 				session()->forget('postIsVisited');
 			}

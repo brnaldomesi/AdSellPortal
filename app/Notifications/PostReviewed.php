@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -21,6 +21,7 @@ use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\Post;
+use Illuminate\Support\Str;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
@@ -55,7 +56,7 @@ class PostReviewed extends Notification implements ShouldQueue
 		$postUrl = lurl($this->post->uri, $attr) . $preview;
 		
 		return (new MailMessage)
-			->subject(trans('mail.post_reviewed_title', ['title' => str_limit($this->post->title, 50)]))
+			->subject(trans('mail.post_reviewed_title', ['title' => Str::limit($this->post->title, 50)]))
 			->greeting(trans('mail.post_reviewed_content_1'))
 			->line(trans('mail.post_reviewed_content_2', [
 				'postUrl' => $postUrl,

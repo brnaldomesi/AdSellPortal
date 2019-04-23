@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads Software
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -18,7 +18,7 @@ namespace App\Observer;
 use App\Models\FieldOption;
 use App\Models\PostValue;
 
-class FieldOptionObserver
+class FieldOptionObserver extends TranslatedModelObserver
 {
     /**
      * Listen to the Entry deleting event.
@@ -26,8 +26,10 @@ class FieldOptionObserver
      * @param  FieldOption $fieldOption
      * @return void
      */
-    public function deleting(FieldOption $fieldOption)
+    public function deleting($fieldOption)
     {
+		parent::deleting($fieldOption);
+		
         // Delete all translated entries
         $fieldOption->translated()->delete();
     
