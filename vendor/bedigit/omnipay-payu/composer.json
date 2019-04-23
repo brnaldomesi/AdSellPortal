@@ -1,0 +1,38 @@
+{
+    "name": "bedigit/omnipay-payu",
+    "type": "library",
+    "description": "PayU gateway for Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "payu",
+        "purchase",
+        "larapen"
+    ],
+    "homepage": "https://github.com/bileto/omnipay-payu",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jan Machala",
+            "email": "jan.machala@bileto.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": { "Omnipay\\PayU\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "^3@beta",
+        "openpayu/openpayu_php_sdk": "^2.2"
+    },
+    "require-dev": {
+        "omnipay/tests": "^2.1",
+        "symfony/var-dumper": "^2.7",
+        "mockery/mockery": "^0.9.5",
+        "vlucas/phpdotenv": "^2.3",
+        "phpunit/phpunit": "3.7.*"
+    }
+}
