@@ -10,5 +10,7 @@ Disallow: /assets/
 Disallow: /css/
 Disallow: /js/
 Disallow: /vendor/
+Disallow: /main.php
+Disallow: /mix-manifest.json
 
-Sitemap: http://growapp2.xlabs.systems/tutty/public/cs/cz/sitemaps.xml
+Sitemap: http://growapp2.xlabs.systems/newtutty/public/cs/cz/sitemaps.xml

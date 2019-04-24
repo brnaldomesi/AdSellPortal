@@ -370,6 +370,13 @@ class PhoneNumberTest extends TestCase
         $object = $object->ofCountry('BE');
         $this->assertEquals('45678', (string) $object);
     }
+    
+    /** @test */
+    public function it_returns_empty_string_when_null_is_cast_to_string()
+    {
+        $object = new PhoneNumber(null);
+        $this->assertEquals('', (string) $object);
+    }
 
     /** @test */
     public function it_has_a_helper_function()
@@ -405,5 +412,14 @@ class PhoneNumberTest extends TestCase
     {
         $exception = NumberParseException::countryMismatch('12345', ['BE', 'foo']);
         $this->assertEquals(['BE', 'foo'], $exception->getCountries());
+    }
+
+    /** @test */
+    public function it_doesnt_throw_for_antarctica()
+    {
+        $object = new PhoneNumber('012345678');
+        $object = $object->ofCountry('AQ','BE');
+
+        $this->assertEquals('BE', $object->getCountry());
     }
 }
