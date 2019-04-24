@@ -47,12 +47,12 @@ class PostRequest extends Request
 			'email'        => ['max:100', new BlacklistEmailRule(), new BlacklistDomainRule()],
 			'phone'        => ['max:20'],
 			'city_id'      => ['required', 'not_in:0'],
-			'address_street' => 'required|mb_between:2,255',
-      'address_house_no' => 'required|mb_between:2,255',
+			'address_street' => 'required|between:2,255',
+      'address_house_no' => 'required|between:2,255',
       'orientational_number' => 'required',
-      'address_town_name' => 'required|mb_between:2,255',
-      'address_town_district' => 'required|mb_between:2,255',
-      'address_zip_code' => 'required|mb_between:2,255',
+      'address_town_name' => 'required|between:2,255',
+      'address_town_district' => 'required|between:2,255',
+      'address_zip_code' => 'required|between:2,255',
 		];
 
 		// CREATE
