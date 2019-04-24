@@ -28,7 +28,7 @@
                 <div class="col-md-9 page-content">
                     <div class="inner-box category-content">
                         <h2 class="title-2">
-                            <strong><i class="icon-docs"></i> {{ t('Post Free Ads') }}</strong>
+                            <strong><i class="icon-docs"></i> {{ t('Post Free Ads') }} HELLO</strong>
                         </h2>
 
                         <div class="row">
@@ -237,12 +237,7 @@
                                             <label class="col-md-3 col-form-label{{ $cityIdError }}"
                                                    for="city_id">{{ t('City') }} <sup>*</sup></label>
                                             <div class="col-md-8">
-                                                <select id="cityId" name="city_id"
-                                                        class="form-control sselecter{{ $cityIdError }}">
-                                                    <option value="0" {{ (!old('city_id') or old('city_id')==0) ? 'selected="selected"' : '' }}>
-                                                        {{ t('Select a city') }}
-                                                    </option>
-                                                </select>
+
                                             </div>
                                         </div>
 

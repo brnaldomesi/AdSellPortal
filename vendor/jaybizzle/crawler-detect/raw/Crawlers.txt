@@ -228,6 +228,8 @@ DataparkSearch
 dataprovider
 DataXu
 Daum(oa)?[ \/][0-9]
+ddline
+deeris
 Demon
 DeuSu
 developers\.google\.com\/\+\/web\/snippet\/
@@ -565,6 +567,7 @@ libwww
 Licorne
 Liferea\/
 Lightspeedsystems
+Lighthouse
 Likse
 Link Valet
 link_thumbnailer
@@ -608,6 +611,7 @@ MarkWatch
 Mass Downloader
 masscan\/
 Mata Hari
+Mediametric
 Mediapartners-Google
 mediawords
 MegaIndex\.ru
@@ -999,6 +1003,7 @@ terrainformatica
 Test Certificate Info
 testuri
 Tetrahedron
+TextRazor Downloader
 The Drop Reaper
 The Expert HTML Source Viewer
 The Knowledge AI
@@ -1017,6 +1022,7 @@ topster
 touche\.com
 Traackr\.com
 tracemyfile
+Trackuity
 TrapitAgent
 Trendiction
 Trendsmap
@@ -1096,6 +1102,7 @@ Web Fetch
 Web Fuck
 Web Pix
 Web Sauger
+Web spyder
 Web Sucker
 Webalta
 Webauskunft
@@ -1206,7 +1213,7 @@ Zemanta Aggregator
 Zend_Http_Client
 Zend\\Http\\Client
 Zermelo
-Zeus
+Zeus 
 zgrab
 ZnajdzFoto
 Zombie\.js

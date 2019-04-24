@@ -6,8 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
+    'Mockery' => array($vendorDir . '/mockery/mockery/library'),
     'Mcamara\\LaravelLocalization' => array($vendorDir . '/mcamara/laravel-localization/src'),
+    'Martyrer\\SimpleHtmlDomBundle' => array($vendorDir . '/martyrer/simple-html-dom-bundle'),
     'LiveControl\\EloquentDataTable' => array($vendorDir . '/livecontrol/eloquent-datatable/src'),
     'Larapen\\LaravelLocalization' => array($baseDir . '/packages/mcamara/laravel-localization/src'),
     'Laracasts\\Flash' => array($vendorDir . '/laracasts/flash/src'),

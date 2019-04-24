@@ -174,6 +174,7 @@ return [
     'City' => 'City',
     'Select a city' => 'Select a city',
     'Cities' => 'Cities',
+    'Verify Address' => 'Verify Address',
 
     'How to sell quickly?' => 'How to sell quickly?',
     'Use a brief title and description of the item' => 'Use a brief title and description of the item',
