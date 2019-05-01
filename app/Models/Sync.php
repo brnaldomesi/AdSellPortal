@@ -49,7 +49,9 @@ class Sync extends Model
         'created_at',
     ];
 
-    static $servers = [];
+    static $servers = [
+        'sreality',
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -61,4 +63,15 @@ class Sync extends Model
         return $this->belongsTo(Post::class, 'post_id');
     }
 
+    /*
+	|--------------------------------------------------------------------------
+	| SCOPES
+	|--------------------------------------------------------------------------
+	*/
+    public function scopeSreality($builder)
+    {
+        $builder->where('server', 'sreality');
+
+        return $builder;
+    }
 }
