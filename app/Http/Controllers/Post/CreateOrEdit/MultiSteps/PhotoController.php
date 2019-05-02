@@ -205,17 +205,18 @@ class PhotoController extends FrontController
 				
 				// Delete old file if new file has uploaded
 				// Check if current Post have a pictures
-				$picture = Picture::find($key);
+				$picturePosition = (int)$key + 1;
+				$picture = Picture::where('post_id', $post->id)->where('id', $key)->first();
 				if (!empty($picture)) {
-					// Delete old file
-					$picture->delete($picture->id);
+					$picturePosition = $picture->position;
+					$picture->delete();
 				}
 				
 				// Post Picture in database
 				$picture = new Picture([
 					'post_id'  => $post->id,
 					'filename' => $file,
-					'position' => (int)$key + 1,
+					'position' => $picturePosition,
 				]);
 				$picture->save();
 				

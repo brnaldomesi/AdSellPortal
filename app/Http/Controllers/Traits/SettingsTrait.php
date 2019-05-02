@@ -32,7 +32,7 @@ use Torann\LaravelMetaTags\Facades\MetaTag;
 trait SettingsTrait
 {
 	public $cookieExpiration;
-	public $cacheExpiration = 60; // In minutes (e.g. 60 for 1h)
+	public $cacheExpiration = 3600; // In minutes (e.g. 60 * 60 for 1h)
 	
 	public $countries = null;
 	

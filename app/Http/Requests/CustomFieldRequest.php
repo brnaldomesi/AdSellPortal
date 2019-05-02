@@ -74,6 +74,7 @@ class CustomFieldRequest extends Request
 					}
 					
 					$cfRules[] = 'mimes:' . getUploadFileTypes('file');
+					$cfRules[] = 'min:' . (int)config('settings.upload.min_file_size', 0);
 					$cfRules[] = 'max:' . (int)config('settings.upload.max_file_size', 1000);
 				}
 				
@@ -101,7 +102,11 @@ class CustomFieldRequest extends Request
 				// If the field is an upload type
 				if ($field->type == 'file') {
 					$messages['cf.' . $field->tid . '.mimes'] = t('The file of :field must be in the good format.', ['field' => mb_strtolower($field->name)]);
-					$messages['cf.' . $field->tid . '.max'] = t('The file of :field may not be greater than :max.', [
+					$messages['cf.' . $field->tid . '.min'] = t('The file size of :field may not be lower than :min.', [
+						'field' => mb_strtolower($field->name),
+						'min'   => (int)config('settings.upload.min_file_size', 0),
+					]);
+					$messages['cf.' . $field->tid . '.max'] = t('The file size of :field may not be greater than :max.', [
 						'field' => mb_strtolower($field->name),
 						'max'   => (int)config('settings.upload.max_file_size', 1000),
 					]);

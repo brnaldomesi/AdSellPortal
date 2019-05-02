@@ -117,7 +117,7 @@ if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.s
 										@if ($showMap)
 											<input type="text" id="locSearch" name="location" class="form-control locinput input-rel searchtag-input has-icon tooltipHere"
 												   placeholder="{{ t('Where?') }}" value="" title="" data-placement="bottom"
-												   data-toggle="tooltip" type="button"
+												   data-toggle="tooltip"
 												   data-original-title="{{ t('Enter a city name OR a state name with the prefix ":prefix" like: :prefix', ['prefix' => t('area:')]) . t('State Name') }}">
 										@else
 											<input type="text" id="locSearch" name="location" class="form-control locinput input-rel searchtag-input has-icon"

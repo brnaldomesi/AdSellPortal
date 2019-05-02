@@ -19,7 +19,7 @@ try {
 		\Jackiedo\DotenvEditor\Facades\DotenvEditor::save();
 	}
 	
-	/* FILE */
+	/* FILES */
 	\File::deleteDirectory(base_path('packages/mcamara/laravel-localization/src/Exceptions/'));
 	\File::deleteDirectory(base_path('packages/mcamara/laravel-localization/src/Facades/'));
 	\File::deleteDirectory(base_path('packages/mcamara/laravel-localization/src/Middleware/'));

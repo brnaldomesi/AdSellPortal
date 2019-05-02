@@ -26,7 +26,7 @@ class ResetPasswordRequest extends Request
     {
         $rules = [
             'login'    => ['required'],
-            'password' => ['required', 'between:6,60', 'dumbpwd', 'confirmed'],
+            'password' => ['required', 'min:8', 'max:60', 'dumbpwd', 'confirmed'],
         ];
     
         // reCAPTCHA

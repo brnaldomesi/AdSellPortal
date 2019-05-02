@@ -127,6 +127,12 @@
 											</option>
 										@endfor
 									@endif
+									@if (config('plugins.reviews.installed'))
+										<option{{ (request()->get('orderBy')=='rating') ? ' selected="selected"' : '' }}
+												value="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'rating']), null, false) !!}">
+										{{ trans('reviews::messages.Rating') }}
+										</option>
+									@endif
 								</select>
 							</div>
 
@@ -199,6 +205,14 @@
 													</li>
 												@endfor
 											@endif
+											@if (config('plugins.reviews.installed'))
+												<li>
+													<a href="{!! qsurl($fullUrlNoParams, array_merge(request()->except('orderBy'), ['orderBy'=>'rating']), null, false) !!}"
+													   rel="nofollow">
+														{{ trans('reviews::messages.Rating') }}
+													</a>
+												</li>
+											@endif
 										</ul>
 									</div>
 								</li>
@@ -207,7 +221,7 @@
 						<div class="menu-overly-mask"></div>
 						<!-- Mobile Filter bar End-->
 
-						<div class="adds-wrapper row no-margin">
+						<div id="postsList" class="adds-wrapper row no-margin">
 							@include('search.inc.posts')
 						</div>
 
@@ -266,5 +280,18 @@
 				redirect(goToUrl);
 			});
 		});
+		
+		@if (config('settings.optimization.lazy_loading_activation') == 1)
+		$(document).ready(function () {
+			$('#postsList').each(function () {
+				var $masonry = $(this);
+				var update = function () {
+					$.fn.matchHeight._update();
+				};
+				$('.item-list', $masonry).matchHeight();
+				this.addEventListener('load', update, true);
+			});
+		});
+		@endif
 	</script>
 @endsection

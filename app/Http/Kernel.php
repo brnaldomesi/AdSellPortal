@@ -51,10 +51,11 @@ class Kernel extends HttpKernel
 			
 			\App\Http\Middleware\CheckBrowserLanguage::class,
 			\App\Http\Middleware\CheckCountryLanguage::class,
-			\App\Http\Middleware\TransformInput::class,
 			\App\Http\Middleware\XSSProtection::class,
 			\App\Http\Middleware\BannedUser::class,
 			\App\Http\Middleware\HttpsProtocol::class,
+			\App\Http\Middleware\LazyLoading::class,
+			\App\Http\Middleware\HtmlMinify::class,
 		],
 		
 		'admin' => [
@@ -76,7 +77,7 @@ class Kernel extends HttpKernel
 			'bindings',
 		],
 		
-		'locale' => ['localize', 'localizationRedirect', 'localeSessionRedirect', 'localeViewPath', 'html.minify'],
+		'locale' => ['localize', 'localizationRedirect', 'localeSessionRedirect', 'localeViewPath'],
 	];
 	
 	/**
@@ -105,7 +106,6 @@ class Kernel extends HttpKernel
 		'localeSessionRedirect' => \Larapen\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
 		'localeViewPath'        => \Larapen\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
 		
-		'html.minify'          => \App\Http\Middleware\HtmlMinify::class,
 		'install.checker'      => \App\Http\Middleware\InstallationChecker::class,
 		'prevent.back.history' => \App\Http\Middleware\PreventBackHistory::class,
 		'only.ajax'            => \App\Http\Middleware\OnlyAjax::class,
@@ -128,5 +128,7 @@ class Kernel extends HttpKernel
 		\Illuminate\Auth\Middleware\Authorize::class,
 		\App\Http\Middleware\CheckBrowserLanguage::class,
 		\App\Http\Middleware\CheckCountryLanguage::class,
+		\App\Http\Middleware\LazyLoading::class,
+		\App\Http\Middleware\HtmlMinify::class,
 	];
 }

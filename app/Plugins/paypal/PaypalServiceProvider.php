@@ -8,13 +8,18 @@ use Route;
 
 class PaypalServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
+	/**
+	 * Register any package services.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		$this->app->bind('paypal', function ($app) {
+			return new Paypal($app);
+		});
+	}
+	
     /**
      * Perform post-registration booting of services.
      *
@@ -30,17 +35,5 @@ class PaypalServiceProvider extends ServiceProvider
 
         // Merge plugin config
         $this->mergeConfigFrom(realpath(__DIR__ . '/config.php'), 'payment');
-    }
-
-    /**
-     * Register any package services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->bind('paypal', function ($app) {
-            return new Paypal($app);
-        });
     }
 }

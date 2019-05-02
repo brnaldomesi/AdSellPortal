@@ -1,7 +1,7 @@
 <?php
 try {
 	
-	/* FILE */
+	/* FILES */
 	\File::delete(app_path('Http/Controllers/Post/CreateController.php'));
 	\File::delete(app_path('Http/Controllers/Post/EditController.php'));
 	\File::delete(app_path('Http/Controllers/Post/PaymentController.php'));

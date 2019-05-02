@@ -28,7 +28,7 @@ if (config('settings.listing.display_mode') == '.compact-view') {
 					</div>
 				</div>
 				
-				<div class="adds-wrapper noSideBar category-list">
+				<div id="postsList" class="adds-wrapper noSideBar category-list">
 					<?php
 					foreach($posts as $key => $post):
 					if (empty($countries) or !$countries->has($post->country_code)) continue;
@@ -109,7 +109,7 @@ if (config('settings.listing.display_mode') == '.compact-view') {
 									<span class="photo-count"><i class="fa fa-camera"></i> {{ $pictures->count() }} </span>
 									<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 									<a href="{{ lurl($post->uri, $attr) }}">
-										<img class="img-thumbnail no-margin" src="{{ $postImg }}" alt="img">
+										<img class="lazyload img-thumbnail no-margin" src="{{ $postImg }}" alt="{{ $post->title }}">
 									</a>
 								</div>
 							</div>

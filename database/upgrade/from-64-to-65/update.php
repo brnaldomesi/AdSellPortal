@@ -81,7 +81,7 @@ try {
 		$setting->save();
 	}
 	
-	/* FILE */
+	/* FILES */
 	\File::delete(app_path('Console/Commands/AdsCleaner.php'));
 	
 } catch (\Exception $e) {

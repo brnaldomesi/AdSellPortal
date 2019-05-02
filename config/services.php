@@ -14,7 +14,9 @@ return [
     |
     */
 
-    // Mail
+	/*
+	 * Mail providers
+	 */
     'mailgun' => [
         'domain' => null,
         'secret' => null,
@@ -22,6 +24,10 @@ return [
             'verify' => false,
         ],
     ],
+	
+	'postmark' => [
+		'token' => env('POSTMARK_TOKEN', ''),
+	],
 
     'mandrill' => [
         'secret' => null,
@@ -43,7 +49,9 @@ return [
         ],
     ],
 
-    // OAuth
+	/*
+	 * Social login providers (OAuth)
+	 */
     'facebook' => [
         'client_id'     => null,
         'client_secret' => null,
@@ -67,12 +75,10 @@ return [
         'client_secret' => null,
         'redirect'      => env('APP_URL') . '/auth/google/callback',
     ],
-
-    'googlemaps' => [
-        'key' => null, //-> for Google Map JavaScript & Embeded
-    ],
-
-    // Payment
+	
+	/*
+	 * Payment gateways
+	 */
     'paypal' => [
         'mode'      => env('PAYPAL_MODE', 'sandbox'),
         'username'  => env('PAYPAL_USERNAME', ''),
@@ -106,7 +112,16 @@ return [
         'oauth_client_secret' => env('PAYU_OAUTH_CLIENT_SECRET', ''),
     ],
 
-    // Notification
+	'paystack' => [
+		'publicKey'  => env('PAYSTACK_PUBLIC_KEY', ''),
+		'secretKey'  => env('PAYSTACK_SECRET_KEY', ''),
+		'paymentUrl' => env('PAYSTACK_PAYMENT_URL', 'https://api.paystack.co'),
+		'currencies' => env('PAYSTACK_CURRENCIES', 'NGN'), // "NGN" or "NGN,USD" related to your Paystack account configuration. (Optional)
+	],
+	
+	/*
+	 * SMS providers
+	 */
     'nexmo' => [
         'key'      => env('NEXMO_KEY', ''),
         'secret'   => env('NEXMO_SECRET', ''),
@@ -118,5 +133,12 @@ return [
         'auth_token'  => env('TWILIO_AUTH_TOKEN', ''),
         'from'        => env('TWILIO_FROM', ''), // optional
     ],
+
+	/*
+	 * Other
+	 */
+	'googlemaps' => [
+		'key' => null, //-> for Google Map JavaScript & Embeded
+	],
 
 ];

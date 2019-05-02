@@ -31,10 +31,11 @@
 	<title>{!! MetaTag::get('title') !!}</title>
 	{!! MetaTag::tag('description') !!}{!! MetaTag::tag('keywords') !!}
 	@foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-		@if (strtolower($localeCode) == strtolower(config('country.lang.abbr', config('app.locales'))))
+		@if (strtolower($localeCode) == strtolower(config('lang.abbr', config('app.locales'))))
 			<link rel="canonical" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}"/>
+		@else
+			<link rel="alternate" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" hreflang="{{ strtolower($localeCode) }}"/>
 		@endif
-		<link rel="alternate" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" hreflang="{{ strtolower($localeCode) }}"/>
 	@endforeach
 	@if (count($dnsPrefetch) > 0)
 		@foreach($dnsPrefetch as $dns)
@@ -248,6 +249,9 @@
 @yield('before_scripts')
 
 <script src="{{ url(mix('js/app.js')) }}"></script>
+@if (config('settings.optimization.lazy_loading_activation') == 1)
+	<script src="{{ url('assets/plugins/lazysizes/lazysizes.min.js') }}" async=""></script>
+@endif
 @if (file_exists(public_path() . '/assets/plugins/select2/js/i18n/'.config('app.locale').'.js'))
 	<script src="{{ url('assets/plugins/select2/js/i18n/'.config('app.locale').'.js') }}"></script>
 @endif

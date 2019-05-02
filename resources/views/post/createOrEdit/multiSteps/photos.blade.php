@@ -104,7 +104,7 @@
     @endif
     <script>
         /* Initialize with defaults (pictures) */
-        @if (isset($picturesLimit) and is_numeric($picturesLimit) and $picturesLimit > 0)
+        @if (isset($post, $picturesLimit) and is_numeric($picturesLimit) and $picturesLimit > 0)
         <?php
             // Get Upload Url
             if (getSegment(2) == 'create') {
@@ -130,12 +130,13 @@
 				showCancel: true,
 				showUpload: false,
 				showRemove: false,
-                maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }},
+				minFileSize: {{ (int)config('settings.upload.min_file_size', 0) }}, {{-- in KB --}}
+                maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }}, {{-- in KB --}}
                 browseOnZoneClick: true,
                 minFileCount: 0,
                 maxFileCount: {{ (int)$picturesLimit }},
                 validateInitialCount: true,
-                @if (isset($post) and isset($post->pictures))
+                @if (isset($post->pictures))
                 /* Retrieve current images */
                 /* Setup initial preview with data keys */
                 initialPreview: [

@@ -669,13 +669,14 @@ function setCountryPhoneCode(countryCode, countries)
  * @param language
  */
 function getGoogleMaps(key, address, language) {
+	var q = '';
 	if (typeof address === 'undefined') {
-		var q = encodeURIComponent($('#address').text());
+		q = encodeURIComponent($('#address').text());
 	} else {
-		var q = encodeURIComponent(address);
+		q = encodeURIComponent(address);
 	}
 	if (typeof language === 'undefined') {
-		var language = 'en';
+		language = 'en';
 	}
 	var googleMapsUrl = 'https://www.google.com/maps/embed/v1/place?key=' + key + '&q=' + q + '&language=' + language;
 	

@@ -39,7 +39,12 @@ class SendMessageRequest extends Request
 		
 		// Check 'resume' is required
 		if ($this->filled('parentCatType') && in_array($this->input('parentCatType'), ['job-offer'])) {
-			$rules['filename'] = ['required', 'mimes:' . getUploadFileTypes('file'), 'max:' . (int)config('settings.upload.max_file_size', 1000)];
+			$rules['filename'] = [
+				'required',
+				'mimes:' . getUploadFileTypes('file'),
+				'min:' . (int)config('settings.upload.min_file_size', 0),
+				'max:' . (int)config('settings.upload.max_file_size', 1000),
+			];
 		}
 		
 		// Email

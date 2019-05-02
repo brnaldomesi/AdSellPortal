@@ -111,6 +111,15 @@ class User extends BaseUser
      * @var array
      */
     protected $dates = ['created_at', 'updated_at', 'last_login_at', 'deleted_at'];
+	
+	/**
+	 * The attributes that should be cast to native types.
+	 *
+	 * @var array
+	 */
+	protected $casts = [
+		'email_verified_at' => 'datetime',
+	];
     
     /*
     |--------------------------------------------------------------------------

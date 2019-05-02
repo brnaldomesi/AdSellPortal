@@ -2,13 +2,19 @@
 
 namespace Larapen\Feed;
 
-use Spatie\Feed\Helpers\Path;
 use Illuminate\Support\Facades\View;
 use Larapen\Feed\Http\FeedController;
-use Illuminate\Support\ServiceProvider;
+use Spatie\Feed\Helpers\Path;
 
 class FeedServiceProvider extends \Spatie\Feed\FeedServiceProvider
 {
+	public function register()
+	{
+		$this->mergeConfigFrom(__DIR__.'/../config/feed.php', 'feed');
+		
+		$this->registerRouteMacro();
+	}
+	
     public function boot()
     {
         $this->publishes([
@@ -22,13 +28,6 @@ class FeedServiceProvider extends \Spatie\Feed\FeedServiceProvider
         ], 'views');
 
         $this->registerLinksComposer();
-    }
-
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__.'/../config/feed.php', 'feed');
-
-        $this->registerRouteMacro();
     }
 
     protected function registerRouteMacro()

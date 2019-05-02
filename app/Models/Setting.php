@@ -290,12 +290,24 @@ class Setting extends BaseModel
 				}
 			}
 			
+			if ($this->key == 'mail') {
+				if (!isset($value['sendmail_path'])) {
+					$value['sendmail_path'] = '/usr/sbin/sendmail -bs';
+					if (env('APP_ENV') == 'local') {
+						$value['sendmail_path'] = '/usr/bin/env catchmail -f some@from.address';
+					}
+				}
+			}
+			
 			if ($this->key == 'upload') {
 				if (!isset($value['image_types'])) {
 					$value['image_types'] = 'jpg,jpeg,gif,png';
 				}
 				if (!isset($value['file_types'])) {
 					$value['file_types'] = 'pdf,doc,docx,word,rtf,rtx,ppt,pptx,odt,odp,wps,jpeg,jpg,bmp,png';
+				}
+				if (!isset($value['min_file_size'])) {
+					$value['min_file_size'] = '0';
 				}
 				if (!isset($value['max_file_size'])) {
 					$value['max_file_size'] = '2500';
@@ -357,7 +369,7 @@ class Setting extends BaseModel
 					$value['cache_driver'] = 'file';
 				}
 				if (!isset($value['cache_expiration'])) {
-					$value['cache_expiration'] = '1440';
+					$value['cache_expiration'] = '86400';
 				}
 				if (!isset($value['memcached_servers_1_host'])) {
 					$value['memcached_servers_1_host'] = '127.0.0.1';
@@ -382,6 +394,12 @@ class Setting extends BaseModel
 				}
 				if (!isset($value['redis_database'])) {
 					$value['redis_database'] = '0';
+				}
+				if (!isset($value['lazy_loading_activation'])) {
+					$value['lazy_loading_activation'] = '0';
+				}
+				if (!isset($value['minify_html_activation'])) {
+					$value['minify_html_activation'] = '0';
 				}
 			}
 			
@@ -550,9 +568,16 @@ class Setting extends BaseModel
 					$value['auto_registration'] = '0';
 					$value['simditor_wysiwyg'] = '1';
 				}
+				if ($this->key == 'mail') {
+					$value['sendmail_path'] = '/usr/sbin/sendmail -bs';
+					if (env('APP_ENV') == 'local') {
+						$value['sendmail_path'] = '/usr/bin/env catchmail -f some@from.address';
+					}
+				}
 				if ($this->key == 'upload') {
 					$value['image_types'] = 'jpg,jpeg,gif,png';
 					$value['file_types'] = 'pdf,doc,docx,word,rtf,rtx,ppt,pptx,odt,odp,wps,jpeg,jpg,bmp,png';
+					$value['min_file_size'] = '0';
 					$value['max_file_size'] = '2500';
 				}
 				if ($this->key == 'geo_location') {
@@ -574,7 +599,7 @@ class Setting extends BaseModel
 				}
 				if ($this->key == 'optimization') {
 					$value['cache_driver'] = 'file';
-					$value['cache_expiration'] = '1440';
+					$value['cache_expiration'] = '86400';
 					$value['memcached_servers_1_host'] = '127.0.0.1';
 					$value['memcached_servers_1_port'] = '11211';
 					$value['redis_client'] = 'predis';
@@ -583,6 +608,8 @@ class Setting extends BaseModel
 					$value['redis_password'] = null;
 					$value['redis_port'] = '6379';
 					$value['redis_database'] = '0';
+					$value['lazy_loading_activation'] = '0';
+					$value['minify_html_activation'] = '0';
 				}
 				if ($this->key == 'seo') {
 					$value['posts_permalink'] = '{slug}/{id}';
@@ -986,7 +1013,7 @@ class Setting extends BaseModel
 		}
 		
 		if ($this->key == 'mail') {
-			$value = '{"name":"driver","label":"Mail Driver","type":"select2_from_array","options":{"smtp":"SMTP","mailgun":"Mailgun","mandrill":"Mandrill","ses":"Amazon SES","sparkpost":"Sparkpost","mail":"PHP Mail","sendmail":"Sendmail"}},
+			$value = '{"name":"driver","label":"Mail Driver","type":"select2_from_array","options":{"smtp":"SMTP","mailgun":"Mailgun","mandrill":"Mandrill","ses":"Amazon SES","sparkpost":"Sparkpost","sendmail":"Sendmail"}},
 	
 	{"name":"separator_1","type":"custom_html","value":"<h3>SMTP Parameters</h3>"},
 	{"name":"separator_1_1","type":"custom_html","value":"Required for drivers: SMTP, Mailgun, Mandrill, Sparkpost"},
@@ -1010,6 +1037,9 @@ class Setting extends BaseModel
 	
 	{"name":"separator_5","type":"custom_html","value":"<h3>Sparkpost</h3>"},
 	{"name":"sparkpost_secret","label":"Sparkpost Secret","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
+	
+	{"name":"sendmail_sep","type":"custom_html","value":"sendmail_sep_value"},
+	{"name":"sendmail_path","label":"sendmail_path_label","type":"text","wrapperAttributes":{"class":"form-group col-md-6"}},
 	
 	{"name":"separator_6","type":"custom_html","value":"<hr>"},
 	
@@ -1046,7 +1076,8 @@ class Setting extends BaseModel
 		if ($this->key == 'upload') {
 			$value = '{"name":"image_types","label":"Upload Image Types","type":"text","hint":"Upload image types (ex: jpg,jpeg,gif,png,...)","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"file_types","label":"Upload File Types","type":"text","hint":"Upload file types (ex: pdf,doc,docx,odt,...)","wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"max_file_size","label":"Upload Max File Size","type":"text","hint":"Upload Max File Size (in KB)","wrapperAttributes":{"class":"form-group col-md-6"}}';
+{"name":"min_file_size","label":"min_file_size_label","type":"text","hint":"min_file_size_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"max_file_size","label":"max_file_size_label","type":"text","hint":"max_file_size_hint","wrapperAttributes":{"class":"form-group col-md-6"}}';
 		}
 		
 		if ($this->key == 'geo_location') {
@@ -1151,8 +1182,11 @@ class Setting extends BaseModel
 	
 	{"name":"separator_hr_1","type":"custom_html","value":"<hr>"},
 	
+	{"name":"lazy_loading_sep","type":"custom_html","value":"lazy_loading_sep_value"},
+	{"name":"lazy_loading_activation","label":"lazy_loading_activation_label","type":"checkbox","hint":"lazy_loading_activation_hint"},
+	
 	{"name":"minify_html_sep","type":"custom_html","value":"minify_html_sep_value"},
-	{"name":"minify_html_activation","label":"minify_html_activation_label","type":"checkbox","hint":"minify_html_activation_hint","wrapperAttributes":{"class":"form-group col-md-6"}}';
+	{"name":"minify_html_activation","label":"minify_html_activation_label","type":"checkbox","hint":"minify_html_activation_hint"}';
 		}
 		
 		if ($this->key == 'seo') {

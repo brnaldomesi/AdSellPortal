@@ -9,7 +9,7 @@ try {
 	}
 	
 	
-	/* FILE */
+	/* FILES */
 	\File::deleteDirectory(app_path('Helpers/Validator/'));
 	
 	\File::delete(app_path('Providers/ValidatorServiceProvider.php'));

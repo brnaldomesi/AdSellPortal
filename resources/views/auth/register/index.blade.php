@@ -227,7 +227,9 @@
 												<br>
 												<input id="password_confirmation" name="password_confirmation" type="password" class="form-control{{ $passwordError }}"
 													   placeholder="{{ t('Password Confirmation') }}">
-												<small id="" class="form-text text-muted">{{ t('At least 5 characters') }}</small>
+												<small id="" class="form-text text-muted">
+													{{ t('At least :num characters', ['num' => config('larapen.core.passwordLength.min', 6)]) }}
+												</small>
 											</div>
 										</div>
 										
@@ -245,7 +247,7 @@
 														   type="checkbox" {{ (old('term')=='1') ? 'checked="checked"' : '' }}
 													>
 													
-													<label class="form-check-label" for="invalidCheck3">
+													<label class="form-check-label" for="term">
 														{!! t('I have read and agree to the <a :attributes>Terms & Conditions</a>', ['attributes' => getUrlPageByType('terms')]) !!}
 													</label>
 												</div>

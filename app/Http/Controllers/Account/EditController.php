@@ -268,17 +268,11 @@ class EditController extends AccountBaseController
 	}
 	
 	/**
-	 * @param Request $request
+	 * @param UserRequest $request
 	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
-	public function updateSettings(Request $request)
+	public function updateSettings(UserRequest $request)
 	{
-		// Validation
-		if ($request->filled('password')) {
-			$rules = ['password' => 'between:6,60|dumbpwd|confirmed'];
-			$this->validate($request, $rules);
-		}
-		
 		// Get User
 		$user = User::find(auth()->user()->id);
 		
@@ -287,8 +281,6 @@ class EditController extends AccountBaseController
 		if ($request->filled('password')) {
 			$user->password = Hash::make($request->input('password'));
 		}
-		
-		// Save
 		$user->save();
 		
 		flash(t("Your settings account has updated successfully."))->success();

@@ -143,7 +143,6 @@ class InstallController extends Controller
 	public function starting(Request $request)
 	{
 		$exitCode = Artisan::call('cache:clear');
-		$exitCode = artisanConfigCache();
 		$exitCode = Artisan::call('config:clear');
 		
 		return redirect($this->installUrl . '/system_compatibility');
@@ -192,7 +191,6 @@ class InstallController extends Controller
 			]);
 		} catch (\Exception $e) {
 			$exitCode = Artisan::call('cache:clear');
-			$exitCode = artisanConfigCache();
 			$exitCode = Artisan::call('config:clear');
 			
 			return redirect($this->installUrl . '/system_compatibility');
@@ -220,6 +218,9 @@ class InstallController extends Controller
 			'email'           => 'required|email',
 			'password'        => 'required',
 			'default_country' => 'required',
+		];
+		$sendmail_rules = [
+			'sendmail_path' => 'required',
 		];
 		$smtp_rules = [
 			'smtp_hostname'   => 'required',
@@ -258,6 +259,9 @@ class InstallController extends Controller
 				}
 			}
 			
+			if ($request->mail_driver == 'sendmail') {
+				$rules = array_merge($rules, $sendmail_rules);
+			}
 			if ($request->mail_driver == 'smtp') {
 				$rules = array_merge($rules, $smtp_rules);
 			}
@@ -323,6 +327,7 @@ class InstallController extends Controller
 		return view('install.site_info', [
 			'site_info'       => $siteInfo,
 			'rules'           => $rules,
+			'sendmail_rules'  => $sendmail_rules,
 			'smtp_rules'      => $smtp_rules,
 			'mailgun_rules'   => $mailgun_rules,
 			'mandrill_rules'  => $mandrill_rules,
@@ -779,15 +784,14 @@ class InstallController extends Controller
 		$content .= 'LOG_LEVEL=debug' . "\n";
 		$content .= 'LOG_DAYS=2' . "\n";
 		$content .= "\n";
-		$content .= 'FORM_REGISTER_HIDE_PHONE=false' . "\n";
-		$content .= 'FORM_REGISTER_HIDE_EMAIL=false' . "\n";
-		$content .= 'FORM_REGISTER_HIDE_USERNAME=true' . "\n";
+		$content .= 'DISABLE_PHONE=false' . "\n";
+		$content .= 'DISABLE_EMAIL=false' . "\n";
+		$content .= 'DISABLE_USERNAME=true' . "\n";
 		
 		// Save the new .env file
 		File::put($filePath, $content);
 		
 		// Reload .env (related to the config values)
-		$exitCode = artisanConfigCache();
 		$exitCode = Artisan::call('config:clear');
 	}
 	
@@ -982,6 +986,9 @@ class InstallController extends Controller
 				'driver'       => isset($siteInfo['mail_driver']) ? $siteInfo['mail_driver'] : '',
 			];
 			if (isset($siteInfo['mail_driver'])) {
+				if ($siteInfo['mail_driver'] == 'sendmail') {
+					$mailSettings['sendmail_path'] = isset($siteInfo['sendmail_path']) ? $siteInfo['sendmail_path'] : '';
+				}
 				if (in_array($siteInfo['mail_driver'], ['smtp', 'mailgun', 'mandrill', 'ses', 'sparkpost'])) {
 					$mailSettings['host'] = isset($siteInfo['smtp_hostname']) ? $siteInfo['smtp_hostname'] : '';
 					$mailSettings['port'] = isset($siteInfo['smtp_port']) ? $siteInfo['smtp_port'] : '';

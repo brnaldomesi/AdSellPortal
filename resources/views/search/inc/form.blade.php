@@ -41,7 +41,7 @@ if (isset($city) and !empty($city)) {
 						<i class="icon-location-2 icon-append"></i>
 						<input type="text" id="locSearch" name="location" class="form-control locinput input-rel searchtag-input has-icon tooltipHere"
 							   placeholder="{{ t('Where?') }}" value="{{ $qLocation }}" title="" data-placement="bottom"
-							   data-toggle="tooltip" type="button"
+							   data-toggle="tooltip"
 							   data-original-title="{{ t('Enter a city name OR a state name with the prefix ":prefix" like: :prefix', ['prefix' => t('area:')]) . t('State Name') }}">
 					</div>
 	

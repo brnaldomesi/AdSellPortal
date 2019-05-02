@@ -80,7 +80,7 @@ class BannedUser
 	 */
 	private function invalidateBannedUser($request)
 	{
-		$cacheExpiration = (int)config('settings.optimization.cache_expiration', 1440);
+		$cacheExpiration = (int)config('settings.optimization.cache_expiration', 86400);
 		
 		// Check if the user's email address has been banned
 		$cacheId = 'blacklist.email.' . auth()->user()->email;

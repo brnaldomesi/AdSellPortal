@@ -9,37 +9,6 @@ use Illuminate\Routing\Router;
 class AdminServiceProvider extends ServiceProvider
 {
 	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
-	
-	/**
-	 * Perform post-registration booting of services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		// LOAD THE VIEWS
-		// First the published/overwritten views (in case they have any changes)
-		$this->loadViewsFrom(resource_path('views/vendor/admin'), 'admin');
-		// ... Then the stock views that come with the package, in case a published view might be missing
-		$this->loadViewsFrom(realpath(__DIR__ . '/resources/views'), 'admin');
-		
-		// LOAD THE LANGUAGES FILES
-		$this->loadTranslationsFrom(realpath(__DIR__ . '/resources/lang'), 'admin');
-		
-		// Use the vendor configuration file as fallback
-		$this->mergeConfigFrom(__DIR__ . '/config/admin.php', 'admin');
-		
-		$this->registerAdminMiddleware($this->app->router);
-		$this->setupRoutes($this->app->router);
-		$this->publishFiles();
-	}
-	
-	/**
 	 * Register any package services.
 	 *
 	 * @return void
@@ -65,6 +34,30 @@ class AdminServiceProvider extends ServiceProvider
 		$loader->alias('Form', \Collective\Html\FormFacade::class);
 		$loader->alias('Html', \Collective\Html\HtmlFacade::class);
 		$loader->alias('Image', \Intervention\Image\Facades\Image::class);
+	}
+	
+	/**
+	 * Perform post-registration booting of services.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		// LOAD THE VIEWS
+		// First the published/overwritten views (in case they have any changes)
+		$this->loadViewsFrom(resource_path('views/vendor/admin'), 'admin');
+		// ... Then the stock views that come with the package, in case a published view might be missing
+		$this->loadViewsFrom(realpath(__DIR__ . '/resources/views'), 'admin');
+		
+		// LOAD THE LANGUAGES FILES
+		$this->loadTranslationsFrom(realpath(__DIR__ . '/resources/lang'), 'admin');
+		
+		// Use the vendor configuration file as fallback
+		$this->mergeConfigFrom(__DIR__ . '/config/admin.php', 'admin');
+		
+		$this->registerAdminMiddleware($this->app->router);
+		$this->setupRoutes($this->app->router);
+		$this->publishFiles();
 	}
 	
 	public function registerAdminMiddleware(Router $router)

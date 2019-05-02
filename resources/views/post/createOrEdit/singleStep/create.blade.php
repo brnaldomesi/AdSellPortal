@@ -532,15 +532,22 @@
 				rtl: true,
 			@endif
 			dropZoneEnabled: false,
+			overwriteInitial: true,
+			showCaption: true,
 			showPreview: true,
+			showClose: true,
+			showUpload: false,
+			showRemove: false,
 			previewFileType: 'image',
 			allowedFileExtensions: {!! getUploadFileTypes('image', true) !!},
 			browseLabel: '{!! t("Browse") !!}',
-			showUpload: false,
-			showRemove: false,
-			maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }},
+			minFileSize: {{ (int)config('settings.upload.min_file_size', 0) }}, {{-- in KB --}}
+			maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }}, {{-- in KB --}}
 			/* Remove Drag-Drop Icon (in footer) */
-			fileActionSettings: {dragIcon: '', dragTitle: ''},
+			fileActionSettings: {
+				dragIcon: '',
+				dragTitle: ''
+			},
 			layoutTemplates: {
 				/* Show Only Actions (in footer) */
 				footer: '<div class="file-thumbnail-footer pt-2">{actions}</div>',

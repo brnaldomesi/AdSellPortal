@@ -129,7 +129,7 @@ class LaravelLocalization
 	 */
 	protected $cachedTranslatedRoutesByUrl = [];
 	
-	public static $cacheExpiration = 60; // In minutes (e.g. 60 for 1h)
+	public static $cacheExpiration = 3600; // In minutes (e.g. 60 * 60 for 1h)
 	
 	/**
 	 * LaravelLocalization constructor.
@@ -146,7 +146,7 @@ class LaravelLocalization
 		$this->url = $this->app['url'];
 		
 		// Cache Expiration Time
-		self::$cacheExpiration = (int)config('settings.optimization.cache_expiration', 60);
+		self::$cacheExpiration = (int)config('settings.optimization.cache_expiration', 86400);
 		
 		// set default locale
 		// $this->defaultLocale = $this->configRepository->get('app.locale');
@@ -286,7 +286,8 @@ class LaravelLocalization
 		
 		if (empty($url)) {
 			if (!empty($this->routeName)) {
-				return $this->getURLFromRouteNameTranslated($locale, $this->routeName, $attributes, $forceDefaultLocation);
+				$url = $this->getURLFromRouteNameTranslated($locale, $this->routeName, $attributes, $forceDefaultLocation);
+				return $url;
 			}
 			
 			// Get URL through the current Controller

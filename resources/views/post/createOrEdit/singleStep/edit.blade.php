@@ -497,7 +497,7 @@ if ($post->category) {
 		@endif
 	</script>
 	<script>
-		@if (isset($picturesLimit) and is_numeric($picturesLimit) and $picturesLimit > 0)
+		@if (isset($post, $picturesLimit) and is_numeric($picturesLimit) and $picturesLimit > 0)
 			@for($i = 0; $i <= $picturesLimit-1; $i++)
 				/* Images Upload */
 				$('#picture{{ $i }}').fileinput(
@@ -508,28 +508,59 @@ if ($post->category) {
 						rtl: true,
 					@endif
 					dropZoneEnabled: false,
+					overwriteInitial: false,
+					showCaption: true,
 					showPreview: true,
+					showClose: true,
+					showUpload: false,
+					showRemove: false,
 					previewFileType: 'image',
 					allowedFileExtensions: {!! getUploadFileTypes('image', true) !!},
 					browseLabel: '{!! t("Browse") !!}',
-					showUpload: false,
-					showRemove: false,
-					maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }},
-					@if (isset($post->pictures) and isset($post->pictures->get($i)->filename))
+					minFileSize: {{ (int)config('settings.upload.min_file_size', 0) }}, {{-- in KB --}}
+					maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }}, {{-- in KB --}}
+					@if (isset($post->pictures, $post->pictures->get($i)->filename))
 						/* Retrieve Existing Picture */
 						initialPreview: [
 							'<img src="{{ resize($post->pictures->get($i)->filename, 'medium') }}" class="file-preview-image">',
 						],
+						initialPreviewConfig: [
+							<?php
+							$deleteURL = lurl('posts/' . $post->id . '/photos/' . $post->pictures->get($i)->id . '/delete');
+							
+							// File size
+							try {
+								$fileSize = (int)File::size(filePath($post->pictures->get($i)->filename));
+							} catch (\Exception $e) {
+								$fileSize = 0;
+							}
+							?>
+							{
+								caption: '{{ last(explode('/', $post->pictures->get($i)->filename)) }}',
+								size: {{ $fileSize }},
+								url: '{{ $deleteURL }}',
+								key: {{ (int)$post->pictures->get($i)->id }}
+							}
+						],
 					@endif
 					/* Remove Drag-Drop Icon (in footer) */
-					fileActionSettings: {dragIcon: '', dragTitle: ''},
-					layoutTemplates: {
-						/* Show Only Actions (in footer) */
-						footer: '<div class="file-thumbnail-footer pt-2">{actions}</div>',
-						/* Remove Delete Icon (in footer) */
-						actionDelete: ''
+					fileActionSettings: {
+						showDrag: false, /* Remove move/rearrange icon */
+						showZoom: false, /* Remove zoom icon */
+						removeIcon: '<i class="far fa-trash-alt" style="color: red;"></i>',
+						indicatorNew: '<i class="fas fa-check-circle" style="color: #09c509;font-size: 20px;margin-top: -15px;display: block;"></i>'
 					}
 				});
+		
+				/* Delete picture */
+				$('#picture{{ $i }}').on('filepredelete', function(jqXHR) {
+					var abort = true;
+					if (confirm("{{ t('Are you sure you want to delete this picture?') }}")) {
+						abort = false;
+					}
+					return abort;
+				});
+				
 			@endfor
 		@endif
 		

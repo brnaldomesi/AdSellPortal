@@ -13,7 +13,7 @@ return [
 	|
 	*/
 	
-	'password' => 'Passwords must be at least six characters and match the confirmation.',
+	'password' => 'Şifreler en az sekiz karakter olmalı ve onay ile eşleşmelidir.',
 	'reset' => 'Your password has been reset!',
 	'sent' => 'We have e-mailed your password reset link!',
 	'token' => 'This password reset token is invalid.',

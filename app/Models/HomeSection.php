@@ -462,7 +462,7 @@ class HomeSection extends BaseModel
 {"name":"max_items","label":"max_cities_label","attributes":{"placeholder":12},"hint":"max_cities_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"items_cols","label":"Cities Columns","type":"select2_from_array","options":{"3":"3","2":"2","1":"1"},"hint":"This option is applied only when the map is displayed.","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"count_cities_posts","label":"count_cities_posts_label","type":"checkbox","hint":"count_cities_posts_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)"},"hint":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"home_cache_expiration_hint"},"hint":"home_cache_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 
 {"name":"separator_4_1","type":"custom_html","value":"<h3>Country Map</h3>"},
 {"name":"show_map","label":"Show the Country Map","type":"checkbox"},
@@ -484,7 +484,7 @@ class HomeSection extends BaseModel
 {"name":"order_by","label":"Order By","type":"select2_from_array","options":{"date":"Date","random":"Random"},"allows_null":false,"wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"autoplay","label":"Carousel\'s Autoplay","type":"checkbox"},
 {"name":"autoplay_timeout","label":"Carousel\'s Autoplay Timeout","attributes":{"placeholder":1500},"wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)"},"hint":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"home_cache_expiration_hint"},"hint":"home_cache_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"separator_last","type":"custom_html","value":"<hr>"},
 {"name":"active","label":"Active","type":"checkbox"}';
 		}
@@ -497,7 +497,7 @@ class HomeSection extends BaseModel
 {"name":"count_categories_posts","label":"count_categories_posts_label","type":"checkbox","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"separator_clear_1","type":"custom_html","value":"<div style=\"clear: both;\"></div>"},
 {"name":"max_sub_cats","label":"Max subcategories displayed by default","hint":"NOTE: This will be applied for only the \"Categories + Children\" type of display.","wrapperAttributes":{"class":"form-group col-md-6"}},
-{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)"},"hint":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"home_cache_expiration_hint"},"hint":"home_cache_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"separator_last","type":"custom_html","value":"<hr>"},
 {"name":"active","label":"Active","type":"checkbox"}';
 		}
@@ -507,7 +507,7 @@ class HomeSection extends BaseModel
 			$value = '{"name":"max_items","label":"Max Items","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"order_by","label":"Order By","type":"select2_from_array","options":{"date":"Date","random":"Random"},"allows_null":false,"wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"show_view_more_btn","label":"Show \'View More\' Button","type":"checkbox"},
-{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)"},"hint":"In minutes (e.g. 60 for 1h, 0 or empty value to disable the cache)","wrapperAttributes":{"class":"form-group col-md-6"}},
+{"name":"cache_expiration","label":"Cache Expiration Time for this section","attributes":{"placeholder":"home_cache_expiration_hint"},"hint":"home_cache_expiration_hint","wrapperAttributes":{"class":"form-group col-md-6"}},
 {"name":"separator_last","type":"custom_html","value":"<hr>"},
 {"name":"active","label":"Active","type":"checkbox"}';
 		}

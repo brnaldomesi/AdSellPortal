@@ -3,7 +3,7 @@
 $queryString = (request()->getQueryString() ? ('?' . request()->getQueryString()) : '');
 
 // Get the Default Language
-$cacheExpiration = (isset($cacheExpiration)) ? $cacheExpiration : config('settings.optimization.cache_expiration', 60);
+$cacheExpiration = (isset($cacheExpiration)) ? $cacheExpiration : config('settings.optimization.cache_expiration', 86400);
 $defaultLang = Cache::remember('language.default', $cacheExpiration, function () {
     $defaultLang = \App\Models\Language::where('default', 1)->first();
     return $defaultLang;

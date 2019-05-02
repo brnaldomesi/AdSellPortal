@@ -13,7 +13,7 @@ return [
 	| using this caching library. This connection is used when another is
 	| not explicitly specified when executing a given caching function.
 	|
-	| Supported: "apc", "array", "database", "file", "memcached", "redis"
+	| Supported: "apc", "array", "database", "file", "memcached", "redis", "dynamodb"
 	|
 	*/
 	
@@ -59,7 +59,7 @@ return [
 				env('MEMCACHED_PASSWORD'),
 			],
 			'options' => [
-				// Memcached::OPT_CONNECT_TIMEOUT  => 2000,
+				// Memcached::OPT_CONNECT_TIMEOUT => 2000,
 			],
 			'servers' => [
 				[

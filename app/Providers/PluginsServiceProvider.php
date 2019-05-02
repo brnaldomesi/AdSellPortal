@@ -22,24 +22,6 @@ use Route;
 class PluginsServiceProvider extends ServiceProvider
 {
 	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
-	
-	/**
-	 * Perform post-registration booting of services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		// Set routes
-		$this->setupRoutes($this->app->router);
-	}
-	
-	/**
 	 * Register any package services.
 	 *
 	 * @return void
@@ -60,6 +42,17 @@ class PluginsServiceProvider extends ServiceProvider
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Perform post-registration booting of services.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		// Set routes
+		$this->setupRoutes($this->app->router);
 	}
 	
 	/**

@@ -65,7 +65,9 @@
             <a href="#social-login">Social Login</a>
             <ul>
                 <li><a href="#facebook">Facebook</a></li>
-                <li><a href="#google">Google</a></li>
+				<li><a href="#linkedin">LinkedIn</a></li>
+				<li><a href="#twitter">Twitter</a></li>
+                <li><a href="#google">Google (deprecated)</a></li>
             </ul>
         </li>
         <li><a href="#google-maps">Google Maps</a></li>
@@ -166,6 +168,7 @@ Tokenizer PHP Extension
 XML PHP Extension
 Ctype PHP Extension
 JSON PHP Extension
+BCMath PHP Extension
 GD PHP Extension (or Imagick PHP Extension)
 PHP Fileinfo extension
 PHP Zip Archive
@@ -598,55 +601,88 @@ TWILIO_FROM=your-sender-number
             <h2 id="social-login">Social Login</h2>
             <div class="alert alert-warning" role="alert">
 				<strong>Important:</strong>
-                Make sure BASE_URL in .env file matches your site url. It should be set automatically, but you might need to do it manually in some rare cases.
+                Make sure APP_URL in <code>/.env</code> file matches your site url. It should be set automatically, but you might need to do it manually in some rare cases.
 			</div>
     
             <h3 id="facebook">Facebook</h3>
 			<ol>
-				<li>Register for regular facebook account, if you don't already have one.</li>
-				<li>Open <a href="https://developers.facebook.com/" target="_blank" rel="noopener noreferrer">this url</a>, <strong>click 'my apps'</strong> in the top navigation bar, then <strong>Add a New App.</strong></li>
-				<li>Enter any display name, your email adress and click&nbsp;<strong>Create App ID</strong></li>
-				<li>Click <strong>Add Product</strong> in the left sidebar, then <strong>Facebook Login</strong>, select <strong>Web</strong>, enter your site url. You can ignore the rest of the panels in quickstart wizard.</li>
-				<li>Click <strong>Facebook Login -&gt; Settings </strong>and enter <strong>http://mysite.com/auth/facebook/callback</strong> into <strong>Valid OAuth redirect URIs</strong> field.</li>
-				<li>Click <strong>Dashboard</strong> in left sidebar and copy/paste <strong>APP ID</strong> and <strong>APP</strong> <strong>SECRET</strong> into .env file.</li>
+				<li>Register for regular Facebook account, if you don't already have one.</li>
+				<li>Open <a href="https://developers.facebook.com/" target="_blank" rel="noopener noreferrer">this url</a>, and <strong>Create a New App.</strong></li>
+				<li>Get the new app settings.</li>
 			</ol>
-			<p style="text-align: center;"><img src="https://www.bedigit.com/uploads/2017/02/facebook-app-test.png"></p>
-			<p>&nbsp;</p>
 			<p>Now, you have to setup your admin panel:</p>
 			<ul>
 				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Social Login</strong></li>
 				<li>For Facebook: set '<strong>Facebook Client ID</strong>' and '<strong>Facebook Client Secret</strong>'</li>
 				<li>And save your changes.</li>
+				<li>You are done.</li>
 			</ul>
-			<p>Or place all the config values and api keys in the <code>.env</code> file.</p>
-			<p><strong>Facebook Example in .env file</strong></p>
+			<p>Or place all the config values or API keys in the <code>/.env</code> file.</p>
+			<p>Facebook example in <code>/.env</code> file</p>
 			<pre>FACEBOOK_CLIENT_ID=your-facebook-client_id
 FACEBOOK_CLIENT_SECRET=your-facebook-client_secret
 </pre>
-			<p>NOTE: The /.env file settings override those of the admin panel.</p>
-    
-    
-            <h3 id="google">Google</h3>
+			<p>NOTE: The <code>/.env</code> file settings override those of the admin panel.</p>
+	
+			<h3 id="linkedin">LinkedIn</h3>
 			<ol>
-				<li>Register for regular google account, if you don't already have one.</li>
-				<li>Open <a href="https://console.developers.google.com/" target="_blank" rel="noopener noreferrer">this url</a>, create a new project, click <strong>Credentials</strong> in left sidebar, select <strong>Oauth Client ID</strong> -&gt; <strong>Web Application.</strong></li>
-				<li>Enter <strong>http://mysite.com/auth/google/callback</strong> into <strong>Authorized Redirect URIs</strong> field and click <strong>Create.</strong></li>
-				<li>Copy/paste <strong>Client ID</strong> and <strong>Client Secret</strong> into .env file.</li>
+				<li>Register for regular LinkedIn account, if you don't already have one.</li>
+				<li>Open <a href="https://www.linkedin.com/developer/apps" target="_blank" rel="noopener noreferrer">this url</a>, and <strong>Create a New App.</strong></li>
+				<li>Get the new app settings.</li>
 			</ol>
-			<p style="text-align: center;"><img src="https://www.bedigit.com/uploads/2017/02/facebook-oauth-client.png"></p>
-			<p>&nbsp;</p>
+			<p>Now, you have to setup your admin panel:</p>
+			<ul>
+				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Social Login</strong></li>
+				<li>For LinkedIn: set '<strong>LinkedIn Client ID</strong>' and '<strong>LinkedIn Client Secret</strong>'</li>
+				<li>And save your changes.</li>
+				<li>You are done.</li>
+			</ul>
+			<p>Or place all the config values or API keys in the <code>/.env</code> file.</p>
+			<p>LinkedIn example in <code>/.env</code> file</p>
+			<pre>LINKEDIN_CLIENT_ID=your-linkedin-client_id
+LINKEDIN_CLIENT_SECRET=your-linkedin-client_secret
+</pre>
+			<p>NOTE: The <code>/.env</code> file settings override those of the admin panel.</p>
+	
+			<h3 id="twitter">Twitter</h3>
+			<ol>
+				<li>Register for regular Twitter account, if you don't already have one.</li>
+				<li>Open <a href="https://apps.twitter.com/" target="_blank" rel="noopener noreferrer">this url</a>, and <strong>Create a New App.</strong></li>
+				<li>Get the new app settings.</li>
+			</ol>
+			<p>Now, you have to setup your admin panel:</p>
+			<ul>
+				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Social Login</strong></li>
+				<li>For Twitter: set '<strong>Twitter Client ID</strong>' and '<strong>Twitter Client Secret</strong>'</li>
+				<li>And save your changes.</li>
+				<li>You are done.</li>
+			</ul>
+			<p>Or place all the config values or API keys in the <code>/.env</code> file.</p>
+			<p>Twitter example in <code>/.env</code> file</p>
+			<pre>TWITTER_CLIENT_ID=your-twitter-client_id
+TWITTER_CLIENT_SECRET=your-twitter-client_secret
+</pre>
+			<p>NOTE: The <code>/.env</code> file settings override those of the admin panel.</p>
+    
+            <h3 id="google">Google (deprecated)</h3>
+			<ol>
+				<li>Register for regular Google account, if you don't already have one.</li>
+				<li>Open <a href="https://console.developers.google.com/" target="_blank" rel="noopener noreferrer">this url</a>, and <strong>Create a New App.</strong></li>
+				<li>Get the new app settings.</li>
+			</ol>
 			<p>Now, you have to setup your admin panel:</p>
 			<ul>
 				<li>Go to your <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Social Login</strong></li>
 				<li>For Google: set '<strong>Google Client ID</strong>' and '<strong>Google Client Secret</strong>'</li>
 				<li>And save your changes.</li>
+				<li>You are done.</li>
 			</ul>
-			<p>Or place all the config values and api keys in the <code>.env</code> file.</p>
-			<p><strong>Google Example in .env file</strong></p>
+			<p>Or place all the config values or API keys in the <code>/.env</code> file.</p>
+			<p>Google example in <code>/.env</code> file</p>
 			<pre>GOOGLE_CLIENT_ID=your-google-client_id
 GOOGLE_CLIENT_SECRET=your-google-client_secret
 </pre>
-			<p>NOTE: The /.env file settings override those of the admin panel.</p>
+			<p>NOTE: The <code>/.env</code> file settings override those of the admin panel.</p>
             
         </section>
 
@@ -682,23 +718,13 @@ GOOGLE_CLIENT_SECRET=your-google-client_secret
             <strong>How to setup.</strong>
             <ul>
                 <li>Visit <a href="https://www.google.com/recaptcha/admin" target="_blank">https://www.google.com/recaptcha/admin</a></li>
-                <li>Follow as given in below image</li>
+				<li>Follow the steps by select the reCAPTCHA version and get your <strong>site key</strong> and your <strong>secret key</strong>.</li>
             </ul>
-            <p>
-                <img class="aligncenter size-full wp-image-149" src="https://www.bedigit.com/uploads/2016/05/okHSW2N.png" alt="okHSW2N" width="690" height="392" />
-            </p>
-            <ul>
-                <li>Click <strong>Register</strong></li>
-                <li>You will now get your <strong>site key</strong> and <strong>secret key</strong></li>
-            </ul>
-            <p>
-                <img class="aligncenter size-large wp-image-150" src="https://www.bedigit.com/uploads/2016/05/RLjgRLB-1024x233.png" alt="RLjgRLB" width="700" height="159" />
-            </p>
             <p><strong>Admin panel setup</strong></p>
             <ul>
-                <li>Go to your LaraClassified <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Security</strong></li>
-                <li>Turn ON or OFF '<strong>Enable reCAPTCHA</strong>'</li>
-                <li>Set '<strong>reCAPTCHA public key</strong>' and '<strong>reCAPTCHA private key</strong>'</li>
+                <li>Go to the <strong>Admin panel</strong> -&gt; <strong>Setup</strong> -&gt; <strong>General Settings</strong> -&gt; <strong>Security</strong></li>
+                <li>Enable the feature from the '<strong>Enable reCAPTCHA</strong>' field</li>
+                <li>Set '<strong>reCAPTCHA version</strong>', '<strong>reCAPTCHA site key</strong>' and '<strong>reCAPTCHA secret key</strong>'</li>
                 <li>And save your changes.</li>
             </ul>
             <p><strong>Or use <code>/.env</code> file setup</strong></p>
@@ -707,11 +733,15 @@ GOOGLE_CLIENT_SECRET=your-google-client_secret
                 <li>Open <code>/.env</code> file.</li>
                 <li>Provide the keys there.</li>
             </ul>
-            <pre><code>RECAPTCHA_PUBLIC_KEY=your-recaptcha-public_key
-RECAPTCHA_PRIVATE_KEY=your-recaptcha-private_key
+            <pre><code>RECAPTCHA_VERSION=your-recaptcha-keys-version
+RECAPTCHA_SITE_KEY=your-recaptcha-site_key
+RECAPTCHA_SECRET_KEY=your-recaptcha-secret_key
 </code></pre>
             <ul>
-                <li>Replace <code>your-recaptcha-public_key</code> and <code>your-recaptcha-private_key</code>.</li>
+				<li>
+					Replace <code>your-recaptcha-keys-version</code> (by <strong>v2</strong> or <strong>v3</strong>),
+					replace <code>your-recaptcha-site_key</code> and <code>your-recaptcha-secret_key</code> by your keys.
+				</li>
                 <li>Save the file.</li>
                 <li>You are done.</li>
             </ul>
@@ -901,15 +931,21 @@ RECAPTCHA_PRIVATE_KEY=your-recaptcha-private_key
     
         <section>
             <h2 id="cron-job">Cron Job</h2>
-            <h4><strong>How can I set the Cron Job?</strong></h4>
-            <p>To set the Ads Cleaner command you need to add the code below in the Cron Job tool of your server:</p>
-            <pre>{PHP_BIN_PATH} -q /path/to/YourWebsite/artisan ads:clean</pre>
+            <h4><strong>How can I start the Scheduler?</strong></h4>
+			The Scheduler will execute:
+			<ul>
+				<li>The Ads Clear command (that auto archives and deletes ads after expiration) every hour.</li>
+				<li>The Cache and Views Clear commands, the latest day of every week at 6:00.</li>
+			</ul>
+			<p>When using the scheduler, you only need to add the following Cron entry to your server.</p>
+            <pre>* * * * * {PHP_BIN_PATH} /path/to/YourWebsite/artisan schedule:run >> /dev/null 2>&amp;1</pre>
+			<p>This Cron will call the Laravel command scheduler every minute. When the <code>schedule:run</code> command is executed, Laravel will evaluate your scheduled tasks and runs the tasks that are due.</p>
             <p style="text-decoration: underline;">NOTE</p>
             <ul>
 				<li><code>{PHP_BIN_PATH}</code> => Ex: <code>/usr/bin/php7.1.3</code>, <code>/usr/bin/php</code>, <code>/usr/lib/php</code></li>
 				<li><code>/path/to/YourWebsite/</code> => You have to replace this path by your real path.</li>
-				<li>You can set the Cron Job to run every hour or day. You can also run it on a specific hour every day.</li>
 				<li>Don't hesitate to ask more information about it from your hosting provider.</li>
+				<li>You can disable the Auto Cache and Views Clear command by adding this variable: <code>DISABLE_CACHE_AUTO_CLEAR=1</code> in the <code>/.env</code> file.</li>
             </ul>
 			
 			<hr>
@@ -923,7 +959,7 @@ RECAPTCHA_PRIVATE_KEY=your-recaptcha-private_key
 			
 			<hr>
 			
-			<h4><strong>How does the Cron Job command work?</strong></h4>
+			<h4><strong>How does the Ads Clear command work?</strong></h4>
 			<p>After setting it up to run every hour (for example), you can consider 2 cases:</p>
 			<p>&nbsp;</p>
 			<h5><strong>1. Regular Ads</strong></h5>

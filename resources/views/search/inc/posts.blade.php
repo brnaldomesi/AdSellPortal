@@ -94,7 +94,7 @@ if (!isset($cacheExpiration)) {
 					<span class="photo-count"><i class="fa fa-camera"></i> {{ $pictures->count() }} </span>
 					<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 					<a href="{{ lurl($post->uri, $attr) }}">
-						<img class="img-thumbnail no-margin" src="{{ $postImg }}" alt="img">
+						<img class="lazyload img-thumbnail no-margin" src="{{ $postImg }}" alt="{{ $post->title }}">
 					</a>
 				</div>
 			</div>
