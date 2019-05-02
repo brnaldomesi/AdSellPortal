@@ -30,7 +30,17 @@ use Jenssegers\Date\Date;
 
 class AppServiceProvider extends ServiceProvider
 {
-	private $cacheExpiration = 1440; // Cache for 1 day (60 * 24)
+	private $cacheExpiration = 86400; // Cache for 1 day (60 * 60 * 24)
+	
+	/**
+	 * Register any application services.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		//
+	}
 	
 	/**
 	 * Bootstrap any application services.
@@ -83,16 +93,6 @@ class AppServiceProvider extends ServiceProvider
 		}
 		Date::setLocale(config('appLang.abbr', 'en'));
 		setlocale(LC_ALL, config('appLang.locale', 'en_US'));
-	}
-	
-	/**
-	 * Register any application services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		//
 	}
 	
 	/**
@@ -212,10 +212,13 @@ class AppServiceProvider extends ServiceProvider
 		Config::set('recaptcha.version', env('RECAPTCHA_VERSION', config('settings.security.recaptcha_version', 'v2')));
 		$recaptchaSkipIps = env('RECAPTCHA_SKIP_IPS', config('settings.security.recaptcha_skip_ips', ''));
 		$recaptchaSkipIpsArr = preg_split('#[:,;\s]+#ui', $recaptchaSkipIps);
-		$recaptchaSkipIpsArr = array_filter($recaptchaSkipIpsArr, function($value) { return $value !== ''; });
+		$recaptchaSkipIpsArr = array_filter(array_map('trim', $recaptchaSkipIpsArr));
 		Config::set('recaptcha.skip_ip', $recaptchaSkipIpsArr);
 		// Mail
 		Config::set('mail.driver', env('MAIL_DRIVER', config('settings.mail.driver')));
+		// Sendmail
+		Config::set('mail.sendmail', env('MAIL_SENDMAIL', config('settings.mail.sendmail_path')));
+		// SMTP
 		Config::set('mail.host', env('MAIL_HOST', config('settings.mail.host')));
 		Config::set('mail.port', env('MAIL_PORT', config('settings.mail.port')));
 		Config::set('mail.encryption', env('MAIL_ENCRYPTION', config('settings.mail.encryption')));

@@ -1,0 +1,27 @@
+<?php 
+
+return [
+    'failed' => '用户名或密码错误。',
+    'throttle' => '您的尝试登录次数过多，请 :seconds 秒后再试。',
+    'login' => '登录',
+    'register' => '寄存器',
+    'account_info' => '帐户信息',
+    'change_info' => '更改信息',
+    'change_password' => '更改密码',
+    'logout' => '登出',
+    'remember_me' => '记住账号',
+    'information_updated' => '您的信息已更新。',
+    'name' => '名称',
+    'email' => '电子邮件',
+    'password' => '密码',
+    'confirm_password' => '确认密码',
+    'old_password' => '旧密码',
+    'new_password' => '新密码',
+    'cancel' => '取消',
+    'reset_password' => '重设密码',
+    'send_password_reset_link' => '发送密码重置链接',
+    'forgot_password_question' => '忘记密码了吗？',
+    'wrong_password' => '您输入的旧密码错误。',
+    'password_updated' => '您的密码已被更改。',
+    'registration_closed' => '注册已结束。',
+];

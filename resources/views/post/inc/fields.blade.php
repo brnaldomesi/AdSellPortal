@@ -25,7 +25,7 @@
 			<div class="form-group row {{ $requiredClass }}" style="margin-top: -10px;">
 				<label class="col-md-3 col-form-label" for="{{ $fieldId }}"></label>
 				<div class="col-md-8">
-					<div class="form-check pt-2 pl-0">
+					<div class="form-check pt-2">
 						<input id="{{ $fieldId }}"
 							   name="{{ $fieldName }}"
 							   value="1"

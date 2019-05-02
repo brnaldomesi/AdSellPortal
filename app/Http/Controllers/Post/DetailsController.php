@@ -227,7 +227,7 @@ class DetailsController extends FrontController
 		view()->share('customFields', $customFields);
 		
 		// Increment Post visits counter
-		Event::fire(new PostWasVisited($post));
+		Event::dispatch(new PostWasVisited($post));
 		
 		// GET SIMILAR POSTS
 		$featured = $this->getCategorySimilarPosts($post->category, $post->id);
@@ -254,7 +254,7 @@ class DetailsController extends FrontController
 				$this->og->forget('image')->forget('image:width')->forget('image:height');
 			}
 			foreach ($post->pictures as $picture) {
-				$this->og->image(resize($picture->filename, 'large'), [
+				$this->og->image(resize($picture->filename, 'big'), [
 					'width'  => 600,
 					'height' => 600,
 				]);

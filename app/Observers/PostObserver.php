@@ -22,7 +22,6 @@ use App\Models\Picture;
 use App\Models\Post;
 use App\Models\PostValue;
 use App\Models\SavedPost;
-use App\Models\Sync;
 use App\Models\Scopes\StrictActiveScope;
 use App\Notifications\PostActivated;
 use App\Notifications\PostReviewed;
@@ -72,29 +71,7 @@ class PostObserver
 			}
 		}
 	}
-
-    public function updated(Post $post)
-    {
-        if (getSegment(2) == 'create') {
-            if(! $post->tmp_token) {
-                foreach (Sync::$servers as $server){
-                    if(! config("sync.$server.active"))
-                        continue;
-
-                    $sync = new Sync();
-                    $sync->post_id = $post->id;
-                    $sync->server = $server;
-                    $sync->add = 1;
-                    $sync->save();
-                }
-            }
-        }else {
-            $post->servers()->update([
-                'edit' => 1,
-            ]);
-        }
-    }
-
+	
 	/**
 	 * Listen to the Entry deleting event.
 	 *
@@ -203,9 +180,6 @@ class PostObserver
 	 */
 	public function deleted(Post $post)
 	{
-        $post->servers()->update([
-            'delete' => 1,
-        ]);
 		/*
 		// Remove the ad media folder
 		if (!empty($post->country_code) && !empty($post->id)) {

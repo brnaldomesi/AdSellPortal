@@ -46,6 +46,7 @@ return [
     'smtp' => 'SMTP',
     'sendmail' => 'Sendmail',
     'sendmail_path' => 'Путь отправить почту',
+	'sendmail_path_hint' => 'Sendmail path (Can be updated later)',
     'php-mail' => 'PHP-Почта',
     'smtp_username' => 'SMTP имя пользователя',
     'smtp_password' => 'SMTP пароль',

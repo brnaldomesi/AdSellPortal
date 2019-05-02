@@ -95,7 +95,7 @@
 									'label' => trans('messages.mail_driver'),
 					'value' => (isset($site_info["mail_driver"]) ? $site_info["mail_driver"] : ""),
 									'options' => [
-									["value" => "mail", "text" => trans('messages.php_mail')],
+									["value" => "sendmail", "text" => trans('messages.sendmail')],
 									["value" => "smtp", "text" => trans('messages.smtp')],
 									["value" => "mailgun", "text" => trans('messages.mailgun')],
 									["value" => "mandrill", "text" => trans('messages.mandrill')],
@@ -104,6 +104,19 @@
 									],
 					'help_class' => 'install',
 					'rules' => $rules
+				])
+			</div>
+		</div>
+		<div class="row sendmail_box">
+			<div class="col-md-6">
+				@php($sendmailPath = '/usr/sbin/sendmail -bs')
+				@include('install.helpers.form_control', [
+					'type' => 'text',
+					'name' => 'sendmail_path',
+					'label' => trans('messages.sendmail_path'),
+					'value' => (isset($site_info["sendmail_path"]) ? $site_info["sendmail_path"] : $sendmailPath),
+					'help_class' => 'install',
+					'rules' => $sendmail_rules
 				])
 			</div>
 		</div>
@@ -256,8 +269,9 @@
 	<script>
 		function toogleMailer() {
 			var value = $("select[name='mail_driver']").val();
-			if (value == 'mail')
+			if (value == 'sendmail')
 			{
+				$('.sendmail_box').show();
 				$('.smtp_box').hide();
 				$('.mailgun_box').hide();
 				$('.mandrill_box').hide();
@@ -266,6 +280,7 @@
 			}
 			else if (value == 'mailgun')
 			{
+				$('.sendmail_box').hide();
 				$('.smtp_box').show();
 				$('.mailgun_box').show();
 				$('.mandrill_box').hide();
@@ -274,6 +289,7 @@
 			}
 			else if (value == 'mandrill')
 			{
+				$('.sendmail_box').hide();
 				$('.smtp_box').show();
 				$('.mailgun_box').hide();
 				$('.mandrill_box').show();
@@ -282,6 +298,7 @@
 			}
 			else if (value == 'ses')
 			{
+				$('.sendmail_box').hide();
 				$('.smtp_box').show();
 				$('.mailgun_box').hide();
 				$('.mandrill_box').hide();
@@ -290,6 +307,7 @@
 			}
 			else if (value == 'sparkpost')
 			{
+				$('.sendmail_box').hide();
 				$('.smtp_box').show();
 				$('.mailgun_box').hide();
 				$('.mandrill_box').hide();
@@ -298,6 +316,7 @@
 			}
 			else
 			{
+				$('.sendmail_box').hide();
 				$('.smtp_box').show();
 				$('.mailgun_box').hide();
 				$('.mandrill_box').hide();

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaraClassified - Geo Classified Ads CMS
+ * LaraClassified - Classified Ads Web Application
  * Copyright (c) BedigitCom. All Rights Reserved
  *
  * Website: http://www.bedigit.com
@@ -97,12 +97,6 @@ class Post extends BaseModel implements Feedable
 		'deletion_mail_sent_at',
 		'fb_profile',
 		'partner',
-        'street_name',
-        'house_number',
-        'orientational_number',
-        'town_district',
-        'town_name',
-        'zip_code',
 		'created_at',
 	];
 	
@@ -329,12 +323,7 @@ class Post extends BaseModel implements Feedable
 	{
 		return $this->belongsTo(User::class, 'user_id');
 	}
-
-    public function servers()
-    {
-        return $this->hasMany(Sync::class, 'post_id');
-    }
-
+	
 	/*
 	|--------------------------------------------------------------------------
 	| SCOPES
@@ -417,7 +406,7 @@ class Post extends BaseModel implements Feedable
 		}
 		// echo $value->format('l d F Y H:i:s').'<hr>'; exit();
 		// echo $value->formatLocalized('%A %d %B %Y %H:%M').'<hr>'; exit(); // Multi-language
-
+		
 		return $value;
 	}
 	
@@ -490,7 +479,7 @@ class Post extends BaseModel implements Feedable
 				}
 			}
 		}
-
+		
 		return $value;
 	}
 	
@@ -519,14 +508,14 @@ class Post extends BaseModel implements Feedable
 	public function getTitleAttribute($value)
 	{
 		$value = mb_ucfirst($value);
-
+		
 		return $value;
 	}
 	
 	public function getContactNameAttribute($value)
 	{
 		$value = mb_ucwords($value);
-
+		
 		return $value;
 	}
 	

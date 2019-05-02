@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
     
     /*
@@ -44,10 +46,13 @@ return [
             'charset' => env('DB_CHARSET', 'utf8mb4'), // utf8mb4 => MySQL v5.7.7 or greater
             'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'), // utf8mb4_unicode_ci => MySQL v5.7.7 or greater
             'prefix' => env('DB_TABLES_PREFIX', ''),
+			'prefix_indexes' => env('DB_PREFIX_INDEXES', true),
             'strict' => env('DB_MODE_STRICT', false),
-            'options' => [
-                \PDO::ATTR_EMULATE_PREPARES => true,
-            ],
+			'engine' => env('DB_ENGINE', null),
+			'options' => extension_loaded('pdo_mysql') ? array_filter([
+				\PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+				\PDO::ATTR_EMULATE_PREPARES => true,
+			]) : [],
 			'dump' => [
 				'dump_binary_path' => env('DB_DUMP_BINARY_PATH', ''), // only the path, so without 'mysqldump' or 'pg_dump'.
 				'use_single_transaction', // perform dump using a single transaction.
@@ -87,6 +92,7 @@ return [
 	
 		'options' => [
 			'cluster' => env('REDIS_CLUSTER', 'predis'),
+			'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_').'_database_',
 		],
 		
 		'default' => [

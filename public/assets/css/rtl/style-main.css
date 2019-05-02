@@ -1566,6 +1566,11 @@ ul.tagit input[type="text"] {
 	border-color: #D43F3A
 }
 
+/* Fix for Google Maps */
+.ads-googlemaps {
+	line-height: 0;
+}
+
 /* Fix for Google Adsense Responsive Ads */
 .ads-parent-responsive {
 	width: 100%;

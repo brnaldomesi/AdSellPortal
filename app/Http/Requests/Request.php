@@ -21,6 +21,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Mews\Purifier\Facades\Purifier;
 
 abstract class Request extends FormRequest
 {
@@ -32,6 +33,85 @@ abstract class Request extends FormRequest
 	public function authorize()
 	{
 		return true;
+	}
+	
+	/**
+	 * Extend the default getValidatorInstance method
+	 * so fields can be modified or added before validation
+	 *
+	 * @return \Illuminate\Contracts\Validation\Validator
+	 */
+	protected function getValidatorInstance()
+	{
+		// Don't apply this to the Admin Panel
+		if (!isFromAdminPanel()) {
+			$input = [];
+			
+			// title
+			if ($this->filled('title')) {
+				$input['title'] = strCleanerLite($this->input('title'));
+				$input['title'] = onlyNumCleaner($input['title']);
+			}
+			
+			// name
+			if ($this->filled('name')) {
+				$input['name'] = strCleanerLite($this->input('name'));
+				if (
+					Str::contains(get_called_class(), 'PostRequest')
+					|| Str::contains(get_called_class(), 'UserRequest')
+				) {
+					$input['name'] = onlyNumCleaner($input['name']);
+				}
+			}
+			
+			// contact_name
+			if ($this->filled('contact_name')) {
+				$input['contact_name'] = strCleanerLite($this->input('contact_name'));
+				$input['contact_name'] = onlyNumCleaner($input['contact_name']);
+			}
+			
+			// description
+			if ($this->filled('description')) {
+				$input['description'] = $this->input('description');
+				if (config('settings.single.simditor_wysiwyg') || config('settings.single.ckeditor_wysiwyg')) {
+					try {
+						$input['description'] = Purifier::clean($input['description']);
+					} catch (\Exception $e) {
+					}
+				} else {
+					$input['description'] = strCleaner($input['description']);
+				}
+			}
+			
+			// price
+			if ($this->filled('price')) {
+				$input['price'] = str_replace(',', '.', $this->input('price'));
+				$input['price'] = preg_replace('/[^0-9\.]/', '', $input['price']);
+			}
+			
+			// phone
+			if ($this->filled('phone')) {
+				$input['phone'] = phoneFormatInt($this->input('phone'), $this->input('country_code', session('country_code')));
+			}
+			
+			// login (phone)
+			if ($this->filled('login')) {
+				$loginField = getLoginField($this->input('login'));
+				if ($loginField == 'phone') {
+					$input['login'] = phoneFormatInt($this->input('login'), $this->input('country_code', session('country_code')));
+				}
+			}
+			
+			// tags
+			if ($this->filled('tags')) {
+				$input['tags'] = tagCleaner($this->input('tags'));
+			}
+			
+			request()->merge($input); // Required!
+			$this->merge($input);
+		}
+		
+		return parent::getValidatorInstance();
 	}
 	
 	/**

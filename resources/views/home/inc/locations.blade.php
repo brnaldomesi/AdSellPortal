@@ -41,7 +41,7 @@ if (isset($citiesOptions)) {
 				@if (!$map['show'])
 					<div class="row">
 						<div class="col-xl-12 col-sm-12">
-							<h2 class="title-3 p-0">
+							<h2 class="title-3 pt-1 pr-3 pb-3 pl-3" style="white-space: nowrap;">
 								<i class="icon-location-2"></i>&nbsp;{{ t('Choose a city') }}
 							</h2>
 						</div>
@@ -85,7 +85,7 @@ if (isset($citiesOptions)) {
 						<div class="relative location-content">
 							
 							@if ($loc['show'] && $map['show'])
-								<h2 class="title-3 p-3" style="white-space: nowrap;">
+								<h2 class="title-3 pt-1 pr-3 pb-3 pl-3" style="white-space: nowrap;">
 									<i class="icon-location-2"></i>&nbsp;{{ t('Choose a city or region') }}
 								</h2>
 							@endif

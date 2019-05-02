@@ -1,0 +1,27 @@
+<?php 
+
+return [
+    'failed' => '認証情報と一致するレコードがありません。',
+    'throttle' => 'ログインの試行回数が多すぎます。:seconds 秒後にお試しください。',
+    'login' => 'ログイン',
+    'register' => '登録',
+    'account_info' => 'アカウント情報',
+    'change_info' => '情報を変更',
+    'change_password' => 'パスワードを変更する',
+    'logout' => 'ログアウト',
+    'remember_me' => '私を覚えてますか',
+    'information_updated' => 'あなたの情報は更新されました。',
+    'name' => '名',
+    'email' => 'Eメール',
+    'password' => 'パスワード',
+    'confirm_password' => 'パスワードを認証する',
+    'old_password' => '以前のパスワード',
+    'new_password' => '新しいパスワード',
+    'cancel' => 'キャンセル',
+    'reset_password' => 'パスワードを再設定する',
+    'send_password_reset_link' => 'パスワードリセットリンクを送信',
+    'forgot_password_question' => 'パスワードをお忘れですか？',
+    'wrong_password' => '入力した古いパスワードが間違っています。',
+    'password_updated' => 'あなたのパスワードは変更されました。',
+    'registration_closed' => '登録は締め切りました。',
+];

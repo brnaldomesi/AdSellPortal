@@ -35,7 +35,8 @@ class PhotoRequest extends Request
 						'required',
 						'image',
 						'mimes:' . getUploadFileTypes('image'),
-						'max:' . (int)config('settings.upload.max_file_size', 1000)
+						'min:' . (int)config('settings.upload.min_file_size', 0),
+						'max:' . (int)config('settings.upload.max_file_size', 1000),
 					];
 				}
 			}
@@ -60,7 +61,11 @@ class PhotoRequest extends Request
 					'key'  => $key,
 					'type' => getUploadFileTypes('image'),
 				]);
-				$messages['pictures.' . $key . '.max'] = t('The picture #:key may not be greater than :max.', [
+				$messages['pictures.' . $key . '.min'] = t('The picture #:key size may not be lower than :min.', [
+					'key' => $key,
+					'min' => fileSizeFormat((int)config('settings.upload.min_file_size', 0)),
+				]);
+				$messages['pictures.' . $key . '.max'] = t('The picture #:key size may not be greater than :max.', [
 					'key' => $key,
 					'max' => fileSizeFormat((int)config('settings.upload.max_file_size', 1000)),
 				]);

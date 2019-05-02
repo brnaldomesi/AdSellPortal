@@ -273,10 +273,11 @@ class UserController extends PanelController
 			]);
 			$entity = $this->xPanel->getModel()->find(request()->segment(3));
 			if (!empty($entity)) {
+				$ipLink = config('larapen.core.ipLinkBase') . $entity->ip_addr;
 				$this->xPanel->addField([
 					'name'  => 'ip_addr',
 					'type'  => 'custom_html',
-					'value' => '<h5><strong>IP:</strong> ' . $entity->ip_addr . '</h5>',
+					'value' => '<h5><strong>IP:</strong> <a href="' . $ipLink . '" target="_blank">' . $entity->ip_addr . '</a></h5>',
 				], 'update');
 			}
 			if (auth()->user()->id != request()->segment(3)) {

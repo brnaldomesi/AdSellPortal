@@ -203,7 +203,7 @@ return [
     'attributes.currencies' => 'currencies',
     'blacklist_ip_rule' => 'The :attribute must be a valid IP address.',
     'custom_field_unique_rule' => 'The :field_1 have this :field_2 assigned already.',
-    'custom_field_unique_rule_field' => 'The :field_1 is already assign to this :field_2.',
+    'custom_field_unique_rule_field' => 'The :field_1 is already assigned to this :field_2.',
     'custom_field_unique_children_rule' => 'A child :field_1 of the :field_1 have this :field_2 assigned already.',
     'custom_field_unique_children_rule_field' => 'The :field_1 is already assign to one :field_2 of this :field_2.',
     'custom_field_unique_parent_rule' => 'The parent :field_1 of the :field_1 have this :field_2 assigned already.',

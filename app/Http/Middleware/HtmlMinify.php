@@ -16,6 +16,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class HtmlMinify
 {
@@ -27,6 +29,15 @@ class HtmlMinify
 	public function handle($request, Closure $next)
 	{
 		$response = $next($request);
+		
+		// Exceptions
+		if (
+			isFromAdminPanel()
+			|| Str::contains(Route::currentRouteAction(), 'InstallController')
+			|| Str::contains(Route::currentRouteAction(), 'UpgradeController')
+		) {
+			return $response;
+		}
 		
 		// Don't minify the HTML if the option is not activated
 		if (config('settings.optimization.minify_html_activation') == 0) {

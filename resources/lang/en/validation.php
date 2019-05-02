@@ -114,7 +114,7 @@ return [
 	'locale_of_country_rule'                  => 'The :attribute field is not valid.',
 	'currencies_codes_are_valid_rule'         => 'The :attribute field is not valid.',
 	'custom_field_unique_rule'                => 'The :field_1 have this :field_2 assigned already.',
-	'custom_field_unique_rule_field'          => 'The :field_1 is already assign to this :field_2.',
+	'custom_field_unique_rule_field'          => 'The :field_1 is already assigned to this :field_2.',
 	'custom_field_unique_children_rule'       => 'A child :field_1 of the :field_1 have this :field_2 assigned already.',
 	'custom_field_unique_children_rule_field' => 'The :field_1 is already assign to one :field_2 of this :field_2.',
 	'custom_field_unique_parent_rule'         => 'The parent :field_1 of the :field_1 have this :field_2 assigned already.',

@@ -13,7 +13,7 @@ return [
     |
     */
     
-    'password' => 'A palavra-passe deve ter pelo menos seis caracteres.' ,
+    'password' => 'As senhas devem ter pelo menos oito caracteres e corresponder à confirmação.' ,
     'reset'    => 'A palavra-passe foi redefinida!',
     'sent'     => 'O lembrete para a palavra-passe foi enviado!',
     'token'    => 'Este código de recuperação da palavra-passe é inválido.',

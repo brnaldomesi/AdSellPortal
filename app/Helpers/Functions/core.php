@@ -743,7 +743,7 @@ function getUploadedFileExtension($value)
 		}
 	}
 	
-	return $extension;
+	return strtolower($extension);
 }
 
 /**
@@ -990,7 +990,7 @@ function extractEmailAddress($string)
  */
 function isAvailableLang($abbr)
 {
-	$cacheExpiration = (int)config('settings.optimization.cache_expiration', 60);
+	$cacheExpiration = (int)config('settings.optimization.cache_expiration', 86400);
 	$lang = \Cache::remember('language.' . $abbr, $cacheExpiration, function () use ($abbr) {
 		$lang = \App\Models\Language::where('abbr', $abbr)->first();
 		
@@ -1493,7 +1493,7 @@ function getUrlPageByType($type, $locale = null)
 		$locale = config('app.locale');
 	}
 	
-	$cacheExpiration = (int)config('settings.optimization.cache_expiration', 60);
+	$cacheExpiration = (int)config('settings.optimization.cache_expiration', 86400);
 	$cacheId = 'page.' . $locale . '.type.' . $type;
 	$page = \Cache::remember($cacheId, $cacheExpiration, function () use ($type, $locale) {
 		$page = \App\Models\Page::type($type)->transIn($locale)->first();
@@ -2038,7 +2038,7 @@ function getMetaTag($tag, $page)
 	// Get the Page's MetaTag
 	$metaTag = null;
 	try {
-		$cacheExpiration = (int)config('settings.optimization.cache_expiration', 60);
+		$cacheExpiration = (int)config('settings.optimization.cache_expiration', 86400);
 		$cacheId = 'metaTag.' . $languageCode . '.' . $page;
 		$metaTag = \Cache::remember($cacheId, $cacheExpiration, function () use ($languageCode, $page) {
 			$metaTag = \App\Models\MetaTag::transIn($languageCode)->where('page', $page)->first();
@@ -2629,4 +2629,47 @@ if (! function_exists('userBrowser')) {
 			return $userBrowser;
 		}
 	}
+}
+
+/**
+ * Get the MySQL version
+ *
+ * @param null $pdo
+ * @return int|mixed
+ */
+function getMySqlVersion($pdo = null)
+{
+	$version = 0;
+	
+	try {
+		if (empty($pdo)) {
+			$pdo = \Illuminate\Support\Facades\DB::connection()->getPdo();
+		}
+		
+		if ($pdo instanceof \PDO) {
+			$version = $pdo->query('select version()')->fetchColumn();
+			
+			$tmp = [];
+			preg_match('/^[0-9\.]+/', $version, $tmp);
+			if (isset($tmp[0])) {
+				$version = $tmp[0];
+			}
+		}
+	} catch (\Exception $e) {}
+	
+	return $version;
+}
+
+/**
+ * Check if the entered value is the MySQL minimal version
+ *
+ * @param $min
+ * @return bool
+ */
+function isMySqlMinVersion($min)
+{
+	// Get the MySQL version
+	$version = getMySqlVersion();
+	
+	return (version_compare($version, $min) >= 0);
 }

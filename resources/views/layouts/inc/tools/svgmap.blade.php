@@ -110,7 +110,7 @@ if (isset($citiesOptions)) {
 	@if (!$loc['show'])
 		<div class="row">
 			<div class="col-xl-12 col-md-12 col-sm-12">
-				<h2 class="title-3 no-padding">
+				<h2 class="title-3 pt-1 pr-3 pb-3 pl-3" style="white-space: nowrap;">
 					<i class="icon-location-2"></i>&nbsp;{{ t('Choose a state or region') }}
 				</h2>
 			</div>

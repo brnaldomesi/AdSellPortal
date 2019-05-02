@@ -44,4 +44,18 @@
 @endsection
 
 @section('after_scripts')
+	<script>
+		@if (config('settings.optimization.lazy_loading_activation') == 1)
+		$(document).ready(function () {
+			$('#postsList').each(function () {
+				var $masonry = $(this);
+				var update = function () {
+					$.fn.matchHeight._update();
+				};
+				$('.item-list', $masonry).matchHeight();
+				this.addEventListener('load', update, true);
+			});
+		});
+		@endif
+	</script>
 @endsection

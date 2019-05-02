@@ -174,6 +174,7 @@ return [
 		Larapen\Feed\FeedServiceProvider::class,
 		Larapen\Impersonate\ImpersonateServiceProvider::class,
 		Jackiedo\DotenvEditor\DotenvEditorServiceProvider::class,
+		Unicodeveloper\Paystack\PaystackServiceProvider::class,
     
     
     ],
@@ -192,6 +193,7 @@ return [
     'aliases' => [
 	
 		'App' => Illuminate\Support\Facades\App::class,
+		'Arr' => Illuminate\Support\Arr::class,
 		'Artisan' => Illuminate\Support\Facades\Artisan::class,
 		'Auth' => Illuminate\Support\Facades\Auth::class,
 		'Blade' => Illuminate\Support\Facades\Blade::class,
@@ -221,6 +223,7 @@ return [
 		'Schema' => Illuminate\Support\Facades\Schema::class,
 		'Session' => Illuminate\Support\Facades\Session::class,
 		'Storage' => Illuminate\Support\Facades\Storage::class,
+		'Str' => Illuminate\Support\Str::class,
 		'URL' => Illuminate\Support\Facades\URL::class,
 		'Validator' => Illuminate\Support\Facades\Validator::class,
 		'View' => Illuminate\Support\Facades\View::class,
@@ -232,10 +235,11 @@ return [
         'TextToImage' => Larapen\TextToImage\Facades\TextToImage::class,
 		'DotenvEditor' => Jackiedo\DotenvEditor\Facades\DotenvEditor::class,
         'Alert' => 'Prologue\Alerts\Facades\Alert',
+		'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
     
     
     ],
     
-    'version' => '6.5',
+    'version' => '6.7',
 
 ];

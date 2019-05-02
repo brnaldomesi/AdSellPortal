@@ -119,6 +119,15 @@ trait SettingsTrait
 					}
 					$fieldColValue['value'] = str_replace('#admin#', admin_url(), $fieldColValue['value']);
 				}
+				/*
+				if (isset($fieldColValue['attributes'], $fieldColValue['attributes']['placeholder']) && !isset($fieldColValue['disableTrans'])) {
+					if (isset($fieldColValue['plugin'])) {
+						$fieldColValue['attributes']['placeholder'] = trans($fieldColValue['plugin'] . '::messages.' . $fieldColValue['attributes']['placeholder']);
+					} else {
+						$fieldColValue['attributes']['placeholder'] = trans('admin::messages.' . $fieldColValue['attributes']['placeholder']);
+					}
+				}
+				*/
 			} else {
 				// Is a one field settings (without a valid json data)
 				$fieldColValue = [

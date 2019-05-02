@@ -22,7 +22,7 @@
 							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
 								<?php $attr = ['countryCode' => config('country.icode'), 'catSlug' => $cat->slug]; ?>
 								<a href="{{ lurl(trans('routes.v-search-cat', $attr), $attr) }}">
-									<img src="{{ \Storage::url($cat->picture) . getPictureVersion() }}" class="img-fluid" alt="{{ $cat->name }}">
+									<img src="{{ \Storage::url($cat->picture) . getPictureVersion() }}" class="lazyload img-fluid" alt="{{ $cat->name }}">
 									<h6>
 										{{ $cat->name }}
 										@if (isset($categoriesOptions['count_categories_posts']) and $categoriesOptions['count_categories_posts'])

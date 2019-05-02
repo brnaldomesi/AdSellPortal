@@ -48,7 +48,9 @@ class LangManager
 		'es', // Spanish - Español
 		'ar', // Arabic - ‫العربية
 		'pt', // Portuguese - Português
-		'ru', // Russian - русский язык
+		'ru', // Russian - русский
+		'zh', // Chinese - 中文
+		'ja', // Japanese - 日本人
 		'tr', // Turkish - Türk
 		'th', // Thai - ไทย
 		'ka', // Georgian - ქართული

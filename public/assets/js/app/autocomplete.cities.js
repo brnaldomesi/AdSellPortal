@@ -31,8 +31,16 @@ $(document).ready(function()
             '_token': $('input[name=_token]').val()
         },
         minChars: 1,
-        onSelect: function(suggestion) {
+		onSearchStart: function () {
+			/* Hide & Disable the field's Tooltip */
+			$('#locSearch.tooltipHere').tooltip('hide');
+			$('#locSearch.tooltipHere').tooltip('disable');
+		},
+        onSelect: function (suggestion) {
             $('#lSearch').val(suggestion.data);
+	
+			/* Enable the field's Tooltip */
+			$('#locSearch.tooltipHere').tooltip('enable');
         }
     });
 });

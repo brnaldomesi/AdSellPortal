@@ -21,7 +21,7 @@ trait LanguageFeatures
 {
     public static function getActiveLanguagesArray()
     {
-        $cacheExpiration = config('settings.optimization.cache_expiration', 60);
+        $cacheExpiration = config('settings.optimization.cache_expiration', 86400);
         $activeLanguages = Cache::remember('languages.active.array', $cacheExpiration, function () {
             $activeLanguages = self::where('active', 1)->get()->toArray();
             return $activeLanguages;

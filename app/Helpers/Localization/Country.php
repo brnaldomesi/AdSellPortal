@@ -51,8 +51,8 @@ class Country
 	public $siteCountryInfo = '';
 	public $paddingTopExists = false;
 	
-	public static $cacheExpiration = 60;
-	public static $cookieExpiration = 60;
+	public static $cacheExpiration = 3600;
+	public static $cookieExpiration = 3600;
 	
 	// Maxmind Support URL
 	private static $maxmindSupportUrl = 'http://support.bedigit.com/help-center/articles/14/enable-the-geo-location';

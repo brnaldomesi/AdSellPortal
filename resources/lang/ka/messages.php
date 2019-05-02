@@ -46,6 +46,7 @@ return [
     'smtp' => 'SMTP',
     'sendmail' => 'Sendmail',
     'sendmail_path' => 'Sendmail path',
+	'sendmail_path_hint' => 'Sendmail path (Can be updated later)',
     'php-mail' => 'PHP-Mail',
     'smtp_username' => 'SMTP username',
     'smtp_password' => 'SMTP password',

@@ -20,7 +20,7 @@ use App\Helpers\Localization\Country as CountryLocalization;
 use App\Helpers\Localization\Helpers\Country as CountryLocalizationHelper;
 use App\Http\Controllers\Auth\Traits\VerificationTrait;
 use App\Http\Controllers\FrontController;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\Gender;
 use App\Models\Permission;
 use App\Models\User;
@@ -97,10 +97,10 @@ class RegisterController extends FrontController
 	/**
 	 * Register a new user account.
 	 *
-	 * @param RegisterRequest $request
+	 * @param UserRequest $request
 	 * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
-	public function register(RegisterRequest $request)
+	public function register(UserRequest $request)
 	{
 		// Conditions to Verify User's Email or Phone
 		$emailVerificationRequired = config('settings.mail.email_verification') == 1 && $request->filled('email');

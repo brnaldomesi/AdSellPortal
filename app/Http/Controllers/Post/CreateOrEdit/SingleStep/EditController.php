@@ -247,19 +247,21 @@ class EditController extends FrontController
 				if (empty($file)) {
 					continue;
 				}
-			
+				
 				// Delete old file if new file has uploaded
 				// Check if current Post have a pictures
-				$picture = Picture::find($key);
+				$picturePosition = $i;
+				$picture = Picture::where('post_id', $post->id)->where('id', $key)->first();
 				if (!empty($picture)) {
-					$picture->delete($picture->id);
+					$picturePosition = $picture->position;
+					$picture->delete();
 				}
 				
 				// Save Post's Picture in DB
 				$picture = new Picture([
 					'post_id'  => $post->id,
 					'filename' => $file,
-					'position' => $i,
+					'position' => $picturePosition,
 				]);
 				
 				$picture->save();

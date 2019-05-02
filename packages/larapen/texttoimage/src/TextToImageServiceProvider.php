@@ -19,13 +19,18 @@ use Illuminate\Support\ServiceProvider;
 
 class TextToImageServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-    
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		$this->app->bind('texttoimage', function ($app) {
+			return new TextToImage($app);
+		});
+	}
+	
     /**
      * Bootstrap the application events.
      *
@@ -44,17 +49,5 @@ class TextToImageServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['texttoimage'];
-    }
-    
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->bind('texttoimage', function ($app) {
-            return new TextToImage($app);
-        });
     }
 }

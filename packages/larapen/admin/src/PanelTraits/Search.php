@@ -15,7 +15,8 @@ trait Search
 	/**
 	 * Add conditions to the CRUD query for a particular search term.
 	 *
-	 * @param  [string] $searchTerm Whatever string the user types in the search bar.
+	 * @param $searchTerm (Whatever string the user types in the search bar.)
+	 * @return mixed
 	 */
 	public function applySearchTerm($searchTerm)
 	{
@@ -39,7 +40,7 @@ trait Search
 	 */
 	public function applySearchLogicForColumn($query, $column, $searchTerm)
 	{
-		// if there's a particular search logic defined, apply that one
+		// If there's a particular search logic defined, apply that one
 		if (isset($column['searchLogic'])) {
 			$searchLogic = $column['searchLogic'];
 			
@@ -52,26 +53,22 @@ trait Search
 			}
 		}
 		
-		// sensible fallback search logic, if none was explicitly given
+		// Sensible fallback search logic, if none was explicitly given
 		if ($column['tableColumn']) {
-			switch ($column['type']) {
-				case 'email':
-				case 'date':
-				case 'datetime':
-				case 'text':
-					$query->orWhere($column['name'], 'like', '%'.$searchTerm.'%');
-					break;
-				
-				case 'select':
-				case 'select_multiple':
-					$query->orWhereHas($column['entity'], function ($q) use ($column, $searchTerm) {
-						$q->where($column['attribute'], 'like', '%'.$searchTerm.'%');
-					});
-					break;
-				
-				default:
-					return;
-					break;
+			$singleSelectionFields = ['text', 'email'];
+			$multiSelectionsFields = ['select_multiple', 'select'];
+			
+			// If the MySQL version is 8 or greater, don't use 'LIKE' statement for date or datetime column types
+			if (!isMySqlMinVersion(8)) {
+				$singleSelectionFields = array_merge($singleSelectionFields, ['date', 'datetime']);
+			}
+			
+			if (in_array($column['type'], $singleSelectionFields)) {
+				$query->orWhere($column['name'], 'like', '%'.$searchTerm.'%');
+			} else if (in_array($column['type'], $multiSelectionsFields)) {
+				$query->orWhereHas($column['entity'], function ($q) use ($column, $searchTerm) {
+					$q->where($column['attribute'], 'like', '%'.$searchTerm.'%');
+				});
 			}
 		}
 	}

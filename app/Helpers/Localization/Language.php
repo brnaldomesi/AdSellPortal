@@ -29,7 +29,7 @@ class Language
 	protected $defaultLocale;
 	protected $country;
 	
-	public static $cacheExpiration = 60;
+	public static $cacheExpiration = 3600;
 	
 	public function __construct()
 	{

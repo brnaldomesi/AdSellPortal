@@ -26,15 +26,16 @@ class Search
 {
 	protected $cacheExpiration;
 	
-	public        $country;
-	public        $lang;
-	public static $queryLength  = 1; // Minimum query characters
-	public static $distance     = 100; // km
-	public static $maxDistance  = 500; // km
-	public        $perPage      = 12;
-	public        $currentPage  = 0;
-	protected     $table        = 'posts';
-	protected     $searchable   = [
+	public $country;
+	public $lang;
+	public static $queryLength = 1; // Minimum query characters
+	public static $distance = 100; // km
+	public static $maxDistance = 500; // km
+	public $perPage = 12;
+	public $currentPage = 0;
+	protected $sqlCurrLimit;
+	protected $table = 'posts';
+	protected $searchable = [
 		'columns' => [
 			'a.title'       => 10,
 			'a.description' => 10,
@@ -49,20 +50,21 @@ class Search
 			'categories as cp' => ['cp.id', 'c.parent_id'],
 		],
 	];
-	public        $forceAverage = true; // Force relevance's average
-	public        $average      = 1; // Set relevance's average
+	protected $forceAverage = true; // Force relevance's average
+	protected $average = 1; // Set relevance's average
 	
 	// Pre-Search vars
-	public $city  = null;
+	public $city = null;
 	public $admin = null;
 	
 	/**
 	 * Ban this words in query search
+	 *
 	 * @var array
 	 */
 	//protected $banWords = ['sell', 'buy', 'vendre', 'vente', 'achat', 'acheter', 'ses', 'sur', 'de', 'la', 'le', 'les', 'des', 'pour', 'latest'];
 	protected $banWords = [];
-	protected $arrSql   = [
+	protected $arrSql = [
 		'select'  => [],
 		'join'    => [],
 		'where'   => [],
@@ -71,7 +73,7 @@ class Search
 		'orderBy' => [],
 	];
 	protected $bindings = [];
-	protected $sql      = [
+	protected $sql = [
 		'select'  => '',
 		'from'    => '',
 		'join'    => '',
@@ -81,7 +83,7 @@ class Search
 		'orderBy' => '',
 	];
 	// Only for WHERE
-	protected $filters      = [
+	protected $filters = [
 		'type'       => 'a.post_type_id',
 		'minPrice'   => 'calculatedPrice', // 'a.price',
 		'maxPrice'   => 'calculatedPrice', // 'a.price',
@@ -97,6 +99,7 @@ class Search
 	
 	/**
 	 * Search constructor.
+	 *
 	 * @param array $preSearch
 	 */
 	public function __construct($preSearch = [])
@@ -131,6 +134,9 @@ class Search
 		$this->sql->groupBy = '';
 		$this->sql->having = '';
 		$this->sql->orderBy = '';
+		if (config('plugins.reviews.installed')) {
+			$this->orderMapping['rating'] = ['name' => 'a.rating_cache', 'order' => 'DESC'];
+		}
 		
 		// Build the global SQL
 		// $this->arrSql->select[] = "a.*";
@@ -208,9 +214,9 @@ class Search
 			$cacheId = 'postType.' . $postTypeId . '.' . config('app.locale');
 			$postType = Cache::remember($cacheId, $this->cacheExpiration, function () use ($postTypeId) {
 				$postType = PostType::query()
-									->where('translation_of', $postTypeId)
-									->where('translation_lang', config('app.locale'))
-									->first();
+					->where('translation_of', $postTypeId)
+					->where('translation_lang', config('app.locale'))
+					->first();
 				
 				return $postType;
 			});
