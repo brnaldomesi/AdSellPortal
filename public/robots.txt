@@ -13,4 +13,3 @@ Disallow: /vendor/
 Disallow: /main.php
 Disallow: /mix-manifest.json
 
-Sitemap: http://growapp2.xlabs.systems/newtutty/public/cs/cz/sitemaps.xml

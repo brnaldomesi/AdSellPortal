@@ -28,9 +28,9 @@ class PostRequest extends Request
 {
 	public static $packages;
 	public static $paymentMethods;
-	
+
 	protected $cfMessages = [];
-	
+
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
@@ -47,12 +47,18 @@ class PostRequest extends Request
 			'email'        => ['max:100', new BlacklistEmailRule(), new BlacklistDomainRule()],
 			'phone'        => ['max:20'],
 			'city_id'      => ['required', 'not_in:0'],
+			'address_street' => 'required|between:2,255',
+      'address_house_no' => 'required|between:2,255',
+      'orientational_number' => 'required',
+      'address_town_name' => 'required|between:2,255',
+      'address_town_district' => 'required|between:2,255',
+      'address_zip_code' => 'required|between:2,255',
 		];
-		
+
 		// CREATE
 		if (in_array($this->method(), ['POST', 'CREATE'])) {
 			// $rules['parent_id'] = ['required', 'not_in:0'];
-			
+
 			if (config('settings.single.publication_form_type') == '2') {
 				// Pictures
 				if ($this->file('pictures')) {
@@ -73,12 +79,12 @@ class PostRequest extends Request
 						$rules['pictures'] = ['required'];
 					}
 				}
-				
+
 				// Package & PaymentMethod
 				if (isset(self::$packages) and isset(self::$paymentMethods) and self::$packages->count() > 0 and self::$paymentMethods->count() > 0) {
 					// Require 'package_id' if Packages are available
 					$rules['package_id'] = ['required'];
-					
+
 					// Require 'payment_method_id' if the selected package's price > 0
 					if ($this->has('package_id')) {
 						$package = Package::find($this->input('package_id'));
@@ -88,11 +94,11 @@ class PostRequest extends Request
 					}
 				}
 			}
-			
+
 			// reCAPTCHA
 			$rules = $this->recaptchaRules($rules);
 		}
-		
+
 		// UPDATE
 		if (in_array($this->method(), ['PUT', 'PATCH', 'UPDATE'])) {
 			if (config('settings.single.publication_form_type') == '2') {
@@ -120,14 +126,14 @@ class PostRequest extends Request
 				}
 			}
 		}
-		
+
 		// COMMON
-		
+
 		// Location
 		if (in_array(config('country.admin_type'), ['1', '2']) && config('country.admin_field_active') == 1) {
 			$rules['admin_code'] = ['required', 'not_in:0'];
 		}
-		
+
 		// Email
 		if ($this->filled('email')) {
 			$rules['email'][] = 'email';
@@ -144,7 +150,7 @@ class PostRequest extends Request
 				$rules['email'][] = 'required';
 			}
 		}
-		
+
 		// Phone
 		if (config('settings.sms.phone_verification') == 1) {
 			if ($this->filled('phone')) {
@@ -162,14 +168,14 @@ class PostRequest extends Request
 				$rules['phone'][] = 'required';
 			}
 		}
-		
+
 		// Custom Fields
 		if (!isFromApi()) {
 			$cfRequest = new CustomFieldRequest();
 			$rules = $rules + $cfRequest->rules();
 			$this->cfMessages = $cfRequest->messages();
 		}
-		
+
 		/*
 		 * Tags (Only allow letters, numbers, spaces and ',;_-' symbols)
 		 *
@@ -184,23 +190,23 @@ class PostRequest extends Request
 		if ($this->filled('tags')) {
 			$rules['tags'] = ['regex:/^[\p{L}\p{N} ,;_-]+$/u'];
 		}
-		
+
 		return $rules;
 	}
-	
+
 	/**
 	 * @return array
 	 */
 	public function messages()
 	{
 		$messages = [];
-		
+
 		// Category & Sub-Category
 		if ($this->filled('parent_id') && !empty($this->input('parent_id'))) {
 			$messages['category_id.required'] = t('The :field is required.', ['field' => mb_strtolower(t('Sub-Category'))]);
 			$messages['category_id.not_in'] = t('The :field is required.', ['field' => mb_strtolower(t('Sub-Category'))]);
 		}
-		
+
 		if (config('settings.single.publication_form_type') == '2') {
 			// Picture
 			if ($this->hasFile('pictures')) {
@@ -222,18 +228,18 @@ class PostRequest extends Request
 					]);
 				}
 			}
-			
+
 			// Package & PaymentMethod
 			$messages['package_id.required'] = trans('validation.required_package_id');
 			$messages['payment_method_id.required'] = t('validation.required_payment_method_id');
 			$messages['payment_method_id.not_in'] = t('validation.required_payment_method_id');
 		}
-		
+
 		// Custom Fields
 		if (!isFromApi()) {
 			$messages = $messages + $this->cfMessages;
 		}
-		
+
 		return $messages;
 	}
 }

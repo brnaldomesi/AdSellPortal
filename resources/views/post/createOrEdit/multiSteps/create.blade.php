@@ -22,18 +22,18 @@
 	<div class="main-container">
 		<div class="container">
 			<div class="row">
-				
+
 				@include('post.inc.notification')
 
 				<div class="col-md-9 page-content">
 					<div class="inner-box category-content">
 						<h2 class="title-2">
-							<strong><i class="icon-docs"></i> {{ t('Post Free Ads') }}</strong>
+							<strong><i class="icon-docs"></i> {{ t('Post Free Ads') }} hi</strong>
 						</h2>
-						
+
 						<div class="row">
 							<div class="col-xl-12">
-								
+
 								<form class="form-horizontal" id="postForm" method="POST" action="{{ url()->current() }}" enctype="multipart/form-data">
 									{!! csrf_field() !!}
 									<fieldset>
@@ -132,9 +132,8 @@
 												<small id="" class="form-text text-muted">{{ t('Describe what makes your ad unique') }}...</small>
 											</div>
 										</div>
-										
-										<!-- customFields -->
-										<div id="customFields"></div>
+
+
 
 										<!-- price -->
 										<?php $priceError = (isset($errors) and $errors->has('price')) ? ' is-invalid' : ''; ?>
@@ -144,23 +143,26 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text">{!! config('currency')['symbol'] !!}</span>
 												</div>
-												
+
 												<input id="price"
 													   name="price"
 													   class="form-control{{ $priceError }}"
 													   placeholder="{{ t('e.i. 15000') }}"
 													   type="text" value="{{ old('price') }}"
 												>
-												
-												<div class="input-group-append">
+
+										<!-- XLABS Disabled 		<div class="input-group-append">
 													<span class="input-group-text">
 														<input id="negotiable" name="negotiable" type="checkbox"
 															   value="1" {{ (old('negotiable')=='1') ? 'checked="checked"' : '' }}>&nbsp;<small>{{ t('Negotiable') }}</small>
 													</span>
-												</div>
+												</div> -->
 											</div>
 										</div>
-										
+
+                    <!-- customFields -->
+                    <div id="customFields"></div>
+
 										<!-- country_code -->
 										<?php $countryCodeError = (isset($errors) and $errors->has('country_code')) ? ' is-invalid' : ''; ?>
 										@if (empty(config('country.code')))
@@ -178,7 +180,7 @@
 										@else
 											<input id="countryCode" name="country_code" type="hidden" value="{{ config('country.code') }}">
 										@endif
-										
+
 										<?php
 										/*
 										@if (\Illuminate\Support\Facades\Schema::hasColumn('posts', 'address'))
@@ -194,7 +196,7 @@
 										@endif
 										*/
 										?>
-										
+
 										@if (config('country.admin_field_active') == 1 and in_array(config('country.admin_type'), ['1', '2']))
 											<!-- admin_code -->
 											<?php $adminCodeError = (isset($errors) and $errors->has('admin_code')) ? ' is-invalid' : ''; ?>
@@ -209,7 +211,7 @@
 												</div>
 											</div>
 										@endif
-									
+
 										<!-- city_id -->
 										<?php $cityIdError = (isset($errors) and $errors->has('city_id')) ? ' is-invalid' : ''; ?>
 										<div id="cityBox" class="form-group row required">
@@ -222,9 +224,107 @@
 												</select>
 											</div>
 										</div>
-										
+
+
+                    {{--address verification--}}
+                    <div class="content-subheading">
+                        <i class="icon-home fa"></i>
+                        <strong>Adresa nemovitosti</strong>
+                    </div>
+
+                    <div id="error">
+
+                    </div>
+                    <?php $addressStreet = (isset($errors) and $errors->has('address_street')) ? ' is-invalid' : ''; ?>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label"
+                               for="address_street">Ulice
+                            <sup>*</sup></label>
+                        <div class="col-md-8">
+                            <input id="address_street" name="address_street"
+                                   placeholder="Ulice"
+                                   class="form-control input-md{{ $addressStreet }}" type="text"
+                                   value="{{ old('address_street') }}">
+                        </div>
+                    </div>
+                    <?php $houseNo = (isset($errors) and $errors->has('address_house_no')) ? ' is-invalid' : ''; ?>
+                    <?php $orientationalNumber = (isset($errors) and $errors->has('orientational_number')) ? ' is-invalid' : ''; ?>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label"
+                               for="address_house_no">Číslo
+                            <sup>*</sup></label>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input id="address_house_no" name="address_house_no"
+                                           class="form-control input-md{{ $houseNo }}"
+                                             placeholder="Popisné"
+                                           type="text"
+                                           value="{{ old('address_house_no') }}">
+                                </div>
+                                <div class="col-md-1">
+                                    <h2 class="address_number_stroke">/</h2>
+                                </div>
+                                <div class="col-md-4">
+                                    <input id="orientational_number" name="orientational_number"
+                                           class="form-control input-md{{ $orientationalNumber }} second"
+                                           type="text"
+                                            placeholder="Orientační"
+                                           value="{{ old('orientational_number') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php $townName = (isset($errors) and $errors->has('address_town_name')) ? ' is-invalid' : ''; ?>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label"
+                               for="address_town_name">Obec / Město
+                            <sup>*</sup></label>
+                        <div class="col-md-8">
+                            <input id="address_town_name" name="address_town_name"
+                                   placeholder="Obec"
+                                   class="form-control input-md{{ $townName }}" type="text"
+                                   value="{{ old('address_town_name') }}">
+                        </div>
+                    </div>
+                    <?php $townDistrict = (isset($errors) and $errors->has('address_town_district')) ? ' is-invalid' : ''; ?>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label"
+                               for="address_town_district">Okres
+                            <sup>*</sup></label>
+                        <div class="col-md-8">
+                            <input id="address_town_district" name="address_town_district"
+                                   placeholder="Okres"
+                                   class="form-control input-md{{ $townDistrict }}"
+                                   value="{{ old('address_town_district') }}">
+                        </div>
+                    </div>
+                    <?php $zipCode = (isset($errors) and $errors->has('address_zip_code')) ? ' is-invalid' : ''; ?>
+                    <div class="form-group row required">
+                        <label class="col-md-3 col-form-label"
+                               for="address_zip_code">PSČ
+                            <sup>*</sup></label>
+                        <div class="col-md-8">
+                            <input id="address_zip_code" name="address_zip_code"
+                                   placeholder="PSČ"
+                                   class="form-control input-md{{ $zipCode }}" type="text"
+                                   value="{{ old('address_zip_code') }}">
+                        </div>
+                    </div>
+
+                    <div class="form-group row pt-3">
+                        <div class="col-md-12 text-center">
+                            <button id="verifyAddressBtn"
+                                    class="btn btn-primary btn-lg"> {{ t('Verify Address') }} </button>
+                        </div>
+                    </div>
+                    {{--end address verification--}}
+
+
 										<!-- tags -->
+
 										<?php $tagsError = (isset($errors) and $errors->has('tags')) ? ' is-invalid' : ''; ?>
+                    <!--
 										<div class="form-group row">
 											<label class="col-md-3 col-form-label" for="tags">{{ t('Tags') }}</label>
 											<div class="col-md-8">
@@ -237,15 +337,15 @@
 												>
 												<small id="" class="form-text text-muted">{{ t('Enter the tags separated by commas.') }}</small>
 											</div>
-										</div>
-										
-										
+										</div> -->
+
+
 										<div class="content-subheading">
 											<i class="icon-user fa"></i>
 											<strong>{{ t('Seller information') }}</strong>
 										</div>
-										
-										
+
+
 										<!-- contact_name -->
 										<?php $contactNameError = (isset($errors) and $errors->has('contact_name')) ? ' is-invalid' : ''; ?>
 										@if (auth()->check())
@@ -259,7 +359,7 @@
 												</div>
 											</div>
 										@endif
-									
+
 										<!-- email -->
 										<?php $emailError = (isset($errors) and $errors->has('email')) ? ' is-invalid' : ''; ?>
 										<div class="form-group row required">
@@ -268,13 +368,13 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text"><i class="icon-mail"></i></span>
 												</div>
-												
+
 												<input id="email" name="email"
 													   class="form-control{{ $emailError }}" placeholder="{{ t('Email') }}" type="text"
 													   value="{{ old('email', ((auth()->check() and isset(auth()->user()->email)) ? auth()->user()->email : '')) }}">
 											</div>
 										</div>
-										
+
 										<?php
 											if (auth()->check()) {
 												$formPhone = (auth()->user()->country_code == config('country.code')) ? auth()->user()->phone : '';
@@ -290,22 +390,22 @@
 												<div class="input-group-prepend">
 													<span id="phoneCountry" class="input-group-text">{!! getPhoneIcon(config('country.code')) !!}</span>
 												</div>
-												
+
 												<input id="phone" name="phone"
 													   placeholder="{{ t('Phone Number') }}"
 													   class="form-control input-md{{ $phoneError }}" type="text"
 													   value="{{ phoneFormat(old('phone', $formPhone), old('country', config('country.code'))) }}"
 												>
-												
-												<div class="input-group-append">
+
+										<!--		<div class="input-group-append">
 													<span class="input-group-text">
 														<input name="phone_hidden" id="phoneHidden" type="checkbox"
 															   value="1" {{ (old('phone_hidden')=='1') ? 'checked="checked"' : '' }}>&nbsp;<small>{{ t('Hide') }}</small>
 													</span>
-												</div>
+												</div> -->
 											</div>
 										</div>
-										
+
 										@if (!auth()->check())
 											@if (in_array(config('settings.single.auto_registration'), [1, 2]))
 												<!-- auto_registration -->
@@ -321,7 +421,7 @@
 																	   type="checkbox"
 																	   checked="checked"
 																>
-																
+
 																<label class="form-check-label" for="auto_registration">
 																	{!! t('I want to register by submitting this ad.') !!}
 																</label>
@@ -335,7 +435,7 @@
 												@endif
 											@endif
 										@endif
-										
+
 										@include('layouts.inc.tools.recaptcha', ['colLeft' => 'col-md-3', 'colRight' => 'col-md-8'])
 
 										<!-- term -->
@@ -409,7 +509,7 @@
 	@if (file_exists(public_path() . '/assets/plugins/forms/validation/localization/messages_'.config('app.locale').'.min.js'))
 		<script src="{{ url('assets/plugins/forms/validation/localization/messages_'.config('app.locale').'.min.js') }}" type="text/javascript"></script>
 	@endif
-	
+
 	<script>
 		/* Translation */
 		var lang = {
@@ -427,7 +527,7 @@
                 'submit': "{{ t('Submit') }}"
 			}
 		};
-		
+
 		/* Categories */
 		var category = {{ old('parent_id', 0) }};
 		var categoryType = '{{ old('parent_type') }}';
@@ -436,18 +536,18 @@
 			categoryType = selectedCat.data('type');
 		}
 		var subCategory = {{ old('category_id', 0) }};
-		
+
 		/* Custom Fields */
 		var errors = '{!! addslashes($errors->toJson()) !!}';
 		var oldInput = '{!! addslashes(collect(session()->getOldInput('cf'))->toJson()) !!}';
 		var postId = '';
-		
+
 		/* Locations */
         var countryCode = '{{ old('country_code', config('country.code', 0)) }}';
         var adminType = '{{ config('country.admin_type', 0) }}';
         var selectedAdminCode = '{{ old('admin_code', (isset($admin) ? $admin->code : 0)) }}';
         var cityId = '{{ old('city_id', (isset($post) ? $post->city_id : 0)) }}';
-		
+
 		/* Packages */
 		var packageIsEnabled = false;
         @if (isset($packages) and isset($paymentMethods) and $packages->count() > 0 and $paymentMethods->count() > 0)
@@ -468,7 +568,57 @@
 			});
 		});
 	</script>
-	
+  {{--Address Verification--}}
+  <script>
+      $(document).ready(function () {
+          $('#nextStepBtn').hide();
+          $('#verifyAddressBtn').on('click', function (e) {
+              e.preventDefault();
+              $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                  }
+              });
+              var data = {
+                  address_street: $('#address_street').val(),
+                  address_house_no: $('#address_house_no').val(),
+                  orientational_number: $('#orientational_number').val(),
+                  address_town_name: $('#address_town_name').val(),
+                  address_town_district: $('#address_town_district').val(),
+                  zip_code: $('#address_zip_code').val()
+              };
+              $.ajax({
+                  url: '{{route('verify_address')}}',
+                  method: 'post',
+                  data: data,
+                  success: function (result) {
+                      $('#address_street').val(result.data.street_name);
+                      $('#address_house_no').val(result.data.house_number);
+                      $('#orientational_number').val(result.data.orientational_number);
+                      $('#address_town_name').val(result.data.town_name);
+                      $('#address_town_district').val(result.data.town_district);
+                      $('#address_zip_code').val(result.data.zip_code);
+                      if (typeof result.data !== "object") {
+
+                          $('#error').html('' +
+                              '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                              result.data + '\n' +
+                              '                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                              '                                                <span aria-hidden="true">&times;</span>\n' +
+                              '                                            </button>\n' +
+                              '                                        </div>')
+                      } else {
+                          $("#verifyAddressBtn").hide();
+                          $('#nextStepBtn').show();
+                      }
+                  },
+                  error: function (error) {
+                  }
+              });
+          });
+      });
+  </script>
+  {{--end address verification--}}
 	<script src="{{ url('assets/js/app/d.select.category.js') . vTime() }}"></script>
 	<script src="{{ url('assets/js/app/d.select.location.js') . vTime() }}"></script>
 @endsection
