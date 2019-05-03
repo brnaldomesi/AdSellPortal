@@ -22,6 +22,7 @@ use App\Models\Picture;
 use App\Models\Post;
 use App\Models\PostValue;
 use App\Models\SavedPost;
+use App\Models\Sync;
 use App\Models\Scopes\StrictActiveScope;
 use App\Notifications\PostActivated;
 use App\Notifications\PostReviewed;
@@ -40,7 +41,7 @@ class PostObserver
 	{
 		// Get the original object values
 		$original = $post->getOriginal();
-		
+
 		if (config('settings.mail.confirmation') == 1) {
 			try {
 				// Post Email address or Phone was not verified, and Post was not approved (reviewed)
@@ -59,7 +60,7 @@ class PostObserver
 						}
 					}
 				}
-				
+
 				// Post Email address or Phone was not verified, and Post was approved (reviewed)
 				if (($original['verified_email'] != 1 || $original['verified_phone'] != 1) && $original['reviewed'] == 1) {
 					if ($post->verified_email == 1 && $post->verified_phone == 1) {
@@ -71,7 +72,30 @@ class PostObserver
 			}
 		}
 	}
-	
+
+
+  public function updated(Post $post)
+   {
+       if (getSegment(2) == 'create') {
+            if(! $post->tmp_token) {
+               foreach (Sync::$servers as $server){
+                    if(! config("sync.$server.active"))
+                       continue;
+                    $sync = new Sync();
+                    $sync->post_id = $post->id;
+                   $sync->server = $server;
+                    $sync->add = 1;
+                   $sync->save();
+                }
+            }
+       }else {
+            $post->servers()->update([
+               'edit' => 1,
+           ]);
+       }
+   }
+
+
 	/**
 	 * Listen to the Entry deleting event.
 	 *
@@ -87,7 +111,7 @@ class PostObserver
 				$postValue->delete();
 			}
 		}
-		
+
 		// Delete all Messages
 		$messages = Message::where('post_id', $post->id)->get();
 		if ($messages->count() > 0) {
@@ -95,7 +119,7 @@ class PostObserver
 				$message->delete();
 			}
 		}
-		
+
 		// Delete all Saved Posts
 		$savedPosts = SavedPost::where('post_id', $post->id)->get();
 		if ($savedPosts->count() > 0) {
@@ -103,7 +127,7 @@ class PostObserver
 				$savedPost->delete();
 			}
 		}
-		
+
 		// Delete all Pictures
 		$pictures = Picture::where('post_id', $post->id)->get();
 		if ($pictures->count() > 0) {
@@ -111,7 +135,7 @@ class PostObserver
 				$picture->delete();
 			}
 		}
-		
+
 		// Delete the Payment(s) of this Post
 		$payments = Payment::withoutGlobalScope(StrictActiveScope::class)->where('post_id', $post->id)->get();
 		if ($payments->count() > 0) {
@@ -119,7 +143,7 @@ class PostObserver
 				$payment->delete();
 			}
 		}
-		
+
 		// Check Reviews plugin
 		if (config('plugins.reviews.installed')) {
 			try {
@@ -133,17 +157,17 @@ class PostObserver
 			} catch (\Exception $e) {
 			}
 		}
-		
+
 		// Remove the ad media folder
 		if (!empty($post->country_code) && !empty($post->id)) {
 			$directoryPath = 'files/' . strtolower($post->country_code) . '/' . $post->id;
 			Storage::deleteDirectory($directoryPath);
 		}
-		
+
 		// Removing Entries from the Cache
 		$this->clearCache($post);
 	}
-	
+
 	/**
 	 * Listen to the Entry saved event.
 	 *
@@ -159,7 +183,7 @@ class PostObserver
 				$post->save();
 			}
 		}
-		
+
 		// Create a new phone token if the post's phone number is marked as unverified
 		if ($post->verified_phone != 1) {
 			if (empty($post->phone_token)) {
@@ -167,11 +191,11 @@ class PostObserver
 				$post->save();
 			}
 		}
-		
+
 		// Removing Entries from the Cache
 		$this->clearCache($post);
 	}
-	
+
 	/**
 	 * Listen to the Entry deleted event.
 	 *
@@ -180,18 +204,21 @@ class PostObserver
 	 */
 	public function deleted(Post $post)
 	{
+		$post->servers()->update([
+         'delete' => 1,
+       ]);
 		/*
 		// Remove the ad media folder
 		if (!empty($post->country_code) && !empty($post->id)) {
 			$directoryPath = 'files/' . strtolower($post->country_code) . '/' . $post->id;
 			Storage::deleteDirectory($directoryPath);
 		}
-		
+
 		// Removing Entries from the Cache
 		$this->clearCache($post);
 		*/
 	}
-	
+
 	/**
 	 * Removing the Entity's Entries from the Cache
 	 *
@@ -200,16 +227,16 @@ class PostObserver
 	private function clearCache($post)
 	{
 		Cache::forget($post->country_code . '.sitemaps.posts.xml');
-		
+
 		Cache::forget($post->country_code . '.home.getPosts.sponsored');
 		Cache::forget($post->country_code . '.home.getPosts.latest');
-		
+
 		Cache::forget('post.withoutGlobalScopes.with.city.pictures.' . $post->id);
 		Cache::forget('post.with.city.pictures.' . $post->id);
-		
+
 		Cache::forget('post.withoutGlobalScopes.with.city.pictures.' . $post->id . '.' . config('app.locale'));
 		Cache::forget('post.with.city.pictures.' . $post->id . '.' . config('app.locale'));
-		
+
 		Cache::forget('posts.similar.category.' . $post->category_id . '.post.' . $post->id);
 		Cache::forget('posts.similar.city.' . $post->city_id . '.post.' . $post->id);
 	}
