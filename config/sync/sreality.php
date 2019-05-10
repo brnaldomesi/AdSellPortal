@@ -6,9 +6,9 @@ return [
         'path' => (function_exists('env')) ? env('SREALITY_API_PATH', '/RPC2') : '/RPC2',
         'port' => (function_exists('env')) ? env('SREALITY_API_PORT', '80') : '80',
         // Default Values are the Test Account Value , change it hire or better by .env file
-        'clientId' => (function_exists('env')) ? env('SREALITY_API_CLIENTID', '19621') : '19621',
+        'clientId' => (function_exists('env')) ? env('SREALITY_API_CLIENTID', '20227') : '20227',
         // md5 hash password
-        'password' => (function_exists('env')) ? env('SREALITY_API_PASSWORD', '7a0a09383679cfefa95deaadfe846c0f') : '7a0a09383679cfefa95deaadfe846c0f',
+        'password' => (function_exists('env')) ? env('SREALITY_API_PASSWORD', '7e8c6cfb361a72698ac16c16a9056c08') : '7e8c6cfb361a72698ac16c16a9056c08',
         'key' => (function_exists('env')) ? env('SREALITY_API_KEY', 'sreality-test') : 'sreality-test',
         'seller_id' => (function_exists('env')) ? env('SREALITY_SELLER_ID', '92401') : '92401',  // XYZ@seznam.cz
     ],
@@ -338,7 +338,7 @@ return [
             'map' => [
                 '120v'  => 1,
                 '230v'  => 2,
-                '400v'  => 3,
+                '400v'  => 4,
 
             ],
             'options' => [
