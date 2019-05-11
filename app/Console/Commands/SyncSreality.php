@@ -220,13 +220,15 @@ class SyncSreality extends Command
         $sync->remote_id = $advert_rkid;
         $sync->add = 0;
         $sync->edit = 0;
-        $sync->save();
+
         /** @var Picture $picture */
         foreach ($sync->post->pictures as $picture){
-            if($picture->updated_at->timestamp < $sync->updated_at->timestamp)
+            if($picture->updated_at->timestamp < $sync->updated_at->timestamp && ! $sync->add)
                 continue;
             $this->addPhoto($sync, $picture);
         }
+
+        $sync->save();
     }
 
     /**
