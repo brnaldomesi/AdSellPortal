@@ -142,8 +142,7 @@ class SyncSreality extends Command
      */
     private function addEdit(Sync $sync)
     {
-        /*$this->setSellers();
-        $seller_rkid = $this->getSellerId($sync);*/
+        $seller_rkid = $this->getSellerId();
         $advert_rkid = 'Advert-' . $sync->post->id;
 
         $this->setPostFieldsValues($sync->post->id);
@@ -163,7 +162,7 @@ class SyncSreality extends Command
             "description" => strip_tags($sync->post->description),
             "locality_city" => $sync->post->city->name,
             "locality_inaccuracy_level" => $this->getMapValue('locality_inaccuracy_level'),
-            "seller_id" => (int)config('sync.sreality.api.seller_id'),
+            "seller_rkid" => $seller_rkid,
         ];
         // required if
         $this->advert['building_condition'] = $this->getMapValue('building_condition');
@@ -332,25 +331,22 @@ class SyncSreality extends Command
         $this->sellers[$email] = $seller_rkid;
     }
 
-    private function getSellerId(Sync $sync)
+    private function getSellerId()
     {
-        $email_name = explode('@', $sync->post->email);
-        $email_name = $email_name[0] . "@seznam.cz";
-        return ( array_key_exists($email_name, $this->sellers) )? $this->sellers[$email_name] : $this->addSeller($sync);
+        $email_name = config('sync.sreality.api.seller_email');
+        return ( array_key_exists($email_name, $this->sellers) )? $this->sellers[$email_name] : $this->addSeller();
     }
 
-    private function addSeller(Sync $sync)
+    private function addSeller()
     {
-        $email_name = explode('@', $sync->post->email);
-        $email_name = $email_name[0] . "@seznam.cz";
         $seller = [
-            'client_login' => $email_name,
-            'client_name'  => $sync->post->contact_name,
-            'contact_gsm'  => $sync->post->phone,
-            'contact_email' => $sync->post->email,
+            'client_login' => config('sync.sreality.api.seller_email'),
+            'client_name'  => config('sync.sreality.api.seller_name'),
+            'contact_gsm'  => config('sync.sreality.api.seller_mobile'),
+            'contact_email' => config('sync.sreality.api.seller_contact_email'),
         ];
         $this->computeSessionId();
-        $seller_rkid = 'Seller-' . $sync->post->id;
+        $seller_rkid = 'Seller-1';
         $params = [
             new Value($this->sessionId),
             new Value(0, 'int'),
@@ -364,7 +360,7 @@ class SyncSreality extends Command
             $this->error("Request error add seller [{$seller['status']}]: {$seller['statusMessage']}");
             die;
         }
-        $this->addToSeller($email_name, $seller_rkid);
+        $this->addToSeller(config('sync.sreality.api.seller_email'), $seller_rkid);
         return $seller_rkid;
     }
 
