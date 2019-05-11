@@ -51,6 +51,7 @@ class Sync extends Model
 
     static $servers = [
         'sreality',
+        'idnes',
     ];
 
     /*
@@ -71,6 +72,13 @@ class Sync extends Model
     public function scopeSreality($builder)
     {
         $builder->where('server', 'sreality');
+
+        return $builder;
+    }
+
+    public function scopeIdnes($builder)
+    {
+        $builder->where('server', 'idnes');
 
         return $builder;
     }

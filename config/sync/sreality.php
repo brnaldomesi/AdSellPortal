@@ -1,6 +1,6 @@
 <?php
 return [
-    'active' => true,
+    'active' => (function_exists('env')) ? env('SREALITY_ACTIVE', true) : true,
     'api' => [
         'url' => (function_exists('env')) ? env('SREALITY_API_URL', 'import.sreality.cz') : 'import.sreality.cz',
         'path' => (function_exists('env')) ? env('SREALITY_API_PATH', '/RPC2') : '/RPC2',
@@ -10,7 +10,10 @@ return [
         // md5 hash password
         'password' => (function_exists('env')) ? env('SREALITY_API_PASSWORD', '7e8c6cfb361a72698ac16c16a9056c08') : '7e8c6cfb361a72698ac16c16a9056c08',
         'key' => (function_exists('env')) ? env('SREALITY_API_KEY', 'sreality-test') : 'sreality-test',
-        'seller_id' => (function_exists('env')) ? env('SREALITY_SELLER_ID', '92401') : '92401',  // XYZ@seznam.cz
+        'seller_email' => (function_exists('env')) ? env('SREALITY_SELLER_EMAIL', 'xyz@seznam.cz') : 'xyz@seznam.cz',
+        'seller_name' => (function_exists('env')) ? env('SREALITY_SELLER_NAME', 'Tutty') : 'Tutty',
+        'seller_mobile' => (function_exists('env')) ? env('SREALITY_SELLER_Mobile', '+420556453345') : '+420556453345',
+        'seller_contact_email' => (function_exists('env')) ? env('SREALITY_SELLER_CONTACT_EMAIL', 'seznam@xlabs.systems') : 'seznam@xlabs.systems',
     ],
     'mapping' => [
         "advert_function" => [
