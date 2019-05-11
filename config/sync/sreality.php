@@ -10,7 +10,7 @@ return [
         // md5 hash password
         'password' => (function_exists('env')) ? env('SREALITY_API_PASSWORD', '7e8c6cfb361a72698ac16c16a9056c08') : '7e8c6cfb361a72698ac16c16a9056c08',
         'key' => (function_exists('env')) ? env('SREALITY_API_KEY', 'sreality-test') : 'sreality-test',
-        'seller_email' => (function_exists('env')) ? env('SREALITY_SELLER_EMAIL', 'xyz@sreality.cz') : 'xyz@sreality.cz',
+        'seller_email' => (function_exists('env')) ? env('SREALITY_SELLER_EMAIL', 'xyz@seznam.cz') : 'xyz@seznam.cz',
         'seller_name' => (function_exists('env')) ? env('SREALITY_SELLER_NAME', 'Tutty') : 'Tutty',
         'seller_mobile' => (function_exists('env')) ? env('SREALITY_SELLER_Mobile', '+420556453345') : '+420556453345',
         'seller_contact_email' => (function_exists('env')) ? env('SREALITY_SELLER_CONTACT_EMAIL', 'seznam@xlabs.systems') : 'seznam@xlabs.systems',
