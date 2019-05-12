@@ -159,7 +159,7 @@ class SyncSreality extends Command
             "advert_price_unit" => $this->getMapValue('advert_price_unit'),
             "advert_type" => $this->getMapValue('advert_type', $cat_id),
             "advert_subtype" => $this->getMapValue('advert_subtype', $sync->post->category_id),
-            "description" => strip_tags($sync->post->description),
+            "description" => mb_strtolower(strip_tags($sync->post->description)),
             "locality_city" => $sync->post->city->name,
             "locality_inaccuracy_level" => $this->getMapValue('locality_inaccuracy_level'),
             "seller_rkid" => $seller_rkid,
