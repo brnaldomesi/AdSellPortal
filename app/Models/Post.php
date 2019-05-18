@@ -20,6 +20,7 @@ use App\Models\Scopes\LocalizedScope;
 use App\Models\Scopes\VerifiedScope;
 use App\Models\Scopes\ReviewedScope;
 use App\Models\Traits\CountryTrait;
+use App\Models\Invoice;
 use App\Observer\PostObserver;
 use Illuminate\Notifications\Notifiable;
 use Jenssegers\Date\Date;
@@ -98,11 +99,11 @@ class Post extends BaseModel implements Feedable
 		'fb_profile',
 		'partner',
 		'street_name',
-    'house_number',
-    'orientational_number',
-    'town_district',
-    'town_name',
-    'zip_code',
+		'house_number',
+		'orientational_number',
+		'town_district',
+		'town_name',
+		'zip_code',
 		'created_at',
 	];
 
@@ -331,10 +332,14 @@ class Post extends BaseModel implements Feedable
 	}
 
 	public function servers()
-  {
-    return $this->hasMany(Sync::class, 'post_id');
-  }
+  	{
+   		return $this->hasMany(Sync::class, 'post_id');
+ 	}
 
+	public function invoices()
+	{
+		return $this->hasMany(Invoice::class, 'post_id');
+	}
 	/*
 	|--------------------------------------------------------------------------
 	| SCOPES

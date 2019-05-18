@@ -296,11 +296,14 @@ Route::group([
 					Route::post('posts/{token}/photos/{id}/delete', 'PhotoController@delete');
 					Route::get('posts/{id}/payment', 'PaymentController@getForm');
 					Route::post('posts/{id}/payment', 'PaymentController@postForm');
-
+					
 					// Payment Gateway Success & Cancel
 					Route::get('posts/{id}/payment/success', 'PaymentController@paymentConfirmation');
 					Route::get('posts/{id}/payment/cancel', 'PaymentController@paymentCancel');
 				});
+
+				
+
 			});
 
 			// Post's Details
@@ -311,9 +314,14 @@ Route::group([
 
 			// Send report abuse
 			Route::get('posts/{id}/report', 'ReportController@showReportForm');
-			Route::post('posts/{id}/report', 'ReportController@sendReport');
+			
 		});
 
+		Route::get('posts/{id}/invoice_data', 'Invoice\InvoiceDataController@index');
+		Route::post('invoice', 'Invoice\InvoiceController@store');
+		Route::get('coupon', 'Admin\CouponController@index');
+		Route::post('fastsell', 'Admin\FastSellController@store');
+		Route::post('renew', 'Admin\RenewController@index');
 
 		// ACCOUNT
 		Route::group(['middleware' => ['auth', 'banned.user', 'prevent.back.history'], 'namespace' => 'Account'], function ($router) {
@@ -355,7 +363,6 @@ Route::group([
 			// Transactions
 			Route::get('account/transactions', 'TransactionsController@index');
 		});
-
 
 		// AJAX
 		Route::group(['prefix' => 'ajax'], function ($router) {
