@@ -17,40 +17,40 @@
     <script>
         $(document).ready(function ()
         {
-            var selectedPackage = $('input[name=package_id]:checked').val();
-            var packagePrice = getPackagePrice(selectedPackage);
-            var paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
+            selectedPackage = $('input[name=package_id]:checked').val();
+            packagePrice = getPackagePrice(selectedPackage) ;
+            paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
     
             /* Check Payment Method */
-            checkPaymentMethodForPaypal(paymentMethod, packagePrice);
+            checkPaymentMethodForPaypal(paymentMethod, packagePrice + servicePrice);
             
             $('#paymentMethodId').on('change', function () {
                 paymentMethod = $(this).find('option:selected').data('name');
-                checkPaymentMethodForPaypal(paymentMethod, packagePrice);
+                checkPaymentMethodForPaypal(paymentMethod, packagePrice + servicePrice);
             });
             $('.package-selection').on('click', function () {
                 selectedPackage = $(this).val();
                 packagePrice = getPackagePrice(selectedPackage);
                 paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
-                checkPaymentMethodForPaypal(paymentMethod, packagePrice);
+                checkPaymentMethodForPaypal(paymentMethod, packagePrice + servicePrice);
             });
     
-            /* Send Payment Request */
-            $('#submitPostForm').on('click', function (e)
-            {
-                e.preventDefault();
+            // /* Send Payment Request */
+            // $('#submitPostForm').on('click', function (e)
+            // {
+            //     e.preventDefault();
         
-                paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
+            //     paymentMethod = $('#paymentMethodId').find('option:selected').data('name');
                 
-                if (paymentMethod != 'paypal' || packagePrice <= 0) {
-                    return false;
-                }
+            //     if (paymentMethod != 'paypal' || packagePrice <= 0) {
+            //         return false;
+            //     }
     
-                $('#postForm').submit();
+            //     $('#postForm').submit();
         
-                /* Prevent form from submitting */
-                return false;
-            });
+            //     /* Prevent form from submitting */
+            //     return false;
+        //     // });
         });
 
         function checkPaymentMethodForPaypal(paymentMethod, packagePrice)

@@ -496,7 +496,29 @@ if (!auth()->check()) {
 						@if (isVerifiedPost($post))
 							@include('layouts.inc.social.horizontal')
 						@endif
-						
+					
+						<!-- Cart  -->
+						@if (auth()->check())
+							@if (auth()->user()->id == $post->user_id)
+							<div class="card sidebar-card">
+								<div class="card-header">Services</div>
+								<div class='card-content'>
+									<div class="ev-action" {!! $evActionStyle !!}>
+										<a id="addonServicesBtn"  post-id="{{ $post->id }}" class="btn btn-primary btn-block" >
+											<i class="fa fa-pencil-square-o"></i>Addon Services
+										</a>
+										<a id="renewBtn" class="btn btn-default btn-block">
+											<i class="fa fa-pencil-square-o"></i>Renew
+										</a>
+										<a id="fastSellBtn" class="btn btn-default btn-block">
+											<i class="fa fa-pencil-square-o"></i>Fast Sell
+										</a>
+									</div>
+								</div>
+							</div>
+							@endif
+						@endif
+						<!-- /.Cart -->
 						<div class="card sidebar-card">
 							<div class="card-header">{{ t('Safety Tips for Buyers') }}</div>
 							<div class="card-content">
@@ -531,6 +553,49 @@ if (!auth()->check()) {
 		@endif
 		
 	</div>
+
+	<!--Begin FastSell Modal -->
+	<div class="modal fade" id="fastSellModal" role="dialog" aria-labelledby="adminCitiesModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<i class="icon-map fastSellModel"></i> Fast Sell
+					</h4>
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only">{{ t('Cancel') }}</span>
+					</button>
+				</div>
+				
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xl-12">
+							<label class="form-check-label mb-0">
+								<span class="input-group-text1">
+									<input class="fastSellCheck" type="checkbox" id="fastSellCheck">
+									&nbsp;&nbsp;
+									<label style="margin:0;" for="fastSellCheck">
+										<strong class="tooltipHere" title="">I agree to fast sell terms</strong>
+									</label>
+								</span>
+							</label>
+						</div>
+					</div>
+					<div class="row mt-4">
+						<div class="col-md-4 offset-md-4">
+							<a id="fastSellSave" post-id="{{ $post->id }}" class="btn btn-success btn-block" >
+								<i class="fa fa-pencil-square-o"></i>Request to sell fast
+							</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div> 
+	<!-- End FastSell Modal -->
+
 @endsection
 
 @section('modal_message')
@@ -540,6 +605,37 @@ if (!auth()->check()) {
 @endsection
 
 @section('after_styles')
+	<style>
+
+		.fastSellModal {
+			padding: 3px;
+			background-color: coral;
+			margin-left: 15px;
+			margin-bottom: 10px;
+			color: white;
+			border-radius: 5px;
+			vertical-align: inherit;
+		}
+		.input-group-text1 {
+		   	display: flex;
+			-ms-flex-align: center;
+			align-items: center;
+			padding: .375rem .75rem;
+			margin-bottom: 0;
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			color: #495057;
+			text-align: center;
+			white-space: nowrap;
+		}
+		.check_label {
+    		display: inline-block;
+			margin-bottom: 0;
+		}
+			
+		
+	</style>
 	<!-- bxSlider CSS file -->
 	@if (config('lang.direction') == 'rtl')
 		<link href="{{ url('assets/plugins/bxslider/jquery.bxslider.rtl.css') }}" rel="stylesheet"/>
@@ -552,10 +648,13 @@ if (!auth()->check()) {
     @if (config('services.googlemaps.key'))
         <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.googlemaps.key') }}" type="text/javascript"></script>
     @endif
-
+	
 	<!-- bxSlider Javascript file -->
 	<script src="{{ url('assets/plugins/bxslider/jquery.bxslider.min.js') }}"></script>
-    
+	
+	<!-- Cart Javascript file -->
+	<script src="{{ url('assets/js/app/post.details.js') }}"></script>
+
 	<script>
 		/* Favorites Translation */
         var lang = {
