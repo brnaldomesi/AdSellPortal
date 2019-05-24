@@ -1,0 +1,35 @@
+html,
+body {
+  margin: 0;
+  padding: 0 1em;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+}
+#calendar {
+  max-width: 70%;
+  margin: 0px auto;
+}
+
+.modal-backdrop {
+  background-color: #00000000;
+}
+.md-form .prefix {
+  position: inherit;
+  -webkit-transition: color 0.2s;
+  -o-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.gj-icon {
+  display: none;
+}
+
+.gj-icon.clock {
+  display: block;
+}
+.fas.fa-clock.prefix {
+  opacity: 0;
+}
+
+.btn-row {
+  justify-content: space-between;
+}

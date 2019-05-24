@@ -34,7 +34,7 @@ class PostController extends PanelController
 		|--------------------------------------------------------------------------
 		*/
 		$this->xPanel->setModel('App\Models\Post');
-		$this->xPanel->with(['pictures', 'user', 'city', 'latestPayment' => function ($builder) { $builder->with(['package']); }]);
+		$this->xPanel->with(['pictures', 'user', 'city', 'sync', 'latestPayment' => function ($builder) { $builder->with(['package']); }]);
 		$this->xPanel->setRoute(admin_uri('posts'));
 		$this->xPanel->setEntityNameStrings(trans('admin::messages.ad'), trans('admin::messages.ads'));
 		$this->xPanel->denyAccess(['create']);
@@ -46,7 +46,7 @@ class PostController extends PanelController
 		}
 		
 		$this->xPanel->addButtonFromModelFunction('top', 'bulk_delete_btn', 'bulkDeleteBtn', 'end');
-		
+		$this->xPanel->addButtonFromModelFunction('line', 'add_to_appointments_btn', 'addToAppointmentsBtn', 'end');
 		// Hard Filters
 		if (request()->filled('active')) {
 			if (request()->get('active') == 0) {
@@ -74,7 +74,10 @@ class PostController extends PanelController
 		],
 		false,
 		function ($value) {
-			$this->xPanel->addClause('where', 'id', '=', $value);
+			$this->xPanel->query = $this->xPanel->query->whereHas('sync', function ($query) use ($value) {
+				$query->where('remote_id', 'LIKE', "%$value%");
+			});
+			$this->xPanel->addClause('orwhere', 'id', '=', $value);
 		});
 		// -----------------------
 		$this->xPanel->addFilter([

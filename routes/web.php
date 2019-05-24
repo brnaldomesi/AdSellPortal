@@ -141,6 +141,16 @@ Route::group([
 		Route::get('plugins/{plugin}/install', 'PluginController@install');
 		Route::get('plugins/{plugin}/uninstall', 'PluginController@uninstall');
 		Route::get('plugins/{plugin}/delete', 'PluginController@delete');
+
+		//Appointments
+		Route::get('posts/{id}/appointments', 'AppointmentController@adminindex');
+		Route::get('posts/{id}/admin-calendar', 'AppointmentController@admincalendar');
+		Route::get('posts/{id}/admincalendar/allbypost', 'AppointmentController@allbypost');
+		Route::get('posts/{id}/admincalendar/checkAvailable', 'AppointmentController@checkAvailable');
+		Route::post('posts/{id}/admincalendar/add', 'AppointmentController@store');
+		Route::post('posts/{id}/admincalendar/remove', 'AppointmentController@remove');
+		Route::put('posts/{id}/admincalendar/changeEvent', 'AppointmentController@changeEvent');
+		Route::get('posts/{id}/appointment-info', 'AppointmentController@appointmentbyid');
 	});
 });
 
@@ -322,7 +332,14 @@ Route::group([
 		Route::get('coupon', 'Admin\CouponController@index');
 		Route::post('fastsell', 'Admin\FastSellController@store');
 		Route::post('renew', 'Admin\RenewController@index');
-
+		Route::get('posts/{id}/calendar', 'Admin\CalendarController@index');
+		Route::get('posts/{id}/calendar-inline', 'Admin\CalendarController@inline');
+		Route::post('posts/{id}/calendar/add', 'Admin\CalendarController@store');
+		Route::post('posts/{id}/calendar/remove', 'Admin\CalendarController@remove');
+		Route::get('posts/{id}/calendar/allbypost/{page_type}', 'Admin\CalendarController@allbypost');
+		Route::put('posts/{id}/calendar/changeEvent', 'Admin\CalendarController@changeEvent');
+		Route::get('posts/{id}/calendar-appointment', 'Admin\AppointmentController@index');
+		Route::get('posts/calendar-appointment', 'Admin\AppointmentController@appointmentbyid');
 		// ACCOUNT
 		Route::group(['middleware' => ['auth', 'banned.user', 'prevent.back.history'], 'namespace' => 'Account'], function ($router) {
 			$router->pattern('id', '[0-9]+');

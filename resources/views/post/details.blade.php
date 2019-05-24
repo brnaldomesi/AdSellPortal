@@ -192,6 +192,13 @@ if (!auth()->check()) {
 								<li class="nav-item active">
 									<a class="nav-link" href="#tab-details" data-toggle="tab"><h4>{{ t('Ad Details') }}</h4></a>
 								</li>
+								@if (auth()->check())
+									@if (auth()->user()->id == $post->user_id)
+										<li class="nav-item">
+											<a class="nav-link" href="#tab-calendar" data-toggle="tab"><h4>Calendar</h4></a>
+										</li>
+									@endif
+								@endif
 								@if (config('plugins.reviews.installed'))
 									<li class="nav-item">
 										<a class="nav-link" href="#tab-{{ config('plugins.reviews.name') }}" data-toggle="tab">
@@ -205,7 +212,6 @@ if (!auth()->check()) {
 									</li>
 								@endif
 							</ul>
-							
 							<!-- Tab panes -->
 							<div class="tab-content p-3 mb-3">
 								<div class="tab-pane active" id="tab-details">
@@ -328,12 +334,14 @@ if (!auth()->check()) {
 										<br>&nbsp;<br>
 									</div>
 								</div>
-								
 								@if (config('plugins.reviews.installed'))
 									@if (view()->exists('reviews::comments'))
 										@include('reviews::comments')
 									@endif
 								@endif
+								<div class="tab-pane" id="tab-calendar">
+									<iframe class="calendar-frame" src="{{ lurl('posts/' . $post->id . '/calendar-appointment') }}"></iframe>
+								</div>	
 							</div>
 							<!-- /.tab content -->
 									
@@ -504,7 +512,7 @@ if (!auth()->check()) {
 								<div class="card-header">Services</div>
 								<div class='card-content'>
 									<div class="ev-action" {!! $evActionStyle !!}>
-										<a id="addonServicesBtn"  post-id="{{ $post->id }}" class="btn btn-primary btn-block" >
+										<a href="{{ lurl('posts/' . $post->id . '/payment') }}" id="addonServicesBtn"  post-id="{{ $post->id }}" class="btn btn-primary btn-block" >
 											<i class="fa fa-pencil-square-o"></i>Addon Services
 										</a>
 										<a id="renewBtn" class="btn btn-default btn-block">
@@ -513,6 +521,9 @@ if (!auth()->check()) {
 										<a id="fastSellBtn" class="btn btn-default btn-block">
 											<i class="fa fa-pencil-square-o"></i>Fast Sell
 										</a>
+										<!-- <a href="{{ lurl('posts/' . $post->id . '/calendar') }}" id="calendarBtn" class="btn btn-default btn-block">
+											<i class="fa fa-pencil-square-o"></i>Calendar
+										</a> -->
 									</div>
 								</div>
 							</div>
@@ -633,7 +644,12 @@ if (!auth()->check()) {
     		display: inline-block;
 			margin-bottom: 0;
 		}
-			
+		.calendar-frame {
+			width: 100%;
+			height: 850px;
+			border: 0;
+		}	
+
 		
 	</style>
 	<!-- bxSlider CSS file -->
@@ -642,6 +658,7 @@ if (!auth()->check()) {
 	@else
 		<link href="{{ url('assets/plugins/bxslider/jquery.bxslider.css') }}" rel="stylesheet"/>
 	@endif
+	
 @endsection
 
 @section('after_scripts')
@@ -654,7 +671,6 @@ if (!auth()->check()) {
 	
 	<!-- Cart Javascript file -->
 	<script src="{{ url('assets/js/app/post.details.js') }}"></script>
-
 	<script>
 		/* Favorites Translation */
         var lang = {
@@ -667,7 +683,7 @@ if (!auth()->check()) {
             confirmationSaveSearch: "{!! t('Search saved successfully !') !!}",
             confirmationRemoveSaveSearch: "{!! t('Search deleted successfully !') !!}"
         };
-		
+
 		$(document).ready(function () {
 			/* bxSlider - Main Images */
 			$('.bxslider').bxSlider({

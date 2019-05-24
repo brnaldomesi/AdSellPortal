@@ -47,6 +47,7 @@ class InvoiceController extends FrontController
         $post_id = $req->input('postId');
         $coupon_id = $req->input('coupon_id');
         $status = 'unpaid';
+        $total = $req->input('total');
         $service_ids = $req->input('service_ids');
         if(count($service_ids) > 0){
             $service_ids = $service_ids[0];
@@ -95,7 +96,7 @@ class InvoiceController extends FrontController
         //     }
         // }
 
-        $invoice = Invoice::create(['post_id' => $post_id, 'coupon_id' => $coupon_id, 'status' => $status]);
+        $invoice = Invoice::create(['post_id' => $post_id, 'coupon_id' => $coupon_id, 'status' => $status, 'total' =>$total]);
         
         $invoice_data_array = [];
         foreach($service_ids as $service_id){
@@ -103,7 +104,7 @@ class InvoiceController extends FrontController
         }
         $invoice_data = $invoice->invoice_data()->createMany($invoice_data_array);
         flash("Your invoice has been created.")->success();
-        $nextStepUrl = config('app.locale') . '/posts/' . $post_id;
+        $nextStepUrl = '/posts/' . $post_id . '/calendar';
         return redirect($nextStepUrl);
     }
 }

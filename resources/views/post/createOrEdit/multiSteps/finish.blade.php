@@ -22,7 +22,6 @@
 	<div class="main-container">
 		<div class="container">
 			<div class="row">
-
 				@if (Session::has('flash_notification'))
 					<div class="col-xl-12">
 						<div class="row">

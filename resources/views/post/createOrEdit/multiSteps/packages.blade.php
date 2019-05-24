@@ -32,7 +32,7 @@
 						
                         <div class="row">
                             <div class="col-sm-12">
-                                <form class="form" id="postForm" method="POST" action="{{ url()->current() }}">
+                                <form class="form" id="postForm" method="GET" action="{{ lurl('/posts/' . $post->id . '/calendar') }}">
                                     {!! csrf_field() !!}
                                     <input type="hidden" id="post_id" name="post_id" value="{{ $post->id }}">
                                     <fieldset>
@@ -207,6 +207,7 @@
                                     <input type="hidden" id="postId" name="postId" value="" />
                                     <input type="hidden" id="coupon_id" name="coupon_id" value="" />
                                     <input type="hidden" id="service_ids" name="service_ids[]" value="" />
+                                    <input type="hidden" id="total" name="total" value="" />
                                     <input type="hidden" id="_token1" name="_token" value="" />
 
                                 </form>
@@ -287,7 +288,8 @@
                         $("#postId").val(postId);
                         $("#coupon_id").val($("#coupon").val());
                         $("#service_ids").val(service_list);
-                        $("#_token1").val($("input[name=_token]").val())
+                        $("#_token1").val($("input[name=_token]").val());
+                        $("#total").val(totalPrice);
                         $("#createInvoiceForm").submit();
                     }
 
