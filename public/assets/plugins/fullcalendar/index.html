@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
+    <link href='core/main.css' rel='stylesheet' />
+    <link href='daygrid/main.css' rel='stylesheet' />
+    <link href='timegrid/main.css' rel='stylesheet' />
+    <link href='bootstrap/main.css' rel='stylesheet' />
+
+    <style type="text/css">
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+
+      #calendar {
+        max-width: 900px;
+        margin: 40px auto;
+      }
+    </style>
+
+    <script src='core/main.js'></script>
+    <script src='daygrid/main.js'></script>
+    <script src='timegrid/main.js'></script>
+    <script src='interaction/main.js'></script>
+    <script src='bootstrap/main.js'></script>
+
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'bootstrap' ],
+          timeZone: 'UTC',
+          themeSystem: 'bootstrap',
+          selectable: true,
+          header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          },
+          weekNumbers: true,
+          eventLimit: true, // allow "more" link when too many events
+          events: 'https://fullcalendar.io/demo-events.json',
+          dateClick: function(info) {
+            alert('clicked ' + info.dateStr);
+          },
+          select: function(info) {
+            alert('selected ' + info.startStr + ' to ' + info.endStr);
+          }
+        });
+
+        calendar.render();
+      });
+
+    </script>
+  </head>
+  <body>
+
+    <div id='calendar'></div>
+
+  </body>
+</html>

@@ -23,7 +23,8 @@
 										<a>{{ t('Photos') }}</a>
 									@endif
 								</li>
-			
+
+
 								@if (isset($countPackages) and isset($countPaymentMethods) and $countPackages > 0 and $countPaymentMethods > 0)
 								<li class="{{ ($uriPath == 'payment') ? 'active' : ((in_array($uriPath, ['finish']) or (isset($post) and !empty($post))) ? '' : 'disabled') }}">
 									@if (isset($post) and !empty($post))
@@ -33,8 +34,14 @@
 									@endif
 								</li>
 								@endif
+								<li class="{{ ($uriPath == 'calendar') ? 'active' : 'disabled' }}">
+									<a href="{{ lurl('/posts/0/calendar') }}">Calendar</a>
+								</li>
 							@endif
                             
+							
+							
+							
                             @if ($uriPath == 'activation')
                             <li class="{{ ($uriPath == 'activation') ? 'active' : 'disabled' }}">
                                 <a>{{ t('Activation') }}</a>
@@ -72,8 +79,15 @@
 									@endif
 								</li>
 								@endif
+								<li class="{{ ($uriPath == 'calendar') ? 'active' : '' }}">
+									@if (isset($post) and !empty($post))
+										<a href="{{ lurl('/posts/'. $post->id . '/calendar') }}">Calendar</a>
+									@else
+										<a>Calendar</a>
+									@endif
+								</li>
 							@endif
-        
+							
                             <li class="{{ ($uriPath == 'finish') ? 'active' : 'disabled' }}">
                                 <a>{{ t('Finish') }}</a>
                             </li>

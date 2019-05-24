@@ -15,6 +15,17 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('post_id');
+            $table->string('full_name');
+            $table->string('mobile_number');
+            $table->string('email');
+            $table->integer('budget');
+            $table->enum('payment_method', ['Paypal']);
+            $table->enum('type', ['Personal', 'Investor', 'Company']);
+            $table->string('note');
+            $table->date('date');
+            $table->time('from');
+            $table->time('to');
             $table->timestamps();
         });
     }

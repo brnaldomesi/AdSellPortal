@@ -21,6 +21,7 @@ use App\Models\Scopes\VerifiedScope;
 use App\Models\Scopes\ReviewedScope;
 use App\Models\Traits\CountryTrait;
 use App\Models\Invoice;
+use App\Models\Sync;
 use App\Observer\PostObserver;
 use Illuminate\Notifications\Notifiable;
 use Jenssegers\Date\Date;
@@ -280,6 +281,18 @@ class Post extends BaseModel implements Feedable
 	{
 		return ajaxCheckboxDisplay($this->{$this->primaryKey}, $this->getTable(), 'reviewed', $this->reviewed);
 	}
+	
+	public function addToAppointmentsBtn($xPanel = false)
+	{
+		$url = admin_url('posts/' . $this->id . '/appointments');
+		
+		$out = '';
+		$out .= '<a class="btn btn-xs btn-default" href="' . $url . '">';
+		$out .= trans('Appointments');
+		$out .= '</a>';
+		
+		return $out;
+	}
 
 	/*
 	|--------------------------------------------------------------------------
@@ -339,6 +352,16 @@ class Post extends BaseModel implements Feedable
 	public function invoices()
 	{
 		return $this->hasMany(Invoice::class, 'post_id');
+	}
+	
+	public function appointments()
+	{
+		return $this->hasMany(Appointment::class);
+	}
+	
+	public function sync()
+	{
+		return $this->hasMany(Sync::class, 'post_id');
 	}
 	/*
 	|--------------------------------------------------------------------------

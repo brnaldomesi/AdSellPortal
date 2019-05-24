@@ -155,6 +155,10 @@ class PaymentController extends PanelController
 			'type'          => 'model_function',
 			'function_name' => 'getActiveHtml',
 		]);
+		$this->xPanel->addColumn([
+			'name'          => 'coupon',
+			'label'         => 'Coupon',
+		]);
 		
 		// FIELDS
 	}
