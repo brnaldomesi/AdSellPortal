@@ -27,7 +27,8 @@ class AddCityanddistrictToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('city');
+            $table->dropColumn('district');
         });
     }
 }

@@ -20,6 +20,7 @@ $(document).ready(function () {
             right: "dayGridMonth,timeGridWeek,timeGridDay"
         },
         weekNumbers: true,
+        defaultView: 'timeGridWeek',
         eventLimit: true, // allow "more" link when too many events
         events: "/admin/posts/" + $("#post_id").val() + "/admincalendar/allbypost",
         dateClick: function (info) { },
