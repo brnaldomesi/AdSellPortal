@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-05-25 18:50:53
+Date: 2019-05-28 03:27:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -133,7 +133,8 @@ CREATE TABLE `calendar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
   `from` varchar(255) DEFAULT NULL,
   `to` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -1206,6 +1207,7 @@ INSERT INTO `currencies` VALUES ('170', 'XBT', 'Bitcoin', '฿', '฿', '฿', n
 DROP TABLE IF EXISTS `fast_sells`;
 CREATE TABLE `fast_sells` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)

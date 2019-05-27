@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFastSellsTable extends Migration
+class CreateCalendarsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,14 @@ class CreateFastSellsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fast_sells', function (Blueprint $table) {
+        Schema::create('calendars', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('post_id');
+            $table->string('note');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('from');
+            $table->string('to');
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ class CreateFastSellsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fast_sells');
+        Schema::dropIfExists('calendars');
     }
 }

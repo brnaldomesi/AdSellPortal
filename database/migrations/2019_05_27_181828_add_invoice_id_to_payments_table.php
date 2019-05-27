@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFastSellsTable extends Migration
+class AddInvoiceIdToPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateFastSellsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fast_sells', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('post_id');
-            $table->timestamps();
+        Schema::table('payments', function (Blueprint $table) {
+            $table->integer('invoice_id');
         });
     }
 
@@ -27,6 +25,8 @@ class CreateFastSellsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fast_sells');
+        Schema::table('payments', function (Blueprint $table) {
+            $table->dropColumn('invoice_id');
+        });
     }
 }
